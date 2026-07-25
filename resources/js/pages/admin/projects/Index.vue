@@ -1,13 +1,13 @@
 <script setup lang="ts">
-    import { shallowRef, useTemplateRef, nextTick, watch } from 'vue'
-    import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
-    import { Head, router, Link } from '@inertiajs/vue3';
-    import Manage from './modals/Manage.vue';
-    import Delete from './modals/Delete.vue';
-    import { GripHorizontal } from 'lucide-vue-next';
-    import { useDateFormat } from '@vueuse/core';
-    import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-    import { useSortable } from '@vueuse/integrations/useSortable'
+import { shallowRef, useTemplateRef, nextTick, watch } from 'vue'
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
+import { Head, router, Link } from '@inertiajs/vue3';
+import Manage from './modals/Manage.vue';
+import Delete from './modals/Delete.vue';
+import { GripHorizontal } from 'lucide-vue-next';
+import { useDateFormat } from '@vueuse/core';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useSortable } from '@vueuse/integrations/useSortable'
 
     const props = defineProps({
         projects: Object,
@@ -29,12 +29,12 @@
         handle: '.handle',
         animation: 200,
         onSort: (e) => {
-        nextTick(() => {
-            list.value.forEach((item, index) => {
-                item.order = index
+            nextTick(() => {
+                list.value.forEach((item, index) => {
+                    item.order = index
+                })
+                updateProjectOrder()
             })
-            updateProjectOrder()
-        })
         },
     })
 

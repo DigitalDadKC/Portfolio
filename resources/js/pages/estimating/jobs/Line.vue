@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { Grip, GripVertical, Trash2, Plus } from 'lucide-vue-next';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 import FormattedInput from '@/components/FormattedInput.vue';
 import Uom from './partials/Uom.vue';
-import { computed } from 'vue';
 
 const props = defineProps({
     index: Number,

@@ -21,7 +21,7 @@ use App\Http\Controllers\Estimating\JobController;
 use App\Http\Controllers\Estimating\ProposalController;
 use App\Http\Controllers\Invoicing\InvoiceController;
 use App\Http\Controllers\Invoicing\ProductController;
-use App\Http\Controllers\Lodging\LodgingController;
+use App\Http\Controllers\Opportunities\OpportunitiesController;
 use App\Http\Controllers\Masterformat\DivisionController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
@@ -128,8 +128,8 @@ Route::get('autocomplete', [AddressController::class, 'index']);
 Route::patch('/users/{user}', [AdminController::class, 'update_user'])->name('users.update');
 
 // Lodging
-Route::get('/lodging', [LodgingController::class, 'index'])->name('lodging.index');
-Route::post('/lodging', [LodgingController::class, 'index'])->name('lodging.filter');
+Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.index');
+Route::post('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.filter');
 
 require __DIR__ . '/auth.php';
 

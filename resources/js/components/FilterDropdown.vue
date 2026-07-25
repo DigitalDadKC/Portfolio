@@ -1,39 +1,49 @@
-<script setup>
+<script setup lang="ts">
 
 const props = defineProps({
-    options: {
-        type: Array
-    },
-    column: {
-        type: String,
-    },
+    options: Array,
+    column: String,
     value: {
         default: 'id',
         type: String,
     },
-    initial: {
-        type: String
-    },
-    disabled: {
-        type: Boolean
-    },
-    modelValue: {
-        type: [String, Number]
-    }
+    returnObject: Boolean,
+    disabled: Boolean,
+    modelValue: [String, Number, Object],
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const toggle = (event) => {
-    emit('update:modelValue', event.target.value)
-}
+    const target = event.target;
+
+    if (target.value === '') {
+        emit('update:modelValue', null);
+        return;
+    }
+
+    if (props.returnObject) {
+        emit('update:modelValue', props.options[target.selectedIndex - 1]);
+    } else {
+        emit('update:modelValue', target.value);
+    }
+};
 </script>
 
 <template>
-    <select class="rounded-md border border-black w-full" ref="input" @change="toggle($event)">
-        <option :disabled="props.disabled" v-if="initial" value>{{ initial }}</option>
-        <option v-for="(option, index) in props.options" :key="index" :value="option[props.value]" :selected="modelValue === option.id">
-                {{ option[column] }}
+    <select
+        class="rounded-md border border-black w-full"
+        :disabled="disabled"
+        :value="modelValue ?? ''"
+        @change="toggle"
+    >
+    <option disabled value="">Please Select an Option</option>
+        <option
+            v-for="(option, index) in props.options"
+            :key="index"
+            :value="returnObject ? option[value] : option"
+        >
+            {{ returnObject ? option[column] : option }}
         </option>
     </select>
 </template>

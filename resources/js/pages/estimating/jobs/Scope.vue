@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useForm, router } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Trash2, GripVertical, Grip, Plus} from 'lucide-vue-next'
+import { Trash2, Plus} from 'lucide-vue-next'
 import Line from './Line.vue';
 import FormattedInput from '@/components/FormattedInput.vue';
 import draggable from 'vuedraggable';

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class SamGovService
@@ -46,5 +47,25 @@ class SamGovService
         }
 
         return $response->json();
+    }
+
+    public function getOpportunities()
+    {
+        // Cache::forget('samgov.opportunities.2025.236220');
+        return Cache::remember('samgov.opportunities.2025.236220', now()->addHours(12), function () {
+            $apiKey = config('services.samgov.key');
+
+            $response = Http::get(
+                "https://api.sam.gov/prod/opportunities/v2/search?limit=1000&api_key={$apiKey}&postedFrom=01/01/2026&postedTo=07/01/2026&ncode=236220"
+            );
+
+            if ($response->failed()) {
+                throw new Exception(
+                    'SAM.gov API error: ' . $response->body()
+                );
+            }
+
+            return $response->json();
+        });
     }
 }
