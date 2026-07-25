@@ -5,7 +5,7 @@ import { useDebounceFn } from '@vueuse/core';
 import Label from '@/components/ui/label/Label.vue';
 import GuestLayout from '@/layouts/GuestLayout.vue';
 import FilterDropdown from '@/components/FilterDropdown.vue';
-import { useFormatCurrency } from '@/Composables/useFormatCurrency';
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
 import { useDateFormat } from '@vueuse/core';
 
 const { formatWithCommas } = useFormatCurrency()
