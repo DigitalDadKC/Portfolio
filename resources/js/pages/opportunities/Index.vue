@@ -114,7 +114,7 @@ const filtered_list = ref([
                         Opportunity Type: {{ result.baseType }}
                     </div>
                     <div>
-                        Award: {{ formatWithCommas(result.award.amount, 'currency') }} ({{ result.award?.awardee.name }})
+                        Award: {{ formatWithCommas(result.award?.amount, 'currency') }} ({{ result.award?.awardee.name }})
                     </div>
                     <div>
                         Contacts:
