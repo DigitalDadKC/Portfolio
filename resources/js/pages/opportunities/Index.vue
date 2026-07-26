@@ -108,7 +108,7 @@ const filtered_list = ref([
                         Posted: {{ useDateFormat(result.postedDate, 'MMM D, YYYY h:mm A') }}
                     </div>
                     <div>
-                        Response Deadline: {{ result.responseDeadline ? useDateFormat(result.responseDeadLine, 'MMM D, YYYY h:mm A') : '' }}
+                        Response Deadline: {{ result.responseDeadLine ? useDateFormat(result.responseDeadLine, 'MMM D, YYYY h:mm A') : '' }}
                     </div>
                     <div>
                         Active: {{ result.active }}
