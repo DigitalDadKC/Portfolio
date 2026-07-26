@@ -1,7 +1,7 @@
 export function useFormatCurrency() {
 
     function formatWithCommas(value, type = 'text') {
-    if (value === null || value === '') return ''
+    if (value === null || value === '' || isNaN(value)) return ''
     switch (true) {
         case type === 'text':
             return value?.toString()

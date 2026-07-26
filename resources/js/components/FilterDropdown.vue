@@ -37,7 +37,7 @@ const toggle = (event) => {
         :value="modelValue ?? ''"
         @change="toggle"
     >
-    <option disabled value="">Please Select an Option</option>
+    <option value="">All</option>
         <option
             v-for="(option, index) in props.options"
             :key="index"

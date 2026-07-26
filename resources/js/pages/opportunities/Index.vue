@@ -19,8 +19,11 @@ const props = defineProps({
 
 console.log(props.results)
 
-const filter = ref('')
+const filter = ref(null)
 const filtered_results = computed(() => {
+    if(!filter?.value) {
+        return props.results?.opportunitiesData;
+    }
     return props.results?.opportunitiesData.filter(r => r.baseType == filter?.value)
 })
 
@@ -114,7 +117,7 @@ const filtered_list = ref([
                         Opportunity Type: {{ result.baseType }}
                     </div>
                     <div>
-                        Award: {{ formatWithCommas(result.award?.amount, 'currency') }} ({{ result.award?.awardee.name }})
+                        Award: {{ `${Object.keys(result?.award ?? {}).length > 0 ? formatWithCommas(result.award?.amount, 'currency') + ' (' + result.award?.awardee?.name + ')' : ''}  `}}
                     </div>
                     <div>
                         Contacts:
