@@ -7,6 +7,7 @@ import GuestLayout from '@/layouts/GuestLayout.vue';
 import FilterDropdown from '@/components/FilterDropdown.vue';
 import { useFormatCurrency } from '@/composables/useFormatCurrency';
 import { useDateFormat } from '@vueuse/core';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 const { formatWithCommas } = useFormatCurrency()
 const props = defineProps({
@@ -99,43 +100,109 @@ const filtered_list = ref([
                         <FilterDropdown v-model="filter" :options="filtered_list" />
                     </div>
                 </div>
-                <div v-for="result in filtered_results" :key="result.noticeId">
-                    {{ result.title }}
-                    <div>
-                        Solicitation #{{ result.solicitationNumber }}
-                    </div>
-                    <div>
-                        Posted: {{ useDateFormat(result.postedDate, 'MMM D, YYYY h:mm A') }}
-                    </div>
-                    <div>
-                        Response Deadline: {{ result.responseDeadLine ? useDateFormat(result.responseDeadLine, 'MMM D, YYYY h:mm A') : '' }}
-                    </div>
-                    <div>
-                        Active: {{ result.active }}
-                    </div>
-                    <div>
-                        Opportunity Type: {{ result.baseType }}
-                    </div>
-                    <div>
-                        Award: {{ `${Object.keys(result?.award ?? {}).length > 0 ? formatWithCommas(result.award?.amount, 'currency') + ' (' + result.award?.awardee?.name + ')' : ''}  `}}
-                    </div>
-                    <div>
-                        Contacts:
-                        <div v-for="contact in result.pointOfContact" :key="contact.email" class="italic ml-8">
-                            Name: {{ contact.fullName }}
-                            <div v-if="contact.phone" class="ml-4">
-                                Phone: {{ contact.phone }}
+                <Accordion
+                    type="multiple"
+                    class="w-full space-y-2"
+                >
+                    <AccordionItem
+                        v-for="result in filtered_results"
+                        :key="result.noticeId"
+                        :value="result.noticeId"
+                        class="border rounded-lg px-4 bg-light-tertiary"
+                    >
+                        <AccordionTrigger class="text-left hover:no-underline">
+                            <div class="flex flex-col items-start">
+                                <span class="font-semibold">
+                                    {{ result.title }}
+                                </span>
+
+                                <span class="text-sm text-muted-foreground">
+                                    Solicitation #{{ result.solicitationNumber }}
+                                    • {{ result.baseType }}
+                                    • Posted
+                                    {{ useDateFormat(result.postedDate, 'MMM D, YYYY') }}
+                                </span>
                             </div>
-                            <div v-if="contact.email" class="ml-4">
-                                Email: {{ contact.email }}
+                        </AccordionTrigger>
+
+                        <AccordionContent>
+                            <div class="space-y-4 py-2">
+
+                                <div>
+                                    <strong>Solicitation #</strong><br />
+                                    {{ result.solicitationNumber }}
+                                </div>
+
+                                <div>
+                                    <strong>Posted</strong><br />
+                                    {{ useDateFormat(result.postedDate, 'MMM D, YYYY h:mm A') }}
+                                </div>
+
+                                <div v-if="result.responseDeadLine">
+                                    <strong>Response Deadline</strong><br />
+                                    {{ useDateFormat(result.responseDeadLine, 'MMM D, YYYY h:mm A') }}
+                                </div>
+
+                                <div>
+                                    <strong>Active</strong><br />
+                                    {{ result.active ? 'Yes' : 'No' }}
+                                </div>
+
+                                <div>
+                                    <strong>Opportunity Type</strong><br />
+                                    {{ result.baseType }}
+                                </div>
+
+                                <div v-if="Object.keys(result.award ?? {}).length">
+                                    <strong>Award</strong><br />
+                                    {{ formatWithCommas(result.award.amount, 'currency') }}
+                                    <span v-if="result.award.awardee">
+                                        ({{ result.award.awardee.name }})
+                                    </span>
+                                </div>
+
+                                <div
+                                    v-if="result.pointOfContact?.length"
+                                >
+                                    <strong>Contacts</strong>
+
+                                    <div
+                                        v-for="contact in result.pointOfContact"
+                                        :key="contact.email"
+                                        class="mt-3 rounded border p-3"
+                                    >
+                                        <div>{{ contact.fullName }}</div>
+
+                                        <div v-if="contact.phone" class="text-sm text-muted-foreground">
+                                            📞 {{ contact.phone }}
+                                        </div>
+
+                                        <div v-if="contact.email" class="text-sm">
+                                            <a
+                                                :href="`mailto:${contact.email}`"
+                                                class="underline"
+                                            >
+                                                {{ contact.email }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <strong>SAM.gov</strong><br />
+                                    <a
+                                        :href="result.uiLink"
+                                        target="_blank"
+                                        class="text-blue-600 underline"
+                                    >
+                                        View Opportunity
+                                    </a>
+                                </div>
+
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        Link:
-                        <a target="_blank" :href="result.uiLink" class="italic underline">{{ result.uiLink }}</a>
-                    </div>
-                </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
                 <!-- <div class="flex flex-col">
                     {{ props.filters }}<br />
                     State is {{ state }}

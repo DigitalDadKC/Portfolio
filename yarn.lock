@@ -158,10 +158,10 @@
   resolved "https://registry.npmjs.org/@kurkle/color/-/color-0.3.4.tgz"
   integrity sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==
 
-"@lucide/vue@^1.23.0":
-  version "1.23.0"
-  resolved "https://registry.npmjs.org/@lucide/vue/-/vue-1.23.0.tgz"
-  integrity sha512-9SIYeY5K+R1iv8F8JUKMGSL7Pck/86BJ8djtZz/lnYsoHtKFUj1H2z6+PvKnC/8blZ8tqTDeDXAoTKobuX80hg==
+"@lucide/vue@^1.28.0":
+  version "1.28.0"
+  resolved "https://registry.npmjs.org/@lucide/vue/-/vue-1.28.0.tgz"
+  integrity sha512-cO89UyNM/0i2Srdi04nFWeEOQkqzDZlM2ehtWyBhcMpRTJDKpMZPCGAVlmVBgBgr5HaeL5L6FsU8RHsOdwXtKw==
 
 "@mdi/font@^7.4.47":
   version "7.4.47"

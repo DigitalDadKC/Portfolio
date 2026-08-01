@@ -23,7 +23,7 @@ const logout = () => {
     <div class="flex justify-center bg-gray-100 dark:bg-gray-600">
         <Head :title="title" />
 
-        <div class="container mx-auto min-h-screen bg-gray-100 dark:bg-green-700">
+        <div class="container mx-auto min-h-screen bg-gray-100 dark:bg-grey-700">
             <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

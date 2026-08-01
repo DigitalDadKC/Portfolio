@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "@fawmi/vue-google-maps": "^0.9.79",
-        "@lucide/vue": "^1.23.0",
+        "@lucide/vue": "^1.28.0",
         "@popperjs/core": "^2.11.8",
         "@tanstack/vue-table": "^8.21.3",
         "@vueuse/components": "^11.0.3",
