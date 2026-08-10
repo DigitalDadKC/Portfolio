@@ -12,18 +12,12 @@ use App\Http\Controllers\Controller;
 
 class SkillController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $skills = SkillResource::collection(Skill::all());
         return Inertia::render('admin/skills/Index', compact('skills'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('admin/skills/Skill', [
@@ -31,9 +25,6 @@ class SkillController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $image = $request->image;
@@ -42,32 +33,17 @@ class SkillController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('skills');
-            Skill::create([
-                'name' => $request->name,
-                'image' => $image
-            ]);
-
-            return back()->with('message', 'Skill created successfully!');
+            $image = $request->file('image')->store('skills', 'public');
         }
 
-        return Redirect::back();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Skill $skill)
-    {
-        return Inertia::render('admin/skills/Skill', [
-            'new' => false,
-            'skill' => SkillResource::make($skill),
+        Skill::create([
+            'name' => $request->name,
+            'image' => $image
         ]);
+
+        return back()->with('message', 'Skill created successfully!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Skill $skill)
     {
         $image = $skill->image;
@@ -76,8 +52,10 @@ class SkillController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            Storage::delete($skill->image);
-            $image = $request->file('image')->store('skills');
+            if($skill->image) {
+                Storage::disk('public')->delete($skill?->image);
+            }
+            $image = $request->file('image')->store('skills', 'public');
         }
 
         $skill->update([
@@ -88,12 +66,9 @@ class SkillController extends Controller
         return Redirect::route('skills.index')->with('message', 'Skill updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Skill $skill)
     {
-        Storage::delete($skill->image);
+        Storage::disk('public')->delete($skill->image);
         $skill->delete();
 
         return Redirect::back()->with('message', 'Skill deleted');

@@ -24,7 +24,6 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
         $request->validate([
             'name' => 'required|min:3',
             'skills.*' => 'required',
@@ -33,7 +32,7 @@ class ProjectController extends Controller
 
         $image = NULL;
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('projects');
+            $image = $request->file('image')->store('projects', 'public');
         }
 
         $project = Project::create([
@@ -46,7 +45,7 @@ class ProjectController extends Controller
         ]);
         $project->skills()->sync(array_column($request->skills, 'id'));
 
-        return Redirect::route('projects.index')->with('message', 'Project created successfully!');
+        return back()->with('message', 'Project created successfully!');
     }
 
     public function update(Request $request, Project $project)
@@ -59,9 +58,9 @@ class ProjectController extends Controller
         $image = $project->image;
         if ($request->hasFile('image')) {
             if($image) {
-                Storage::delete($project->image);
+                Storage::disk('public')->delete($project->image);
             }
-            $image = $request->file('image')->store('projects');
+            $image = $request->file('image')->store('projects', 'public');
         }
 
         $project->update([
@@ -73,22 +72,32 @@ class ProjectController extends Controller
         ]);
         $project->skills()->sync(array_column($request->skills, 'id'));
 
-        return Redirect::route('projects.index')->with('message', 'Project updated successfully!');
+        return back()->with('message', 'Project updated successfully!');
     }
 
     public function destroy(Project $project)
     {
-        Storage::delete($project?->image ?? '');
+        Storage::disk('public')->delete($project?->image ?? '');
         $project->delete();
         return Redirect::back()->with('message', 'Project deleted');
     }
 
     public function sort(Request $request)
     {
-        $projects = Project::orderBy('order')->get();
-        $projects->map(function($project, $key) use ($request) {
-            $target_project = array_find($request->projects, fn($item) => $item['id'] == $project->id);
-            $project->update(['order' => $target_project['order']]);
-        });
+        // dd($request);
+        // $request->validate([
+        //     'projects' => ['required', 'array'],
+        //     'projects.*.id' => ['required', 'integer', 'exists:projects,id'],
+        //     'projects.*.order' => ['required', 'integer', 'min:0'],
+        // ]);
+
+        foreach ($request->projects as $project) {
+            Project::where('id', $project['id'])
+                ->update([
+                    'order' => $project['order'],
+                ]);
+        }
+
+        return back();
     }
 }
