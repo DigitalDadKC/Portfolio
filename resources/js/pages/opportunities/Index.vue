@@ -40,8 +40,8 @@ const paginatedResults = computed(() => {
 })
 
 const filtered_list = ref([
-    'Justification (J&A)',
-    'Pre solicitation',
+    'Justification',
+    'Presolicitation',
     'Award Notice',
     'Sources Sought',
     'Special Notice',
@@ -50,6 +50,16 @@ const filtered_list = ref([
     'Combined Synopsis/Solicitation',
     'Intent to Bundle Requirements (DoD-Funded)'
 ])
+
+// u= Justification (J&A)
+// p = Pre solicitation
+// a = Award Notice
+// r = Sources Sought
+// s = Special Notice
+// o = Solicitation
+// g = Sale of Surplus Property
+// k = Combined Synopsis/Solicitation
+// i = Intent to Bundle Requirements (DoD-Funded)
 
 watch(
     () => filter.value,
@@ -79,7 +89,7 @@ watch(
                         <ul>Parameters:
                             <li>NAICS code: 236220</li>
                             <li>Start Date: Jan 1, 2026</li>
-                            <li>End Date: Jul 1, 2026</li>
+                            <li>End Date: Aug 1, 2026</li>
                             <li>Results cached for 12 hours</li>
                         </ul>
                     </div>

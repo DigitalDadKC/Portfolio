@@ -56,7 +56,7 @@ class SamGovService
             $apiKey = config('services.samgov.key');
 
             $response = Http::get(
-                "https://api.sam.gov/prod/opportunities/v2/search?limit=1000&api_key={$apiKey}&postedFrom=01/01/2026&postedTo=07/01/2026&ncode=236220"
+                "https://api.sam.gov/prod/opportunities/v2/search?limit=1000&api_key={$apiKey}&postedFrom=01/01/2026&postedTo=08/01/2026&ncode=236220"
             );
 
             if ($response->failed()) {

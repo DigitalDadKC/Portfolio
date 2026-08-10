@@ -24,7 +24,7 @@ const form = useForm({
     description: props.project?.description,
     image: props.project?.image,
     url: props.project?.url,
-    active: !!props.project?.active ?? true,
+    active: !!props.project?.active,
     skills: props.project?.skills,
 })
 
