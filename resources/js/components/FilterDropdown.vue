@@ -8,8 +8,16 @@ const props = defineProps({
         type: String,
     },
     returnObject: Boolean,
+    returnNumber: {
+        type: Boolean,
+        default: false,
+    },
     disabled: Boolean,
     modelValue: [String, Number, Object],
+    showAll: {
+        type: Boolean,
+        default: true,
+    }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -24,6 +32,8 @@ const toggle = (event) => {
 
     if (props.returnObject) {
         emit('update:modelValue', props.options[target.selectedIndex - 1]);
+    } else if (props.returnNumber) {
+        emit('update:modelValue', Number(target.value));
     } else {
         emit('update:modelValue', target.value);
     }
@@ -37,7 +47,7 @@ const toggle = (event) => {
         :value="modelValue ?? ''"
         @change="toggle"
     >
-    <option value="">All</option>
+        <option value="" v-if="props.showAll">All</option>
         <option
             v-for="(option, index) in props.options"
             :key="index"

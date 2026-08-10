@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { router, Head } from '@inertiajs/vue3';
-import { useDebounceFn } from '@vueuse/core';
-import Label from '@/components/ui/label/Label.vue';
+import { ref, computed, watch } from 'vue'
+import { Head } from '@inertiajs/vue3';
 import GuestLayout from '@/layouts/GuestLayout.vue';
 import FilterDropdown from '@/components/FilterDropdown.vue';
 import { useFormatCurrency } from '@/composables/useFormatCurrency';
-import { useDateFormat } from '@vueuse/core';
+import { useOffsetPagination, useDateFormat } from '@vueuse/core';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 const { formatWithCommas } = useFormatCurrency()
@@ -18,7 +16,8 @@ const props = defineProps({
     results: Object,
 })
 
-console.log(props.results)
+const pageSize = 10
+const pageSizes = [10, 25, 50, 100]
 
 const filter = ref(null)
 const filtered_results = computed(() => {
@@ -28,43 +27,17 @@ const filtered_results = computed(() => {
     return props.results?.opportunitiesData.filter(r => r.baseType == filter?.value)
 })
 
-// const year = ref(props.filters?.year)
-// const state = ref(props.filters?.state)
-// const city = ref(props.filters?.city)
+const { currentPage, currentPageSize, pageCount, isFirstPage, isLastPage, prev, next } = useOffsetPagination({
+    total: computed(() => filtered_results.value.length),
+    pageSize: 10,
+})
 
-// const states = computed(() => {
-//     return [{id: null, abbr: 'Select', state: 'Select State'}, ...props.states]
-// })
+const paginatedResults = computed(() => {
+    const start = (currentPage.value - 1) * currentPageSize.value
+    const end = start + currentPageSize.value
 
-// const cities = computed(() => {
-//     return [{id: null, city: 'Select City'}, ...props.cities]
-// })
-
-// const reload = useDebounceFn(() => {
-//     router.post(route('lodging.filter'), {
-//         year: year.value,
-//         state: state.value,
-//         city: city.value,
-//     }, {
-//         only: ['cities', 'city', 'filters'],
-//         preserveState: true,
-//         preserveScroll: true,
-//         replace: true,
-//     })
-// }, 300)
-
-// const months = [
-//     'Jan', 'Feb', 'Mar', 'Apr',
-//     'May', 'Jun', 'Jul', 'Aug',
-//     'Sep', 'Oct', 'Nov', 'Dec'
-// ];
-
-// const currentYear = new Date().getFullYear();
-
-// const years = Array.from({ length: 3 }, (_, index) => ({
-//     id: index + 1,
-//     year: currentYear - index,
-// }));
+    return filtered_results.value.slice(start, end)
+})
 
 const filtered_list = ref([
     'Justification (J&A)',
@@ -78,6 +51,20 @@ const filtered_list = ref([
     'Intent to Bundle Requirements (DoD-Funded)'
 ])
 
+watch(
+    () => filter.value,
+    () => {
+        currentPage.value = 1
+    }
+)
+
+watch(
+    currentPageSize,
+    () => {
+        currentPage.value = 1
+    }
+)
+
 </script>
 
 <template>
@@ -85,7 +72,7 @@ const filtered_list = ref([
 
     <GuestLayout title="Sam.gov Get Opportunities API Example">
         <main class="flex justify-center p-4 h-auto py-20 md:px-10">
-            <div class="grid auto-rows-min gap-16">
+            <div class="grid w-full max-w-5xl auto-rows-min gap-16">
                 <div class="grid grid-cols-2">
                     <div>
                         <p>{{ filtered_results.length }} records</p>
@@ -104,8 +91,51 @@ const filtered_list = ref([
                     type="multiple"
                     class="w-full space-y-2"
                 >
+
+                    <div class="flex flex-col items-center justify-between gap-4 pt-6 sm:flex-row">
+                        <div class="flex items-center gap-2 text-sm">
+                            <label for="page-size">
+                                Show
+                            </label>
+
+                            <FilterDropdown
+                                v-model="currentPageSize"
+                                :options="pageSizes"
+                                :show-all="false"
+                                :return-number="true"
+                                class="w-24"
+                            />
+
+                            <span>records</span>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <button
+                                type="button"
+                                :disabled="isFirstPage"
+                                @click="prev"
+                                class="rounded-md border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                Previous
+                            </button>
+
+                            <span class="text-sm text-muted-foreground whitespace-nowrap">
+                                Page {{ currentPage }} of {{ pageCount }}
+                            </span>
+
+                            <button
+                                type="button"
+                                :disabled="isLastPage"
+                                @click="next"
+                                class="rounded-md border px-4 py-2 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </div>
+
                     <AccordionItem
-                        v-for="result in filtered_results"
+                        v-for="result in paginatedResults"
                         :key="result.noticeId"
                         :value="result.noticeId"
                         class="border rounded-lg px-4 bg-light-tertiary"
@@ -203,39 +233,6 @@ const filtered_list = ref([
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-                <!-- <div class="flex flex-col">
-                    {{ props.filters }}<br />
-                    State is {{ state }}
-                    <div class="p-2">
-                        <Label>Year</Label>
-                        <FilterDropdown v-model="year" :options="years" column="year" value="year" @update:model-value="reload()" />
-                    </div>
-                    <div v-for="(error, i) in $page.props.errors" :key="i">
-                        <p class="text-red-500">{{ error }}</p>
-                    </div>
-                    <div class="p-2">
-                        <Label>State</Label>
-                        <FilterDropdown v-model="state" :options="states" column="state" value="id" @update:model-value="reload()" />
-                    </div>
-                    <div class="p-2" v-if="state">
-                        <Label>City</Label>
-                        <FilterDropdown v-model="city" :options="cities" column="city" value="city" @update:model-value="reload()" />
-                    </div>
-                    {{ props.city }}
-                </div>
-                <div v-if="props.filters.city">
-                    <div class="flex flex-col py-4">
-                        Meals: {{ formatWithCommas(props.city?.Meals, 'currency') }}<br />
-                        <div>
-                            <div v-for="month in months" :key="month">
-                                {{ `Lodging (${month} ${year}) - ${formatWithCommas(props.city[month], 'currency')}` }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div v-else>
-                    No data
-                </div> -->
             </div>
         </main>
     </GuestLayout>

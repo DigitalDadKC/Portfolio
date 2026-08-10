@@ -51,7 +51,6 @@ class SamGovService
 
     public function getOpportunities()
     {
-        // Cache::forget('samgov.opportunities.2025.236220');
         return Cache::remember('samgov.opportunities.2025.236220', now()->addHours(12), function () {
             $apiKey = config('services.samgov.key');
 
