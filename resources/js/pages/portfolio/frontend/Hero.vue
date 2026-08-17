@@ -1,41 +1,562 @@
 <script setup lang="ts">
-import { Mail } from 'lucide-vue-next';
-
+import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
 </script>
 
 <template>
-    <section id="home" class="flex items-center bg-white dark:bg-dark-primary overflow-hidden">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <p class="text-xl font-bold text-accent mb-[2px] mt-5 lg:mt-0">Hey I'm Raleigh! </p>
-                <blockquote class="">(Raw-lee)</blockquote>
-                <h1 class="text-4xl leading-[44px] md:text-5xl md:leading-tight lg:text-7xl text-center lg:text-start lg:leading-[1.2] font-bold md:tracking-[-2px]">
-                    I make web apps.
-                </h1>
-                <h6>Transforming your spreadsheets into sophisticated, robust software</h6>
-                <div class="py-20">
-                    <h5 class="text-lg flex items-center dark:text-white mb-2">Connect with me!</h5>
-                    <div class="flex items-center justify-between gap-2 sm:justify-start mb-2">
-                        <a target="_blank" href="mailto:raleighgroesbeck@gmail.com" class="bg-light-tertiary dark:bg-dark-tertiary border-2 border-light-quatrenary dark:border-dark-quatrenary p-3 rounded-full transition ease-in-out hover:scale-110 duration-100">
-                            <Mail />
+    <section
+        id="home"
+        class="
+            relative
+            min-h-[calc(100vh-5rem)]
+            overflow-hidden
+            bg-light-primary
+            dark:bg-dark-primary
+        "
+    >
+        <!-- Decorative background -->
+        <div
+            class="
+                pointer-events-none
+                absolute -right-32 -top-32
+                h-96 w-96
+                rounded-full
+                border-2 border-black/10
+                dark:border-white/10
+            "
+        />
+
+        <div
+            class="
+                pointer-events-none
+                absolute -bottom-40 -left-32
+                h-96 w-96
+                rounded-full
+                bg-light-quatrenary/20
+                dark:bg-dark-tertiary/20
+            "
+        />
+
+        <!-- Small decorative dots -->
+        <div
+            class="
+                pointer-events-none
+                absolute right-[18%] top-[20%]
+                hidden
+                h-3 w-3
+                rounded-full
+                bg-accent
+                lg:block
+            "
+        />
+
+        <div
+            class="
+                pointer-events-none
+                absolute bottom-[20%] left-[12%]
+                hidden
+                h-2 w-2
+                rounded-full
+                bg-black
+                dark:bg-white
+                lg:block
+            "
+        />
+
+        <div
+            class="
+                relative
+                container mx-auto
+                flex
+                min-h-[calc(100vh-5rem)]
+                items-center
+                px-4
+                py-16
+                lg:py-20
+            "
+            v-motion
+            :initial="{ opacity: 0, y: 24 }"
+            :visibleOnce="{ opacity: 1, y: 0 }"
+        >
+            <div
+                class="
+                    grid
+                    w-full
+                    items-center
+                    gap-12
+                    lg:grid-cols-[1.1fr_0.9fr]
+                    lg:gap-16
+                "
+            >
+
+                <!-- Copy -->
+                <div class="max-w-3xl">
+
+                    <!-- Intro -->
+                    <div class="mb-6 flex flex-wrap items-center gap-3">
+                        <span
+                            class="
+                                inline-flex
+                                items-center
+                                gap-2
+                                rounded-full
+                                border-2 border-black
+                                bg-light-quatrenary
+                                px-4 py-1.5
+                                text-sm
+                                font-extrabold
+                                uppercase
+                                tracking-widest
+                                shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                            "
+                        >
+                            Hey, I'm Raleigh
+                        </span>
+
+                        <span
+                            class="
+                                text-sm
+                                font-bold
+                                text-gray-500
+                                dark:text-gray-400
+                            "
+                        >
+                            (Raw-lee)
+                        </span>
+                    </div>
+
+                    <!-- Main heading -->
+                    <h1
+                        class="
+                            max-w-4xl
+                            text-5xl
+                            font-extrabold
+                            leading-[0.95]
+                            tracking-[-0.04em]
+                            text-black
+                            sm:text-6xl
+                            lg:text-8xl
+                            dark:text-white
+                        "
+                    >
+                        I make
+                        <span class="text-accent">
+                            web apps.
+                        </span>
+                    </h1>
+
+                    <!-- Description -->
+                    <p
+                        class="
+                            mt-7
+                            max-w-2xl
+                            text-xl
+                            font-medium
+                            leading-8
+                            text-gray-600
+                            sm:text-2xl
+                            sm:leading-9
+                            dark:text-gray-300
+                        "
+                    >
+                        Transforming spreadsheets and business processes
+                        into sophisticated, robust software.
+                    </p>
+
+                    <!-- CTA -->
+                    <div
+                        class="
+                            mt-8
+                            flex
+                            flex-col
+                            gap-4
+                            sm:flex-row
+                        "
+                    >
+                        <a
+                            href="#contact"
+                            class="
+                                group
+                                inline-flex
+                                items-center
+                                justify-center
+                                gap-2
+                                rounded-xl
+                                border-2 border-black
+                                bg-black
+                                px-6 py-3.5
+                                text-base
+                                font-extrabold
+                                text-white
+                                shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]
+                                transition-[transform,box-shadow,background-color,color]
+                                duration-200
+                                hover:-translate-y-1
+                                hover:bg-accent
+                                hover:text-black
+                                hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]
+                                active:translate-y-0
+                                active:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                                dark:border-white
+                                dark:bg-white
+                                dark:text-black
+                                dark:hover:bg-accent
+                            "
+                        >
+                            Let's work together
+
+                            <ArrowUpRight
+                                class="
+                                    h-5 w-5
+                                    transition-transform
+                                    duration-200
+                                    group-hover:translate-x-1
+                                    group-hover:-translate-y-1
+                                "
+                                :stroke-width="2.5"
+                            />
                         </a>
-                        <a target="_blank" href="https://github.com/DigitalDadKC" class="bg-light-tertiary dark:bg-dark-tertiary text-light-quatrenary dark:text-dark-quatrenary border-2 border-light-quatrenary dark:border-dark-quatrenary p-3 rounded-full transition ease-in-out hover:scale-110 duration-100">
-                            <svg role="img" viewBox="0 0 24 24" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg">
-                                <title>GitHub</title>
-                                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                            </svg>
-                        </a>
-                        <a target="_blank" href="https://www.linkedin.com/in/digitaldad" class="bg-light-tertiary dark:bg-dark-tertiary text-light-quatrenary dark:text-dark-quatrenary border-2 border-light-quatrenary dark:border-dark-quatrenary p-3 rounded-full transition ease-in-out hover:scale-110 duration-100">
-                            <svg role="img" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 bi bi-linkedin" viewBox="0 0 16 16">
-                                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
-                            </svg>
+
+                        <a
+                            href="#projects"
+                            class="
+                                inline-flex
+                                items-center
+                                justify-center
+                                rounded-xl
+                                border-2 border-black
+                                bg-white/70
+                                px-6 py-3.5
+                                text-base
+                                font-extrabold
+                                text-black
+                                transition-[transform,background-color]
+                                duration-200
+                                hover:-translate-y-1
+                                hover:bg-light-quatrenary
+                                dark:border-white
+                                dark:bg-black/20
+                                dark:text-white
+                                dark:hover:bg-dark-tertiary
+                            "
+                        >
+                            See my work
                         </a>
                     </div>
+
+                    <!-- Socials -->
+                    <div class="mt-10">
+                        <p
+                            class="
+                                mb-3
+                                text-sm
+                                font-bold
+                                uppercase
+                                tracking-widest
+                                text-gray-500
+                                dark:text-gray-400
+                            "
+                        >
+                            Find me online
+                        </p>
+
+                        <div class="flex items-center gap-3">
+
+                            <!-- Email -->
+                            <a
+                                href="mailto:raleighgroesbeck@gmail.com"
+                                class="
+                                    group
+                                    flex h-11 w-11
+                                    items-center justify-center
+                                    rounded-xl
+                                    border-2 border-black
+                                    bg-white/70
+                                    shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                                    transition-[transform,background-color,box-shadow]
+                                    duration-200
+                                    hover:-translate-y-1
+                                    hover:bg-light-quatrenary
+                                    hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                                    dark:border-white
+                                    dark:bg-black/20
+                                    dark:hover:bg-dark-tertiary
+                                "
+                                aria-label="Email Raleigh"
+                            >
+                                <Mail class="h-5 w-5" />
+                            </a>
+
+                            <!-- GitHub -->
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://github.com/DigitalDadKC"
+                                class="
+                                    group
+                                    flex h-11 w-11
+                                    items-center justify-center
+                                    rounded-xl
+                                    border-2 border-black
+                                    bg-white/70
+                                    shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                                    transition-[transform,background-color,box-shadow]
+                                    duration-200
+                                    hover:-translate-y-1
+                                    hover:bg-light-quatrenary
+                                    hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                                    dark:border-white
+                                    dark:bg-black/20
+                                    dark:hover:bg-dark-tertiary
+                                "
+                                aria-label="GitHub"
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    class="h-5 w-5"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M12 .297c-6.63 0-12 5.373-12 12
+                                        0 5.303 3.438 9.8 8.205 11.385
+                                        .6.113.82-.258.82-.577
+                                        0-.285-.01-1.04-.015-2.04
+                                        -3.338.724-4.042-1.61-4.042-1.61
+                                        -.546-1.387-1.333-1.756-1.333-1.756
+                                        -1.087-.744.084-.729.084-.729
+                                        1.205.084 1.838 1.236 1.838 1.236
+                                        1.07 1.835 2.809 1.305 3.495.998
+                                        .108-.776.417-1.305.76-1.605
+                                        -2.665-.3-5.466-1.332-5.466-5.93
+                                        0-1.31.465-2.38 1.235-3.22
+                                        -.135-.303-.54-1.523.105-3.176
+                                        0 0 1.005-.322 3.3 1.23
+                                        .96-.267 1.98-.399 3-.405
+                                        1.02.006 2.04.138 3 .405
+                                        2.28-1.552 3.285-1.23 3.285-1.23
+                                        .645 1.653.24 2.873.12 3.176
+                                        .765.84 1.23 1.91 1.23 3.22
+                                        0 4.61-2.805 5.625-5.475 5.92
+                                        .42.36.81 1.096.81 2.22
+                                        0 1.606-.015 2.896-.015 3.286
+                                        0 .315.21.69.825.57
+                                        C20.565 22.092 24 17.592 24 12.297
+                                        c0-6.627-5.373-12-12-12"
+                                    />
+                                </svg>
+                            </a>
+
+                            <!-- LinkedIn -->
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://www.linkedin.com/in/digitaldad"
+                                class="
+                                    group
+                                    flex h-11 w-11
+                                    items-center justify-center
+                                    rounded-xl
+                                    border-2 border-black
+                                    bg-white/70
+                                    shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                                    transition-[transform,background-color,box-shadow]
+                                    duration-200
+                                    hover:-translate-y-1
+                                    hover:bg-light-quatrenary
+                                    hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                                    dark:border-white
+                                    dark:bg-black/20
+                                    dark:hover:bg-dark-tertiary
+                                "
+                                aria-label="LinkedIn"
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    class="h-5 w-5"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569
+                                        c0-1.328-.027-3.037-1.852-3.037
+                                        -1.853 0-2.136 1.445-2.136 2.939
+                                        v5.667H9.351V8.999h3.414v1.561h.046
+                                        c.477-.9 1.637-1.85 3.37-1.85
+                                        3.601 0 4.267 2.37 4.267 5.455
+                                        v6.287zM5.337 7.433a2.062 2.062 0 1 1
+                                        0-4.124 2.062 2.062 0 0 1 0 4.124z
+                                        M7.119 20.452H3.555V8.999h3.564v11.453z
+                                        M22.225 0H1.771C.792 0 0 .774 0 1.729
+                                        v20.542C0 23.227.792 24 1.771 24h20.451
+                                        C23.2 24 24 23.227 24 22.271V1.729
+                                        C24 .774 23.2 0 22.222 0h.003z"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero image -->
+                <div
+                    class="
+                        relative
+                        mx-auto
+                        w-full
+                        max-w-md
+                        lg:max-w-none
+                    "
+                >
+                    <!-- Decorative card -->
+                    <div
+                        class="
+                            absolute
+                            inset-0
+                            translate-x-3
+                            translate-y-3
+                            rounded-3xl
+                            border-2 border-black
+                            bg-accent
+                            dark:border-white
+                        "
+                    />
+
+                    <!-- Image -->
+                    <div
+                        class="
+                            group
+                            relative
+                            overflow-hidden
+                            rounded-3xl
+                            border-2 border-black
+                            bg-white
+                            dark:border-white
+                            dark:bg-black/20
+                        "
+                    >
+                        <img
+                            src="/img/profile 2.jpg"
+                            alt="Raleigh, freelance web developer"
+                            class="
+                                aspect-[4/5]
+                                w-full
+                                object-cover
+                                transition-transform
+                                duration-700
+                                ease-out
+                                group-hover:scale-105
+                            "
+                        />
+
+                        <!-- Image gradient -->
+                        <div
+                            class="
+                                pointer-events-none
+                                absolute inset-0
+                                bg-gradient-to-t
+                                from-black/40
+                                via-transparent
+                                to-transparent
+                            "
+                        />
+
+                        <!-- Floating badge -->
+                        <div
+                            class="
+                                absolute
+                                bottom-5
+                                left-5
+                                rounded-xl
+                                border-2 border-black
+                                bg-white
+                                px-4 py-3
+                                shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                                dark:border-white
+                                dark:bg-black
+                            "
+                        >
+                            <p
+                                class="
+                                    text-xs
+                                    font-bold
+                                    uppercase
+                                    tracking-widest
+                                    text-gray-500
+                                    dark:text-gray-400
+                                "
+                            >
+                                Currently
+                            </p>
+
+                            <p
+                                class="
+                                    mt-1
+                                    font-extrabold
+                                    text-black
+                                    dark:text-white
+                                "
+                            >
+                                Building cool stuff
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Decorative accent -->
+                    <div
+                        class="
+                            absolute
+                            -right-4
+                            -top-4
+                            hidden
+                            h-10 w-10
+                            rotate-12
+                            rounded-lg
+                            border-2 border-black
+                            bg-light-quatrenary
+                            lg:block
+                            dark:border-white
+                        "
+                    />
                 </div>
             </div>
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="img/profile 2.jpg" alt="Hero" class="rounded-lg" /><br>
-            </div>
         </div>
+
+        <!-- Scroll indicator -->
+        <a
+            href="#about"
+            class="
+                absolute
+                bottom-6
+                left-1/2
+                hidden
+                -translate-x-1/2
+                flex-col
+                items-center
+                gap-1
+                text-gray-500
+                transition-colors
+                hover:text-black
+                md:flex
+                dark:text-gray-400
+                dark:hover:text-white
+            "
+            aria-label="Scroll to About section"
+        >
+            <span
+                class="
+                    text-[10px]
+                    font-bold
+                    uppercase
+                    tracking-[0.25em]
+                "
+            >
+                Explore
+            </span>
+
+            <ArrowDown
+                class="h-4 w-4 animate-bounce"
+                :stroke-width="2.5"
+            />
+        </a>
     </section>
 </template>

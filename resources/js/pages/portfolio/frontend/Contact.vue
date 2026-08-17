@@ -1,108 +1,616 @@
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
-import { Label } from 'reka-ui';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import {
+    Mail,
+    MapPin,
+    ArrowUpRight,
+    Send,
+    Check,
+} from 'lucide-vue-next'
 
-const showMessage = ref(false);
+import { Label } from 'reka-ui'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+
+const showMessage = ref(false)
 
 const form = useForm({
     name: '',
     email: '',
-    body: ''
+    body: '',
 })
 
-function setShowMessage(value) {
-    showMessage.value = value
-}
-
 function cleanForm() {
-    form.reset();
-    setShowMessage(true)
-    setTimeout(() => setShowMessage(false), 2000)
+    form.reset()
+    showMessage.value = true
+
+    setTimeout(() => {
+        showMessage.value = false
+    }, 4000)
 }
 
 const submit = () => {
+    showMessage.value = false
+
     form.post(route('contact'), {
-        onSuccess: () => cleanForm(),
-        preserveScroll: true
+        onSuccess: cleanForm,
+        preserveScroll: true,
     })
 }
 </script>
 
 <template>
-    <section id="contact" class="section bg-light-primary dark:bg-dark-primary">
-        <div class="container mx-auto" v-motion :initial="{opacity: 0, y:100}" :visibleOnce="{opacity: 1, y: 0}">
-            <div class="flex flex-col items-center text-center">
-                <h2 class="section-title text-light-quatrenary dark:text-dark-quatrenary">Contact Me</h2>
+    <section
+        id="contact"
+        class="
+            section
+            relative
+            overflow-hidden
+            bg-light-primary
+            py-20
+            dark:bg-dark-primary
+        "
+    >
+        <!-- Decorative background -->
+        <div
+            class="
+                pointer-events-none
+                absolute -left-32 top-20
+                h-80 w-80
+                rounded-full
+                border-2 border-black/10
+                dark:border-white/10
+            "
+        />
+
+        <div
+            class="
+                pointer-events-none
+                absolute -right-32 bottom-0
+                h-96 w-96
+                rounded-full
+                bg-light-quatrenary/20
+                dark:bg-dark-tertiary/20
+            "
+        />
+
+        <div
+            class="relative container mx-auto px-4"
+            v-motion
+            :initial="{ opacity: 0, y: 24 }"
+            :visibleOnce="{ opacity: 1, y: 0 }"
+        >
+            <!-- Heading -->
+            <div class="mb-12 text-center">
+                <span
+                    class="
+                        mb-4 inline-block
+                        rounded-full
+                        border-2 border-black
+                        bg-light-quatrenary
+                        px-4 py-1
+                        text-sm font-bold
+                        uppercase tracking-widest
+                        shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                    "
+                >
+                    Let's talk
+                </span>
+
+                <h2
+                    class="
+                        text-4xl
+                        font-extrabold
+                        tracking-tight
+                        text-black
+                        dark:text-white
+                        sm:text-5xl
+                    "
+                >
+                    Have a project in mind?
+                </h2>
+
+                <p
+                    class="
+                        mx-auto mt-4
+                        max-w-2xl
+                        text-gray-600
+                        dark:text-gray-300
+                    "
+                >
+                    Whether you have a question, an idea, or a problem
+                    that needs solving, I'd love to hear about it.
+                </p>
             </div>
-            <div class="flex flex-col lg:flex-row lg:gap-x-8 ">
-                <div class="flex flex-1 flex-col  space-y-8 mb-12 lg:mb-0 lg:pt-2">
-                    <div class="flex flex-col lg:flex-row gap-x-4">
-                        <div class="text-accent rounded-sm lg:w-14 h-6 flex items-start justify-center mt-2 mb-4 lg:mb-0 text-2xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.839 2.51l-4.66-2.51m0 0l-1.023-.55a2.25 2.25 0 00-2.134 0l-1.022.55m0 0l-4.661 2.51m16.5 1.615a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V8.844a2.25 2.25 0 011.183-1.98l7.5-4.04a2.25 2.25 0 012.134 0l7.5 4.04a2.25 2.25 0 011.183 1.98V19.5z" /></svg>
+
+            <!-- Content -->
+            <div
+                class="
+                    grid
+                    gap-8
+                    lg:grid-cols-[0.8fr_1.2fr]
+                    lg:items-start
+                "
+            >
+                <!-- Contact information -->
+                <div class="space-y-5">
+
+                    <!-- Email -->
+                    <a
+                        href="mailto:info@digitaldadkc.com"
+                        class="
+                            group
+                            flex
+                            items-start
+                            gap-4
+                            rounded-2xl
+                            border-2 border-black
+                            bg-white/70
+                            p-5
+                            shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]
+                            transition-[transform,box-shadow,background-color]
+                            duration-200
+                            ease-out
+                            hover:-translate-y-1
+                            hover:bg-light-quatrenary
+                            hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]
+                            dark:border-white
+                            dark:bg-black/20
+                            dark:hover:bg-dark-tertiary
+                        "
+                    >
+                        <div
+                            class="
+                                flex h-12 w-12 shrink-0
+                                items-center justify-center
+                                rounded-xl
+                                border-2 border-black
+                                bg-light-quatrenary
+                                transition-transform
+                                duration-200
+                                group-hover:rotate-[-6deg]
+                                group-hover:scale-105
+                                dark:border-white
+                            "
+                        >
+                            <Mail
+                                class="h-6 w-6"
+                                :stroke-width="2.5"
+                            />
                         </div>
+
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center gap-2">
+                                <h3
+                                    class="
+                                        font-extrabold
+                                        text-lg
+                                    "
+                                >
+                                    Have a question?
+                                </h3>
+
+                                <ArrowUpRight
+                                    class="
+                                        h-4 w-4
+                                        opacity-0
+                                        transition-opacity
+                                        duration-200
+                                        group-hover:opacity-100
+                                    "
+                                />
+                            </div>
+
+                            <p
+                                class="
+                                    mt-1
+                                    text-sm
+                                    text-gray-600
+                                    dark:text-gray-300
+                                "
+                            >
+                                I'm here to help.
+                            </p>
+
+                            <p
+                                class="
+                                    mt-2
+                                    break-all
+                                    font-bold
+                                    text-accent
+                                "
+                            >
+                                info@digitaldadkc.com
+                            </p>
+                        </div>
+                    </a>
+
+                    <!-- Location -->
+                    <div
+                        class="
+                            group
+                            flex
+                            items-start
+                            gap-4
+                            rounded-2xl
+                            border-2 border-black
+                            bg-white/70
+                            p-5
+                            shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]
+                            transition-[transform,box-shadow]
+                            duration-200
+                            ease-out
+                            hover:-translate-y-1
+                            hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]
+                            dark:border-white
+                            dark:bg-black/20
+                        "
+                    >
+                        <div
+                            class="
+                                flex h-12 w-12 shrink-0
+                                items-center justify-center
+                                rounded-xl
+                                border-2 border-black
+                                bg-light-quatrenary
+                                transition-transform
+                                duration-200
+                                group-hover:rotate-[-6deg]
+                                group-hover:scale-105
+                                dark:border-white
+                            "
+                        >
+                            <MapPin
+                                class="h-6 w-6"
+                                :stroke-width="2.5"
+                            />
+                        </div>
+
                         <div>
-                            <h4 class="font-body text-xl mb-1">Have a question?</h4>
-                            <p class="mb-1 text-paragraph">I'm here to help!</p>
-                            <p class="text-accent font-normal">Email me at <a class="font-bold" href="mailto:info@digitaldadkc.com" aria-label="Email Me">info@digitaldadkc.com</a></p>
+                            <h3
+                                class="
+                                    font-extrabold
+                                    text-lg
+                                "
+                            >
+                                Based in Kansas City
+                            </h3>
+
+                            <p
+                                class="
+                                    mt-1
+                                    text-sm
+                                    text-gray-600
+                                    dark:text-gray-300
+                                "
+                            >
+                                Serving clients nationwide.
+                            </p>
+
+                            <p
+                                class="
+                                    mt-2
+                                    font-bold
+                                    text-accent
+                                "
+                            >
+                                Kansas City, MO
+                            </p>
                         </div>
                     </div>
-                    <div class="flex flex-col lg:flex-row gap-x-4">
-                        <div class="text-accent rounded-sm lg:w-14 h-6 flex items-start justify-center mt-2 mb-4 lg:mb-0 text-2xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-                        </div>
-                        <div>
-                            <h4 class="font-body text-xl mb-1">Current Location</h4>
-                            <p class="mb-1 text-paragraph">Kansas City, MO, USA</p>
-                            <p class="text-accent font-normal">Serving customers nationwide</p>
-                        </div>
+
+                    <!-- Small CTA -->
+                    <div
+                        class="
+                            rounded-2xl
+                            border-2 border-black
+                            bg-black
+                            p-6
+                            text-white
+                            shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]
+                            dark:border-white
+                            dark:bg-white
+                            dark:text-black
+                        "
+                    >
+                        <p
+                            class="
+                                text-lg
+                                font-extrabold
+                            "
+                        >
+                            Got an interesting problem?
+                        </p>
+
+                        <p
+                            class="
+                                mt-2
+                                text-sm
+                                leading-6
+                                text-gray-300
+                                dark:text-gray-600
+                            "
+                        >
+                            Tell me what you're working on.
+                            Sometimes the weird projects are the best ones.
+                        </p>
                     </div>
                 </div>
-                <form @submit.prevent="submit" class="space-y-4 w-full max-w-xl mx-auto">
-                    <div v-if="showMessage" class="py-4 text-accent dark:text-dark-quatrenary rounded-lg">
-                        Thank you for contacting me!<br>
-                        We'll be in touch!
-                    </div>
-                    <div class="flex gap-8">
-                        <div class="w-full">
-                            <Label for="name">Name</Label>
-                            <Input id="name" class="bg-light-tertiary dark:bg-dark-tertiary" v-model="form.name" />
-                            <span v-if="form.errors.name" class="text-sm m-2 text-red-400">{{ form.errors.name }}</span>
+
+                <!-- Form -->
+                <div
+                    class="
+                        rounded-2xl
+                        border-2 border-black
+                        bg-white
+                        p-6
+                        shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]
+                        sm:p-8
+                        dark:border-white
+                        dark:bg-black/20
+                    "
+                >
+                    <!-- Success -->
+                    <Transition name="fade">
+                        <div
+                            v-if="showMessage"
+                            class="
+                                mb-6
+                                flex
+                                items-start
+                                gap-3
+                                rounded-xl
+                                border-2 border-black
+                                bg-light-quatrenary
+                                p-4
+                                dark:border-white
+                            "
+                        >
+                            <div
+                                class="
+                                    flex h-8 w-8 shrink-0
+                                    items-center justify-center
+                                    rounded-full
+                                    border-2 border-black
+                                    bg-white
+                                    dark:border-white
+                                    dark:bg-black
+                                "
+                            >
+                                <Check
+                                    class="h-4 w-4"
+                                    :stroke-width="3"
+                                />
+                            </div>
+
+                            <div>
+                                <p class="font-extrabold">
+                                    Message sent!
+                                </p>
+
+                                <p
+                                    class="
+                                        mt-1
+                                        text-sm
+                                        text-gray-600
+                                        dark:text-gray-300
+                                    "
+                                >
+                                    Thanks for reaching out. I'll be in touch!
+                                </p>
+                            </div>
                         </div>
-                        <div class="w-full">
-                            <Label for="email">Email</Label>
-                            <Input id="email" class="bg-light-tertiary dark:bg-dark-tertiary" v-model="form.email" />
-                            <span v-if="form.errors.email" class="text-sm m-2 text-red-400">{{ form.errors.email }}</span>
-                        </div>
+                    </Transition>
+
+                    <div class="mb-6">
+                        <h3
+                            class="
+                                text-2xl
+                                font-extrabold
+                            "
+                        >
+                            Send me a message
+                        </h3>
+
+                        <p
+                            class="
+                                mt-1
+                                text-sm
+                                text-gray-500
+                                dark:text-gray-400
+                            "
+                        >
+                            I'll get back to you as soon as I can.
+                        </p>
                     </div>
-                    <Label for="body">Message</Label>
-                    <Textarea id="body" class="bg-light-tertiary dark:bg-dark-tertiary" :rows="10" v-model="form.body" />
-                    <span v-if="form.errors.body" class="text-sm m-2 text-red-400">{{ form.errors.body }}</span>
-                    <Button>Submit</Button>
-                </form>
+
+                    <form
+                        class="space-y-5"
+                        @submit.prevent="submit"
+                    >
+                        <!-- Name + Email -->
+                        <div class="grid gap-5 sm:grid-cols-2">
+                            <div>
+                                <Label
+                                    for="name"
+                                    class="mb-2 block font-bold"
+                                >
+                                    Name
+                                </Label>
+
+                                <Input
+                                    id="name"
+                                    v-model="form.name"
+                                    autocomplete="name"
+                                    class="
+                                        border-2
+                                        border-black
+                                        bg-light-tertiary
+                                        dark:border-white
+                                        dark:bg-dark-tertiary
+                                    "
+                                    :aria-invalid="!!form.errors.name"
+                                />
+
+                                <span
+                                    v-if="form.errors.name"
+                                    class="
+                                        mt-1
+                                        block
+                                        text-sm
+                                        font-medium
+                                        text-red-500
+                                    "
+                                >
+                                    {{ form.errors.name }}
+                                </span>
+                            </div>
+
+                            <div>
+                                <Label
+                                    for="email"
+                                    class="mb-2 block font-bold"
+                                >
+                                    Email
+                                </Label>
+
+                                <Input
+                                    id="email"
+                                    v-model="form.email"
+                                    type="email"
+                                    autocomplete="email"
+                                    class="
+                                        border-2
+                                        border-black
+                                        bg-light-tertiary
+                                        dark:border-white
+                                        dark:bg-dark-tertiary
+                                    "
+                                    :aria-invalid="!!form.errors.email"
+                                />
+
+                                <span
+                                    v-if="form.errors.email"
+                                    class="
+                                        mt-1
+                                        block
+                                        text-sm
+                                        font-medium
+                                        text-red-500
+                                    "
+                                >
+                                    {{ form.errors.email }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div>
+                            <Label
+                                for="body"
+                                class="mb-2 block font-bold"
+                            >
+                                Message
+                            </Label>
+
+                            <Textarea
+                                id="body"
+                                v-model="form.body"
+                                :rows="8"
+                                class="
+                                    border-2
+                                    border-black
+                                    bg-light-tertiary
+                                    dark:border-white
+                                    dark:bg-dark-tertiary
+                                "
+                                :aria-invalid="!!form.errors.body"
+                            />
+
+                            <span
+                                v-if="form.errors.body"
+                                class="
+                                    mt-1
+                                    block
+                                    text-sm
+                                    font-medium
+                                    text-red-500
+                                "
+                            >
+                                {{ form.errors.body }}
+                            </span>
+                        </div>
+
+                        <!-- Submit -->
+                        <Button
+                            type="submit"
+                            :disabled="form.processing"
+                            class="
+                                group
+                                w-full
+                                border-2
+                                border-black
+                                bg-black
+                                py-6
+                                text-base
+                                font-extrabold
+                                text-white
+                                shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                                transition-[transform,box-shadow]
+                                duration-200
+                                hover:-translate-y-0.5
+                                hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+                                disabled:cursor-not-allowed
+                                disabled:opacity-60
+                                dark:border-white
+                                dark:bg-white
+                                dark:text-black
+                            "
+                        >
+                            <span v-if="!form.processing">
+                                Send message
+                            </span>
+
+                            <span
+                                v-else
+                                class="flex items-center justify-center gap-2"
+                            >
+                                Sending...
+                            </span>
+
+                            <Send
+                                v-if="!form.processing"
+                                class="
+                                    ml-2
+                                    h-4 w-4
+                                    transition-transform
+                                    duration-200
+                                    group-hover:translate-x-1
+                                    group-hover:-translate-y-1
+                                "
+                                :stroke-width="2.5"
+                            />
+                        </Button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
 </template>
 
-<style>
-.custom-placeholer-color input::placeholder {
-  color: red!important;
-  opacity: 1;
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition:
+        opacity 200ms ease,
+        transform 200ms ease;
 }
 
-.custom-label-color .v-label {
-  color: red;
-  opacity: 1;
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-6px);
 }
-
-.custom-placeholer-color input,
-.custom-label-color input{
-  color: red!important;
-}
-
-
 </style>

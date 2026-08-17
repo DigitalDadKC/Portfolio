@@ -1,45 +1,249 @@
 <script setup>
-import Project from './Project.vue';
-import { ref } from 'vue';
+import Project from './Project.vue'
+import { computed, ref } from 'vue'
 
-    const props = defineProps({
-        skills: Object,
-        projects: Object
-    })
+const props = defineProps({
+    skills: {
+        type: Array,
+        default: () => [],
+    },
+    projects: {
+        type: Array,
+        default: () => [],
+    },
+})
 
-const filteredProjects = ref(props.projects)
 const activeSkill = ref('all')
-const filterProjects = (id) => {
-    if (id === 'all') {
-        filteredProjects.value = props.projects
-            activeSkill.value = 'all'
-    } else {
-        filteredProjects.value = props.projects.filter((project) => {
-        return project.skills.map((skill) => skill.id).includes(id);
-        })
-        activeSkill.value = id
+
+const filteredProjects = computed(() => {
+    if (activeSkill.value === 'all') {
+        return props.projects
     }
+
+    return props.projects.filter((project) =>
+        project.skills?.some((skill) => skill.id === activeSkill.value)
+    )
+})
+
+const filterProjects = (id) => {
+    activeSkill.value = id
 }
 </script>
 
 <template>
-    <div class="container mx-auto">
-        <nav class="mb-12 border-b-2 border-light-tertiary dark:text-dark-quatrenary">
-            <ul class="flex flex-col sm:flex-row sm:flex-wrap justify-evenly items-center gap-4">
-                <li class="cursor-pointer capitalize">
-                    <button @click="filterProjects('all')" class="flex text-center py-2 hover:text-accent dark:hover:text-dark-quatrenary font-bold cursor-pointer" :class="[activeSkill === 'all' ? 'text-accent dark:text-white' : '' ]">
-                        All
-                    </button>
-                </li>
-                <li class="cursor-pointer capitalize" v-for="projectsSkill in skills" :key="projectsSkill.id" @click="filterProjects(projectsSkill.id)">
-                    <button class="flex text-center lg:py-2 hover:text-accent dark:hover:text-accent font-bold cursor-pointer" :class="[activeSkill === projectsSkill.id ? 'text-accent dark:text-white' : '']">
-                        {{ projectsSkill.name }}
-                    </button>
-                </li>
-            </ul>
-        </nav>
-        <section class="grid gap-4 md:grid-cols-2 md:gap-4 xl:grid-cols-4 lg:gap-8">
-            <Project v-for="project in filteredProjects" :key="project.id" :project="project" />
-        </section>
-    </div>
+    <section
+        id="projects"
+        class="
+            relative
+            overflow-hidden
+            py-20
+        "
+    >
+        <!-- Decorative background -->
+        <div
+            class="
+                pointer-events-none
+                absolute -right-32 top-10
+                h-72 w-72
+                rounded-full
+                border-2 border-black/10
+                dark:border-white/10
+            "
+        />
+
+        <div
+            class="
+                pointer-events-none
+                absolute -bottom-40 -left-32
+                h-96 w-96
+                rounded-full
+                bg-light-quatrenary/20
+                dark:bg-dark-tertiary/20
+            "
+        />
+
+        <div class="relative container mx-auto px-4">
+
+            <!-- Heading -->
+            <div class="mb-12 text-center">
+                <span
+                    class="
+                        mb-4 inline-block
+                        rounded-full
+                        border-2 border-black
+                        bg-light-quatrenary
+                        px-4 py-1
+                        text-sm font-bold
+                        uppercase tracking-widest
+                        shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                    "
+                >
+                    Selected work
+                </span>
+
+                <h2
+                    class="
+                        text-4xl
+                        font-extrabold
+                        tracking-tight
+                        text-black
+                        dark:text-white
+                        sm:text-5xl
+                    "
+                >
+                    Projects I've built
+                </h2>
+
+                <p
+                    class="
+                        mx-auto mt-4
+                        max-w-2xl
+                        text-gray-600
+                        dark:text-gray-300
+                    "
+                >
+                    A selection of applications, tools, and systems
+                    built to solve real problems.
+                </p>
+            </div>
+
+            <!-- Filters -->
+            <nav
+                class="
+                    mb-12
+                    flex flex-wrap
+                    items-center
+                    justify-center
+                    gap-3
+                "
+                aria-label="Filter projects"
+            >
+                <button
+                    type="button"
+                    class="
+                        project-filter
+                        rounded-full
+                        border-2 border-black
+                        px-4 py-2
+                        text-sm font-bold
+                        transition-[transform,box-shadow,background-color,color]
+                        duration-200
+                        ease-out
+                        hover:-translate-y-0.5
+                    "
+                    :class="
+                        activeSkill === 'all'
+                            ? 'bg-black text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:bg-white dark:text-black'
+                            : 'bg-white text-black hover:bg-light-quatrenary dark:bg-black/20 dark:text-white'
+                    "
+                    @click="filterProjects('all')"
+                >
+                    All
+                </button>
+
+                <button
+                    v-for="skill in skills"
+                    :key="skill.id"
+                    type="button"
+                    class="
+                        project-filter
+                        rounded-full
+                        border-2 border-black
+                        px-4 py-2
+                        text-sm font-bold
+                        transition-[transform,box-shadow,background-color,color]
+                        duration-200
+                        ease-out
+                        hover:-translate-y-0.5
+                    "
+                    :class="
+                        activeSkill === skill.id
+                            ? 'bg-black text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:bg-white dark:text-black'
+                            : 'bg-white text-black hover:bg-light-quatrenary dark:bg-black/20 dark:text-white'
+                    "
+                    @click="filterProjects(skill.id)"
+                >
+                    {{ skill.name }}
+                </button>
+            </nav>
+
+            <!-- Projects -->
+            <TransitionGroup
+                name="project"
+                tag="section"
+                class="
+                    grid
+                    gap-6
+                    md:grid-cols-2
+                    xl:grid-cols-4
+                "
+            >
+                <Project
+                    v-for="project in filteredProjects"
+                    :key="project.id"
+                    :project="project"
+                />
+            </TransitionGroup>
+
+            <!-- Empty state -->
+            <div
+                v-if="filteredProjects.length === 0"
+                class="
+                    rounded-2xl
+                    border-2 border-dashed border-black
+                    p-12
+                    text-center
+                    dark:border-white
+                "
+            >
+                <p
+                    class="
+                        text-lg
+                        font-bold
+                        text-gray-600
+                        dark:text-gray-300
+                    "
+                >
+                    No projects found for this skill.
+                </p>
+
+                <button
+                    type="button"
+                    class="
+                        mt-4
+                        font-bold
+                        text-accent
+                        underline
+                        underline-offset-4
+                    "
+                    @click="filterProjects('all')"
+                >
+                    View all projects
+                </button>
+            </div>
+        </div>
+    </section>
 </template>
+
+<style scoped>
+.project-enter-active,
+.project-leave-active {
+    transition:
+        opacity 250ms ease,
+        transform 250ms ease;
+}
+
+.project-enter-from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+}
+
+.project-leave-to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+}
+
+.project-leave-active {
+    position: absolute;
+}
+</style>

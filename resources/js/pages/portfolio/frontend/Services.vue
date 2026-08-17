@@ -1,5 +1,5 @@
 <script setup>
-import Service from '@/components/portfolio/Service.vue';
+import Service from './Service.vue'
 import { CodeXml, Download, Earth, FileSpreadsheet, Gauge, Lock } from 'lucide-vue-next';
 
 const service_items = [
@@ -36,12 +36,77 @@ const service_items = [
 
     <section id="services" class="section bg-light-secondary dark:bg-dark-secondary">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-            <div class="text-center mb-8 lg:mb-16">
-                <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-black dark:text-white">Services that produce WOW</h2>
+            <div class="mb-12 text-center">
+                <span
+                    class="
+                        mb-4 inline-block
+                        rounded-full
+                        border-2 border-black
+                        bg-light-quatrenary
+                        px-4 py-1
+                        text-sm font-bold
+                        uppercase tracking-widest
+                        shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
+                    "
+                >
+                    What I build
+                </span>
+
+                <h2
+                    class="
+                        text-4xl
+                        font-extrabold
+                        tracking-tight
+                        text-black
+                        dark:text-white
+                        sm:text-5xl
+                    "
+                >
+                    Services that produce
+                    <span class="text-accent">WOW.</span>
+                </h2>
+
+                <p
+                    class="
+                        mx-auto mt-4
+                        max-w-2xl
+                        text-gray-600
+                        dark:text-gray-300
+                    "
+                >
+                    Purpose-built tools that turn complicated business processes
+                    into simple, useful software.
+                </p>
             </div>
-            <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-                <Service :service_items></Service>
+            <div
+                class="
+                    grid
+                    gap-6
+                    md:grid-cols-2
+                    lg:grid-cols-3
+                "
+            >
+                <Service
+                    v-for="(service, index) in service_items"
+                    :key="service.title"
+                    :service="service"
+                    :delay="index * 80"
+                />
             </div>
         </div>
     </section>
 </template>
+
+<style>
+    .service-enter-active {
+        transition:
+            opacity 500ms ease,
+            transform 500ms cubic-bezier(.2, .8, .2, 1);
+        transition-delay: var(--delay);
+    }
+
+    .service-enter-from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+</style>

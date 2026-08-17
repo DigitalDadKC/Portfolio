@@ -1,24 +1,114 @@
 <script setup lang="ts">
-    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
 
-defineProps({
-    project: Object
-})
+defineProps<{
+    project: {
+        name: string
+        description: string
+        image: string
+        url: string
+    }
+}>()
 </script>
 
 <template>
-    <a :href="project.url" target="_blank" v-motion :initial="{ opacity: 0, y:100}" :visibleOnce="{opacity: 1, y:0}">
-        <Card class="hover:scale-105 transition bg-light-tertiary border-2 border-black shadow-xl">
-            <CardHeader>
-                <CardTitle>{{ project.name }}</CardTitle>
-                <CardDescription class="text-gray-600">
-                    {{project.description}}
+    <a
+        :href="project.url"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group block h-full"
+        v-motion
+        :initial="{ opacity: 0, y: 40 }"
+        :visibleOnce="{ opacity: 1, y: 0 }"
+    >
+        <Card
+            class="
+                relative h-full overflow-hidden
+                bg-light-tertiary
+                border-2 border-black
+                rounded-2xl
+                shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]
+                transition-all duration-300 ease-out
+
+                group-hover:-translate-y-1
+                group-hover:translate-x-[-2px]
+                group-hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]
+            "
+        >
+            <!-- Header -->
+            <CardHeader class="space-y-3 p-5 pb-4">
+                <div class="flex items-start justify-between gap-4">
+                    <CardTitle
+                        class="
+                            text-xl font-bold tracking-tight
+                            transition-colors duration-200
+                            group-hover:text-primary
+                        "
+                    >
+                        {{ project.name }}
+                    </CardTitle>
+
+                    <span
+                        class="
+                            shrink-0 flex h-8 w-8 items-center justify-center
+                            rounded-full border-2 border-black
+                            bg-light-quatrenary
+                            text-sm font-bold
+                            transition-transform duration-300
+                            group-hover:rotate-[-8deg] group-hover:scale-110
+                        "
+                    >
+                        ↗
+                    </span>
+                </div>
+
+                <CardDescription
+                    class="
+                        text-sm leading-relaxed text-gray-600
+                        line-clamp-2
+                    "
+                >
+                    {{ project.description }}
                 </CardDescription>
             </CardHeader>
-            <CardContent class="p-2 bg-light-quatrenary rounded-b-xl border-t-4 border-black">
-                <img :src="project.image" :alt="project.name" class="rounded-md h-40 lg:h-52" v-motion>
+
+            <!-- Image -->
+            <CardContent class="p-3 pt-0">
+                <div
+                    class="
+                        relative overflow-hidden
+                        rounded-xl
+                        border-2 border-black
+                        bg-black
+                    "
+                >
+                    <img
+                        :src="project.image"
+                        :alt="project.name"
+                        class="
+                            block w-full
+                            h-44 lg:h-56
+                            object-cover
+                            transition-transform duration-500 ease-out
+                            group-hover:scale-105
+                        "
+                    />
+
+                    <!-- Image overlay -->
+                    <div
+                        class="
+                            pointer-events-none absolute inset-0
+                            bg-gradient-to-t from-black/20 via-transparent to-transparent
+                            opacity-60
+                        "
+                    />
+                </div>
             </CardContent>
         </Card>
     </a>
