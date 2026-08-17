@@ -398,126 +398,124 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 </div>
 
                 <!-- Hero image -->
-                <div
-                    class="
-                        relative
-                        mx-auto
-                        w-full
-                        max-w-md
-                        lg:max-w-none
-                    "
-                >
-                    <!-- Decorative card -->
-                    <div
-                        class="
-                            absolute
-                            inset-0
-                            translate-x-3
-                            translate-y-3
-                            rounded-3xl
-                            border-2 border-black
-                            bg-accent
-                            dark:border-white
-                        "
-                    />
+ <div
+    class="
+        relative
+        mx-auto
+        w-full
+        max-w-md
+        lg:max-w-lg
+    "
+>
+    <!-- Decorative card -->
+    <div
+        class="
+            absolute
+            inset-0
+            translate-x-3
+            translate-y-3
+            rounded-3xl
+            border-2 border-black
+            bg-accent
+            dark:border-white
+        "
+    />
 
-                    <!-- Image -->
-                    <div
-                        class="
-                            group
-                            relative
-                            overflow-hidden
-                            rounded-3xl
-                            border-2 border-black
-                            bg-white
-                            dark:border-white
-                            dark:bg-black/20
-                        "
-                    >
-                        <img
-                            src="/img/profile 2.jpg"
-                            alt="Raleigh, freelance web developer"
-                            class="
-                                aspect-[4/5]
-                                w-full
-                                object-cover
-                                transition-transform
-                                duration-700
-                                ease-out
-                                group-hover:scale-105
-                            "
-                        />
+    <!-- Image -->
+    <div
+        class="
+            group
+            relative
+            overflow-hidden
+            rounded-3xl
+            border-2 border-black
+            bg-white
+            dark:border-white
+            dark:bg-black/20
+        "
+    >
+<div class="relative h-[600px] overflow-hidden ...">
+    <img
+        src="/img/profile 2.jpg"
+        class="
+            h-full
+            w-full
+            object-cover
+            object-top
+        "
+    />
+</div>
 
-                        <!-- Image gradient -->
-                        <div
-                            class="
-                                pointer-events-none
-                                absolute inset-0
-                                bg-gradient-to-t
-                                from-black/40
-                                via-transparent
-                                to-transparent
-                            "
-                        />
+        <!-- Image gradient -->
+        <div
+            class="
+                pointer-events-none
+                absolute inset-0
+                bg-gradient-to-t
+                from-black/40
+                via-transparent
+                to-transparent
+            "
+        />
 
-                        <!-- Floating badge -->
-                        <div
-                            class="
-                                absolute
-                                bottom-5
-                                left-5
-                                rounded-xl
-                                border-2 border-black
-                                bg-white
-                                px-4 py-3
-                                shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                                dark:border-white
-                                dark:bg-black
-                            "
-                        >
-                            <p
-                                class="
-                                    text-xs
-                                    font-bold
-                                    uppercase
-                                    tracking-widest
-                                    text-gray-500
-                                    dark:text-gray-400
-                                "
-                            >
-                                Currently
-                            </p>
+        <!-- Floating badge -->
+        <div
+            class="
+                absolute
+                bottom-5
+                left-5
+                rounded-xl
+                border-2 border-black
+                bg-white
+                px-4 py-3
+                shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
+                dark:border-white
+                dark:bg-black
+            "
+        >
+            <p
+                class="
+                    text-xs
+                    font-bold
+                    uppercase
+                    tracking-widest
+                    text-gray-500
+                    dark:text-gray-400
+                "
+            >
+                Currently
+            </p>
 
-                            <p
-                                class="
-                                    mt-1
-                                    font-extrabold
-                                    text-black
-                                    dark:text-white
-                                "
-                            >
-                                Building cool stuff
-                            </p>
-                        </div>
-                    </div>
+            <p
+                class="
+                    mt-1
+                    font-extrabold
+                    text-black
+                    dark:text-white
+                "
+            >
+                Building cool stuff
+            </p>
+        </div>
+    </div>
 
-                    <!-- Decorative accent -->
-                    <div
-                        class="
-                            absolute
-                            -right-4
-                            -top-4
-                            hidden
-                            h-10 w-10
-                            rotate-12
-                            rounded-lg
-                            border-2 border-black
-                            bg-light-quatrenary
-                            lg:block
-                            dark:border-white
-                        "
-                    />
-                </div>
+    <!-- Decorative accent -->
+    <div
+        class="
+            absolute
+            -right-4
+            -top-4
+            hidden
+            h-10 w-10
+            rotate-12
+            rounded-lg
+            border-2 border-black
+            bg-light-quatrenary
+            lg:block
+            dark:border-white
+        "
+    />
+</div>
             </div>
         </div>
 
