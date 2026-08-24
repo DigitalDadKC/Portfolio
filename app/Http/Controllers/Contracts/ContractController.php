@@ -13,7 +13,7 @@ class ContractController extends Controller
 
         $results = $samGov->getContractAwards();
 
-        return Inertia::render('contracts/Index', [
+        return Inertia::render('contractAwards/Index', [
             'results' => fn() => $results,
         ]);
     }

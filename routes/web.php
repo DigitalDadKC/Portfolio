@@ -133,7 +133,7 @@ Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('o
 Route::post('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.filter');
 
 // CONTRACTS
-Route::get('/contracts', [ContractsController::class, 'index'])->name('contracts.index');
+Route::get('/contractAwards', [ContractsController::class, 'index'])->name('contractAwards.index');
 
 require __DIR__ . '/auth.php';
 
