@@ -14,7 +14,6 @@ const props = defineProps({
 
 console.log(props.results)
 
-
 </script>
 
 <template>
@@ -30,7 +29,7 @@ console.log(props.results)
             </div>
             <div>
                 <div v-for="result in props.results.awardSummary" :key="result.contractId?.piid">
-                    {{ result }}
+                    {{ result.awardDetails.awardeeData.awardeeUEIInformation.awardeeUltimateParentName }}
                     <br />
                 </div>
             </div>
