@@ -51,16 +51,6 @@ const filtered_list = ref([
     'Intent to Bundle Requirements (DoD-Funded)'
 ])
 
-// u= Justification (J&A)
-// p = Pre solicitation
-// a = Award Notice
-// r = Sources Sought
-// s = Special Notice
-// o = Solicitation
-// g = Sale of Surplus Property
-// k = Combined Synopsis/Solicitation
-// i = Intent to Bundle Requirements (DoD-Funded)
-
 watch(
     () => filter.value,
     () => {

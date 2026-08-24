@@ -34,19 +34,21 @@ class SamGovService
     }
 
     public function getContractAwards() {
-        $apiKey = config('services.samgov.key');
+        return Cache::remember('samgov.contract-awards.2025.236220', now()->addHours(12), function () {
+            $apiKey = config('services.samgov.key');
 
-        $response = Http::get(
-            "https://api.sam.gov/contract-awards/v1/search?api_key={$apiKey}&naicsCode=513310&limit=100"
-        );
-
-        if ($response->failed()) {
-            throw new Exception(
-                'SAM.gov API error: ' . $response->body()
+            $response = Http::get(
+                "https://api.sam.gov/contract-awards/v1/search?limit=100&api_key={$apiKey}&naicsCode=236220"
             );
-        }
 
-        return $response->json();
+            if ($response->failed()) {
+                throw new Exception(
+                    'SAM.gov API error: ' . $response->body()
+                );
+            }
+
+            return $response->json();
+        });
     }
 
     public function getOpportunities()

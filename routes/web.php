@@ -22,6 +22,7 @@ use App\Http\Controllers\Estimating\ProposalController;
 use App\Http\Controllers\Invoicing\InvoiceController;
 use App\Http\Controllers\Invoicing\ProductController;
 use App\Http\Controllers\Opportunities\OpportunitiesController;
+use App\Http\Controllers\Contracts\ContractController as ContractsController;
 use App\Http\Controllers\Masterformat\DivisionController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
@@ -130,6 +131,9 @@ Route::patch('/users/{user}', [AdminController::class, 'update_user'])->name('us
 // Lodging
 Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.index');
 Route::post('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.filter');
+
+// CONTRACTS
+Route::get('/contracts', [ContractsController::class, 'index'])->name('contracts.index');
 
 require __DIR__ . '/auth.php';
 
