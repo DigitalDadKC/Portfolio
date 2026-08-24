@@ -18,9 +18,9 @@ console.log(props.results)
 </script>
 
 <template>
-    <Head title="Get Opportunities Example" />
+    <Head title="Contract Awards Example" />
 
-    <GuestLayout title="Sam.gov Get Opportunities API Example">
+    <GuestLayout title="Sam.gov Contract Awards API Example">
         <main class="flex justify-center p-4 h-auto py-20 md:px-10">
             <div>
                 <p>{{ props.results.length }} records</p>
