@@ -25,9 +25,6 @@ console.log(props.results)
             <div>
                 <p>{{ props.results.length }} records</p>
                 <ul>Parameters:
-                    <li>NAICS code: 236220</li>
-                    <li>Start Date: Jan 1, 2026</li>
-                    <li>End Date: Aug 1, 2026</li>
                     <li>Results cached for 12 hours</li>
                 </ul>
             </div>
