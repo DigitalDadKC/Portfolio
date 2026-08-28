@@ -20,7 +20,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="DigitalDadKC" />
+    <Head />
 
     <FrontendLayout>
         <Hero />

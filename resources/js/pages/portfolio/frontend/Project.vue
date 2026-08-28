@@ -42,11 +42,14 @@ defineProps<{
             "
         >
             <!-- Header -->
-            <CardHeader class="space-y-3 p-5 pb-4">
-                <div class="flex items-start justify-between gap-4">
+            <CardHeader class="p-5 pb-4">
+                <!-- Title -->
+                <div class="flex min-h-[4rem] items-start justify-between gap-4">
                     <CardTitle
                         class="
-                            text-xl font-bold tracking-tight
+                            min-w-0
+                            text-xl font-bold leading-tight tracking-tight
+                            line-clamp-2
                             transition-colors duration-200
                             group-hover:text-primary
                         "
@@ -61,21 +64,26 @@ defineProps<{
                             bg-light-quatrenary
                             text-sm font-bold
                             transition-transform duration-300
-                            group-hover:rotate-[-8deg] group-hover:scale-110
+                            group-hover:rotate-[-8deg]
+                            group-hover:scale-110
                         "
                     >
                         ↗
                     </span>
                 </div>
 
-                <CardDescription
-                    class="
-                        text-sm leading-relaxed text-gray-600
-                        line-clamp-2
-                    "
-                >
-                    {{ project.description }}
-                </CardDescription>
+                <!-- Subtitle -->
+                <div class="min-h-[2.625rem] mt-3">
+                    <CardDescription
+                        v-if="project.description"
+                        class="
+                            text-sm leading-relaxed text-gray-600
+                            line-clamp-2
+                        "
+                    >
+                        {{ project.description }}
+                    </CardDescription>
+                </div>
             </CardHeader>
 
             <!-- Image -->
@@ -92,10 +100,10 @@ defineProps<{
                         :src="project.image"
                         :alt="project.name"
                         class="
-                            block w-full
-                            h-44 lg:h-56
+                            block h-44 w-full
                             object-cover
                             transition-transform duration-500 ease-out
+                            lg:h-56
                             group-hover:scale-105
                         "
                     />
@@ -104,7 +112,10 @@ defineProps<{
                     <div
                         class="
                             pointer-events-none absolute inset-0
-                            bg-gradient-to-t from-black/20 via-transparent to-transparent
+                            bg-gradient-to-t
+                            from-black/20
+                            via-transparent
+                            to-transparent
                             opacity-60
                         "
                     />

@@ -34,11 +34,12 @@ class SamGovService
     }
 
     public function getContractAwards() {
+        // Cache::forget('samgov.contract-awards.2025.236220');
         return Cache::remember('samgov.contract-awards.2025.236220', now()->addHours(12), function () {
             $apiKey = config('services.samgov.key');
 
             $response = Http::get(
-                "https://api.sam.gov/contract-awards/v1/search?limit=100&api_key={$apiKey}&naicsCode=236220"
+                "https://api.sam.gov/contract-awards/v1/search?limit=100&api_key={$apiKey}&solicitationDate=[01/01/2026,08/27/2026]"
             );
 
             if ($response->failed()) {
