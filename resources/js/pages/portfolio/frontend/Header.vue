@@ -14,7 +14,7 @@ const scrollBackground = ref(false);
 const navigations = [
     { name: "Home", href: "/#home" },
     { name: "Services", href: "/#services" },
-    { name: "Portfolio", href: "/#portfolio" },
+    { name: "Portfolio", href: "/#projects" },
     { name: "About", href: "/#about" },
     { name: "Contact", href: "/#contact" },
 ];
