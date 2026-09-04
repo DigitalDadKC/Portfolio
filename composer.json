@@ -5,7 +5,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "barryvdh/laravel-dompdf": "^3.0",
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
@@ -23,6 +23,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
+        "laravel/boost": "^2.7",
         "laravel/breeze": "^2.0",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",

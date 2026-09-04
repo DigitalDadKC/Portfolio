@@ -15,7 +15,7 @@ defineProps({
             overflow-hidden
             bg-light-tertiary
             py-20
-            dark:bg-dark-quatrenary
+            dark:bg-dark-primary
         "
     >
         <!-- Decorative background -->

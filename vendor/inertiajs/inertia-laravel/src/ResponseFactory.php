@@ -2,8 +2,10 @@
 
 namespace Inertia;
 
+use BackedEnum;
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
@@ -12,8 +14,9 @@ use Illuminate\Support\Facades\Response as BaseResponse;
 use Illuminate\Support\Traits\Macroable;
 use Inertia\Support\Header;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirect;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use UnitEnum;
 
 class ResponseFactory
 {
@@ -76,7 +79,7 @@ class ResponseFactory
      * included with every response, making it ideal for user authentication
      * state, flash messages, etc.
      *
-     * @param  string|array<array-key, mixed>|\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|\Inertia\ProvidesInertiaProperties  $key
+     * @param  string|array<array-key, mixed>|Arrayable<array-key, mixed>|ProvidesInertiaProperties  $key
      * @param  mixed  $value
      */
     public function share($key, $value = null): void
@@ -122,7 +125,7 @@ class ResponseFactory
     /**
      * Set the asset version.
      *
-     * @param  \Closure|string|null  $version
+     * @param  Closure|string|null  $version
      */
     public function version($version): void
     {
@@ -154,7 +157,7 @@ class ResponseFactory
      */
     public function clearHistory(): void
     {
-        session(['inertia.clear_history' => true]);
+        session([SessionKey::ClearHistory->value => true]);
     }
 
     /**
@@ -239,9 +242,25 @@ class ResponseFactory
     }
 
     /**
+     * Create an once property.
+     */
+    public function once(callable $value): OnceProp
+    {
+        return new OnceProp($value);
+    }
+
+    /**
+     * Create and share an once property.
+     */
+    public function shareOnce(string $key, callable $callback): OnceProp
+    {
+        return tap(new OnceProp($callback), fn ($prop) => $this->share($key, $prop));
+    }
+
+    /**
      * Find the component or fail.
      *
-     * @throws \Inertia\ComponentNotFoundException
+     * @throws ComponentNotFoundException
      */
     protected function findComponentOrFail(string $component): void
     {
@@ -255,7 +274,7 @@ class ResponseFactory
     /**
      * Create an Inertia response.
      *
-     * @param  array<array-key, mixed>|\Illuminate\Contracts\Support\Arrayable<array-key, mixed>|ProvidesInertiaProperties  $props
+     * @param  array<array-key, mixed>|Arrayable<array-key, mixed>|ProvidesInertiaProperties  $props
      */
     public function render(string $component, $props = []): Response
     {
@@ -283,14 +302,65 @@ class ResponseFactory
     /**
      * Create an Inertia location response.
      *
-     * @param  string|\Symfony\Component\HttpFoundation\RedirectResponse  $url
+     * @param  string|RedirectResponse  $url
      */
     public function location($url): SymfonyResponse
     {
         if (Request::inertia()) {
-            return BaseResponse::make('', 409, [Header::LOCATION => $url instanceof SymfonyRedirect ? $url->getTargetUrl() : $url]);
+            return BaseResponse::make('', 409, [Header::LOCATION => $url instanceof RedirectResponse ? $url->getTargetUrl() : $url]);
         }
 
-        return $url instanceof SymfonyRedirect ? $url : Redirect::away($url);
+        return $url instanceof RedirectResponse ? $url : Redirect::away($url);
+    }
+
+    /**
+     * Flash data to be included with the next response. Unlike regular props,
+     * flash data is not persisted in the browser's history state, making it
+     * ideal for one-time notifications like toasts or highlights.
+     *
+     * @param  BackedEnum|UnitEnum|string|array<string, mixed>  $key
+     */
+    public function flash(BackedEnum|UnitEnum|string|array $key, mixed $value = null): self
+    {
+        $flash = $key;
+
+        if (! is_array($key)) {
+            $key = match (true) {
+                $key instanceof BackedEnum => $key->value,
+                $key instanceof UnitEnum => $key->name,
+                default => $key,
+            };
+
+            $flash = [$key => $value];
+        }
+
+        session()->now(SessionKey::FlashData->value, [
+            ...$this->getFlashed(),
+            ...$flash,
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * Create a new redirect response to the previous location.
+     *
+     * @param  array<string, string>  $headers
+     */
+    public function back(int $status = 302, array $headers = [], mixed $fallback = false): RedirectResponse
+    {
+        return Redirect::back($status, $headers, $fallback);
+    }
+
+    /**
+     * Retrieve the flashed data from the session.
+     *
+     * @return array<string, mixed>
+     */
+    public function getFlashed(?HttpRequest $request = null): array
+    {
+        $request ??= request();
+
+        return $request->hasSession() ? $request->session()->get(SessionKey::FlashData->value, []) : [];
     }
 }

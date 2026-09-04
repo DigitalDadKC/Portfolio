@@ -7,7 +7,7 @@
             bg-light-quatrenary
             py-12
             dark:border-white
-            dark:bg-dark-secondary
+            dark:bg-dark-tertiary
             sm:py-16
         "
     >

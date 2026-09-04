@@ -309,7 +309,7 @@ class Schedule
     /**
      * Create new schedule group.
      *
-     * @param  \Illuminate\Console\Scheduling\Event  $event
+     * @param  \Closure  $events
      * @return void
      *
      * @throws \RuntimeException
@@ -432,11 +432,13 @@ class Schedule
     /**
      * Specify the cache store that should be used to store mutexes.
      *
-     * @param  string  $store
+     * @param  \UnitEnum|string  $store
      * @return $this
      */
     public function useCache($store)
     {
+        $store = enum_value($store);
+
         if ($this->eventMutex instanceof CacheAware) {
             $this->eventMutex->useStore($store);
         }
@@ -484,7 +486,7 @@ class Schedule
             return $this->macroCall($method, $parameters);
         }
 
-        if (method_exists(PendingEventAttributes::class, $method)) {
+        if (method_exists(PendingEventAttributes::class, $method) || Event::hasMacro($method)) {
             $this->attributes ??= $this->groupStack ? clone array_last($this->groupStack) : new PendingEventAttributes($this);
 
             return $this->attributes->$method(...$parameters);
