@@ -43,10 +43,11 @@ onUnmounted(() => {
             transition-[background-color,border-color,box-shadow]
             duration-300
             dark:bg-dark-primary/80
+            border-b-2
         "
         :class="scrollBackground
-            ? 'border-b-2 border-black dark:border-white'
-            : 'border-b-2 border-transparent'"
+            ? 'border-black dark:border-white bg-light-secondary/80 dark:bg-dark-secondary/80 shadow-md'
+            : 'border-transparent'"
     >
         <!-- Header content -->
         <div
@@ -57,7 +58,7 @@ onUnmounted(() => {
                 ease-in-out
                 will-change-transform
             "
-            :class="scrollBackground ? 'scale-[0.96]' : 'scale-100'"
+            :class="scrollBackground ? 'scale-[0.9]' : 'scale-100'"
         >
             <div class="container mx-auto flex items-center justify-between px-4 py-3">
 

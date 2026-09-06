@@ -85,7 +85,7 @@ useSortable(featuresContainer, featuresList, {
                 <p
                     class="
                         mx-auto mt-4 max-w-xl
-                        text-gray-600 dark:text-gray-300
+                        text-gray-600 dark:text-gray-800
                     "
                 >
                     A collection of tools, technologies, and features

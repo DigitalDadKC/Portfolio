@@ -37,6 +37,7 @@ const filterProjects = (id) => {
             relative
             overflow-hidden
             py-20
+            dark:bg-dark-tertiary
         "
     >
         <!-- Decorative background -->

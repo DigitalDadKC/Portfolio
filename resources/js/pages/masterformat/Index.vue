@@ -92,7 +92,7 @@ const selectSearch = async (searchedItem) => {
 <template>
     <Head title="Masterformat" />
 
-    <GuestLayout title="Masterformat (CSI) Reference">
+    <GuestLayout title="Masterformat (CSI) Reference" :show-sidebar="true">
         <div class="antialiased bg-light-primary dark:bg-gray-900" v-motion-fade>
             <main class="p-4 h-auto py-20 md:px-10">
                 <div class="relative w-full items-center">

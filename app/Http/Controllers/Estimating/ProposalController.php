@@ -65,10 +65,6 @@ class ProposalController extends Controller
         return to_route('proposals.edit', ['proposal' => $proposal->id]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-
     public function updateProposal(Request $request, Proposal $proposal) {
         $proposal->update([
             'name' => $request->name,
@@ -79,7 +75,7 @@ class ProposalController extends Controller
     public function destroy(Proposal $proposal)
     {
         $proposal->delete();
-        return to_route('jobs.index');
+        return to_route('estimating.jobs.index');
     }
 
     public function createScope(Proposal $proposal) {

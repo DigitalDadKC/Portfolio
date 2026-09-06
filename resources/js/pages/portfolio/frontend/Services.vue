@@ -34,7 +34,7 @@ const service_items = [
 
 <template>
 
-    <section id="services" class="section bg-light-secondary dark:bg-dark-secondary">
+    <section id="services" class="section bg-light-secondary dark:bg-dark-quatrenary">
         <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
             <div class="mb-12 text-center">
                 <span
@@ -58,7 +58,6 @@ const service_items = [
                         font-extrabold
                         tracking-tight
                         text-black
-                        dark:text-white
                         sm:text-5xl
                     "
                 >

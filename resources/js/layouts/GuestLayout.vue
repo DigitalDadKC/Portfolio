@@ -12,6 +12,10 @@ import ApplicationLogo from '@/components/ApplicationLogo.vue';
 
 const props = defineProps({
     title: String,
+    showSidebar: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const isSidebarOpen = useStorage('sidebar-state', true)
@@ -45,7 +49,7 @@ onMounted(() => {
                 :class="{ 'bg-light-primary dark:bg-dark-secondary -translate-y-1 border-b-4 border-black': scrollBackground, ' dark:bg-dark-primary': !scrollBackground }">
                 <div class="flex flex-wrap items-center justify-between mx-auto p-2">
                     <div class="flex items-center gap-8">
-                        <SidebarTrigger class="z-20" @click="isSidebarOpen = !isSidebarOpen" />
+                        <SidebarTrigger v-if="showSidebar" class="z-20" @click="isSidebarOpen = !isSidebarOpen" />
                         <Link href="/" class="flex">
                             <ApplicationLogo :scrollBackground />
                             <div
@@ -75,7 +79,7 @@ onMounted(() => {
                 </div>
             </nav>
 
-            <AppSidebar :navigations />
+            <AppSidebar v-if="showSidebar" :navigations />
 
             <main class=" mt-20 w-full">
                 <slot />

@@ -12,7 +12,7 @@ import StateTag from './partials/StateTag.vue';
 import CustomerTag from './partials/CustomerTag.vue';
 import { useDateFormat } from '@vueuse/core';
 import { useFormatCurrency } from '@/composables/useFormatCurrency';
-import { Download, FileText } from 'lucide-vue-next';
+import { Download, FileText, Plus, ArrowUpRight } from 'lucide-vue-next';
 
 const props = defineProps({
     jobs: Object,
@@ -53,6 +53,14 @@ const remove_customer_filter = (id) => {
     customer_ids.value = customer_ids.value.filter(customer_id => customer_id !== id)
 }
 
+// Cycles jobs through the existing token palette for a quick-scan status
+// stripe, rather than hardcoding specific state names we don't have here.
+const stripePalette = ['bg-accent', 'bg-light-quatrenary', 'bg-light-tertiary', 'bg-light-secondary']
+const stripeClass = (job) => stripePalette[(job.state?.id ?? job.id ?? 0) % stripePalette.length]
+
+const proposalTotal = (proposal) => proposal.scopes.reduce(
+    (a, b) => a + b.lines.reduce((c, d) => c + ((d.price * d.quantity * 100) / 100), 0), 0
+)
 </script>
 
 <template>
@@ -69,121 +77,194 @@ const remove_customer_filter = (id) => {
             </ul>
         </template>
 
-        <div class="container mx-auto bg-light-tertiary dark:bg-dark-primary rounded-xl py-8 w-full">
+        <div class="mx-auto w-full max-w-7xl px-4 py-8">
 
-            <div class="flex gap-2 py-1" v-if="state_ids.length">
-                States:
-                <div v-for="filter in state_ids" :key="filter">
-                    <StateTag :filter :states @remove="(id) => remove_state_filter(id)" />
+            <!-- Page header -->
+            <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-black/40 dark:text-white/40">
+                        Estimating
+                    </p>
+                    <h1 class="text-3xl font-extrabold tracking-tight text-black dark:text-white">Jobs</h1>
                 </div>
-            </div>
-            <div class="flex gap-2 py-1" v-if="customer_ids.length">
-                Customers:
-                <div v-for="filter in customer_ids" :key="filter">
-                    <CustomerTag :filter :customers @remove="(id) => remove_customer_filter(id)" />
-                </div>
+                <ManageJob :new="true" :states :customers></ManageJob>
             </div>
 
-            <table class="table table-auto bg-light-primary dark:bg-dark-primary border-2 border-black w-full">
-                <thead>
-                    <tr class="uppercase border-2 border-black">
-                        <th colspan="10">
-                            <div class="flex flex-col md:flex-row justify-between px-2 py-4">
-                                <ManageJob :new="true" :states :customers></ManageJob>
-                                <div>
-                                    <Paginator :links="props.jobs.meta.links" />
-                                    <div class="flex items-center justify-center mt-2 gap-2">
-                                        {{ props.jobs.meta.from }} - {{ props.jobs.meta.to }} of {{ props.jobs.meta.total }} jobs
-                                        <Pages v-model="pages"></Pages>
+            <!-- Toolbar -->
+            <div
+                class="mb-5 flex flex-col gap-4 rounded-2xl border-2 border-black bg-light-primary p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-dark-primary lg:flex-row lg:items-center lg:justify-between"
+            >
+                <SearchBox v-model="search" class="w-full lg:max-w-sm"></SearchBox>
+
+                <div class="flex flex-wrap items-center gap-4">
+                    <Filters :states :customers v-model:selectedStates="state_ids"
+                        v-model:selectedCustomers="customer_ids" />
+
+                    <div class="hidden h-8 w-px bg-black/10 dark:bg-white/10 lg:block"></div>
+
+                    <div class="flex items-center gap-3 text-sm font-bold text-black/60 dark:text-white/60">
+                        <span class="font-mono tabular-nums">
+                            {{ props.jobs.meta.from }}–{{ props.jobs.meta.to }}
+                        </span>
+                        of
+                        <span class="font-mono tabular-nums">{{ props.jobs.meta.total }}</span>
+                        jobs
+                        <Pages v-model="pages"></Pages>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active filter chips -->
+            <div v-if="state_ids.length || customer_ids.length" class="mb-5 flex flex-wrap items-center gap-2">
+                <template v-if="state_ids.length">
+                    <span class="font-mono text-[11px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+                        States
+                    </span>
+                    <div v-for="filter in state_ids" :key="`state-${filter}`">
+                        <StateTag :filter :states @remove="(id) => remove_state_filter(id)" />
+                    </div>
+                </template>
+                <template v-if="customer_ids.length">
+                    <span
+                        class="ml-2 font-mono text-[11px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40"
+                    >
+                        Customers
+                    </span>
+                    <div v-for="filter in customer_ids" :key="`cust-${filter}`">
+                        <CustomerTag :filter :customers @remove="(id) => remove_customer_filter(id)" />
+                    </div>
+                </template>
+            </div>
+
+            <!-- Pagination (top) -->
+            <div class="mb-4 flex justify-end">
+                <Paginator :links="props.jobs.meta.links" />
+            </div>
+
+            <!-- Job cards -->
+            <div class="flex flex-col gap-4">
+                <div v-for="(job, index) in props.jobs.data" :key="index"
+                    class="group relative overflow-hidden rounded-2xl border-2 border-black bg-light-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform duration-200 hover:-translate-y-0.5 dark:border-white dark:bg-dark-secondary"
+                >
+                    <!-- status stripe -->
+                    <div class="absolute inset-y-0 left-0 w-2 border-r-2 border-black dark:border-white" :class="stripeClass(job)"></div>
+
+                    <div class="flex flex-col gap-5 p-5 pl-7 lg:flex-row lg:items-start lg:justify-between">
+
+                        <!-- Job info -->
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <span
+                                    class="inline-flex items-center rounded-lg border-2 border-black bg-black px-2.5 py-1 font-mono text-xs font-bold tracking-wide text-white dark:border-white dark:bg-white dark:text-black"
+                                >
+                                    D{{ new Date(job.created_at).getFullYear() }}-{{ job.number }}
+                                </span>
+
+                                <ManageJob :new="false" :job :states :customers></ManageJob>
+
+                                <span
+                                    class="rounded-md px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide"
+                                    :class="job.prevailing_wage
+                                        ? 'bg-accent/20 text-accent'
+                                        : 'bg-black/5 text-black/40 dark:bg-white/10 dark:text-white/40'"
+                                >
+                                    {{ job.prevailing_wage ? 'Prevailing wage' : 'Non-prevailing wage' }}
+                                </span>
+                            </div>
+
+                            <h3 class="mt-3 truncate text-base font-extrabold text-black dark:text-white">
+                                {{ job.address }}
+                            </h3>
+                            <p class="text-sm font-medium text-black/50 dark:text-white/50">
+                                {{ job.city }}, {{ job.state.state }} {{ job.zip }}
+                            </p>
+
+                            <div class="mt-3 flex flex-wrap items-center gap-4 text-xs font-bold text-black/50 dark:text-white/50">
+                                <span class="inline-flex items-center gap-2">
+                                    <span
+                                        class="flex h-6 w-6 items-center justify-center rounded-full border-2 border-black bg-light-quatrenary font-mono text-[10px] font-bold text-black dark:border-white"
+                                    >
+                                        {{ job.customer.name.charAt(0) }}
+                                    </span>
+                                    {{ job.customer.name }}
+                                </span>
+                                <span>Start {{ useDateFormat(job.start_date, 'M/D/YYYY') }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Proposals -->
+                        <div class="w-full shrink-0 lg:w-[440px]">
+                            <div class="mb-2 flex items-center justify-between">
+                                <span class="font-mono text-[11px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+                                    Proposals
+                                </span>
+                                <Link :href="route('proposals.store', { job: job.id })" method="post">
+                                    <Button
+                                        class="h-7 gap-1 rounded-lg border-2 border-black bg-white px-2.5 text-xs font-bold text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-light-quatrenary dark:border-white dark:bg-black/20 dark:text-white dark:hover:bg-dark-tertiary"
+                                    >
+                                        <Plus class="h-3.5 w-3.5" :stroke-width="3" />
+                                        New proposal
+                                    </Button>
+                                </Link>
+                            </div>
+
+                            <div
+                                v-if="!job.proposals.length"
+                                class="rounded-xl border-2 border-dashed border-black/20 p-3 text-center text-xs font-bold text-black/30 dark:border-white/20 dark:text-white/30"
+                            >
+                                No proposals yet
+                            </div>
+
+                            <div v-else class="flex flex-col gap-2">
+                                <div v-for="(proposal, i) in job.proposals" :key="i"
+                                    class="flex items-center justify-between gap-3 rounded-xl border-2 border-black bg-white px-3 py-2 dark:border-white dark:bg-black/20"
+                                >
+                                    <div class="min-w-0">
+                                        <p class="truncate text-sm font-bold text-black dark:text-white">{{ proposal.name }}</p>
+                                        <p class="truncate text-[11px] font-medium text-black/40 dark:text-white/40">
+                                            {{ proposal.type }} · {{ proposal.estimator.name }} ·
+                                            {{ useDateFormat(proposal.created_at, 'M/D/YYYY') }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex shrink-0 items-center gap-1.5">
+                                        <span class="mr-1 font-mono text-sm font-extrabold tabular-nums text-black dark:text-white">
+                                            {{ formatWithCommas(proposalTotal(proposal), 'currency') }}
+                                        </span>
+
+                                        <Link :href="route('proposals.edit', { proposal: proposal.id })">
+                                            <Button
+                                                class="h-8 w-8 rounded-lg border-2 border-black bg-white p-0 text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-light-quatrenary dark:border-white dark:bg-black/20 dark:text-white dark:hover:bg-dark-tertiary"
+                                                aria-label="Edit proposal"
+                                            >
+                                                <ArrowUpRight class="h-4 w-4" :stroke-width="2.5" />
+                                            </Button>
+                                        </Link>
+
+                                        <a :href="route('proposals.downloadPDF', { proposal: proposal.id })">
+                                            <Button
+                                                class="h-8 w-8 rounded-lg border-2 border-black bg-accent p-0 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 dark:border-white"
+                                                aria-label="Download proposal PDF"
+                                            >
+                                                <Download class="h-4 w-4" :stroke-width="2.5" />
+                                            </Button>
+                                        </a>
+
+                                        <a target="_blank" :href="route('proposals.browserPDF', { proposal: proposal.id })">
+                                            <Button
+                                                class="h-8 w-8 rounded-lg border-2 border-black bg-accent p-0 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 dark:border-white"
+                                                aria-label="Open proposal PDF"
+                                            >
+                                                <FileText class="h-4 w-4" :stroke-width="2.5" />
+                                            </Button>
+                                        </a>
                                     </div>
                                 </div>
-                                <div>
-                                    <Filters :states :customers v-model:selectedStates="state_ids" v-model:selectedCustomers="customer_ids" />
-                                </div>
                             </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th colspan="3">
-                            <SearchBox v-model="search"></SearchBox>
-                        </th>
-                        <th
-                            class="bg-light-tertiary dark:bg-dark-tertiary border-b-black border-b-4 py-2 text-black rounded-t-sm">
-                            <div class="text-center text-lg">
-                                Proposals
-                            </div>
-                            <table class="table table-auto">
-                                <tbody>
-                                    <tr>
-                                        <th class="pl-2 w-52 text-start">Name</th>
-                                        <th class="w-24 text-start">Type</th>
-                                        <th class="w-24 text-start">Created</th>
-                                        <th class="w-28 text-start">Estimator</th>
-                                        <th class="w-24 text-center">Total</th>
-                                        <th class="col-span-2"></th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(job, index) in props.jobs.data" :key="index" class="text-xs border-2 border-black">
-                        <td class="p-2">
-                            <div>
-                                <div class="flex gap-2">
-                                    <p class="font-bold text-sm">{{ `D${new Date(job.created_at).getFullYear()} - ` + job.number }}</p>
-                                    <ManageJob :new="false" :job :states :customers></ManageJob>
-                                </div>
-                                <div>
-                                    <p>Start Date: {{ useDateFormat(job.start_date, 'M/D/YYYY') }}</p>
-                                    <p class="italic text-xs" v-if="job.prevailing_wage">(Prevailing Wage)</p>
-                                    <p class="italic text-xs" v-else>(Non-Prevailing Wage)</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ job.address }}<br>{{ job.city }}, {{ job.state.state }} {{ job.zip }}</td>
-                        <td class="hidden xl:table-cell max-w-96">{{ job.customer.name }}</td>
-                        <td class="bg-light-secondary dark:bg-dark-secondary border-2 border-black px-2 py-1">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <Link :href="route('proposals.store', { job: job.id })" method="post">
-                                            <Button>NEW PROPOSAL</Button>
-                                        </Link>
-                                    </tr>
-                                    <tr v-for="(proposal, i) in job.proposals" :key="i">
-                                        <td class="min-w-52">{{ proposal.name }}</td>
-                                        <td class="min-w-24">{{ proposal.type }}</td>
-                                        <td class="min-w-24">{{ useDateFormat(proposal.created_at, 'M/D/YYYY') }}</td>
-                                        <td CLASS="min-w-28">{{ proposal.estimator.name }}</td>
-                                        <td class="min-w-24">
-                                            {{formatWithCommas(proposal.scopes.reduce((a, b) => a + b.lines.reduce((c,
-                                                d) => c +
-                                                ((d.price * d.quantity * 100) / 100), 0), 0), 'currency')}}
-                                        </td>
-                                        <td class="flex gap-2 py-0.5">
-                                            <Link :href="route('proposals.edit', { proposal: proposal.id })">
-                                                <Button>EDIT</Button>
-                                            </Link>
-                                            <a :href="route('proposals.downloadPDF', { proposal: proposal.id })">
-                                                <Button class="bg-accent">
-                                                    <Download class="text-light-primary"></Download>
-                                                </Button>
-                                            </a>
-                                            <a target="_blank" :href="route('proposals.browserPDF', { proposal: proposal.id })">
-                                                <Button class="bg-accent">
-                                                    <FileText class="text-light-primary"></FileText>
-                                                </Button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </EstimatingLayout>
 </template>

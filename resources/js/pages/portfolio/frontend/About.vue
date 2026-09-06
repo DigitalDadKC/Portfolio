@@ -7,7 +7,7 @@
             overflow-hidden
             bg-light-secondary
             py-20
-            dark:bg-dark-tertiary
+            dark:bg-dark-primary
         "
     >
         <!-- Decorative background -->
