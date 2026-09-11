@@ -233,15 +233,7 @@ const readonlyFieldClass = `${fieldClass} text-black/60 dark:text-white/60`
             </div>
 
             <!-- Footer actions -->
-            <div class="flex items-center justify-between">
-                <Button
-                    class="h-9 gap-1.5 rounded-lg border-2 border-black bg-white px-3 text-xs font-bold text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-red-50 dark:border-white dark:bg-black/20 dark:text-white dark:hover:bg-red-950/40"
-                    @click="destroyProposal()"
-                >
-                    <Trash2 class="h-3.5 w-3.5" :stroke-width="2.5" />
-                    Delete
-                </Button>
-
+            <div class="flex items-center justify-end">
                 <Link :href="route('estimating.jobs.index')" as="button" prefetch>
                     <Button
                         class="h-9 gap-1.5 rounded-lg border-2 border-black bg-white px-3 text-xs font-bold text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-light-quatrenary dark:border-white dark:bg-black/20 dark:text-white dark:hover:bg-dark-tertiary"
