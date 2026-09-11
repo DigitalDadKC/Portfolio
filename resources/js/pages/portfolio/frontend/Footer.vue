@@ -15,9 +15,8 @@ const year = new Date().getFullYear()
 </script>
 
 <template>
-    <footer class="relative overflow-hidden border-t-2 border-black bg-light-tertiary dark:border-white dark:bg-dark-quatrenary">
+    <footer class="relative overflow-hidden border-t-2 border-black bg-light-tertiary dark:border-white dark:bg-dark-secondary">
 
-        <!-- Decorative accent, echoes the Hero background -->
         <div
             class="
                 pointer-events-none
@@ -39,20 +38,18 @@ const year = new Date().getFullYear()
         >
             <div class="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr] md:gap-8">
 
-                <!-- Brand -->
                 <div>
                     <Link href="/" class="group inline-flex items-center gap-3">
                         <div
                             class="
-                                flex shrink-0
+                                flex h-10 w-12 shrink-0
                                 items-center justify-center
+                                overflow-hidden
                                 rounded-xl
                                 border-2 border-black
-                                bg-light-quatrenary
-                                p-1.5
+                                bg-light-tertiary
                                 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                                transition-transform
-                                duration-200
+                                transition-transform duration-200
                                 group-hover:-translate-y-0.5
                                 dark:border-white
                             "
@@ -65,12 +62,11 @@ const year = new Date().getFullYear()
                         </span>
                     </Link>
 
-                    <p class="mt-4 max-w-xs text-sm font-medium leading-6 text-gray-600 dark:text-gray-800">
+                    <p class="mt-4 max-w-xs text-sm font-medium leading-6 text-gray-600 dark:text-gray-300">
                         Transforming spreadsheets and business processes into sophisticated, robust software.
                     </p>
                 </div>
 
-                <!-- Quick links -->
                 <div>
                     <p class="mb-4 text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                         Quick links
@@ -83,7 +79,7 @@ const year = new Date().getFullYear()
                                     text-sm font-bold text-black/70
                                     transition-colors duration-200
                                     hover:text-accent
-                                    dark:text-gray-600/70
+                                    dark:text-gray-300/70
                                     dark:hover:text-accent
                                 "
                             >
@@ -93,7 +89,6 @@ const year = new Date().getFullYear()
                     </ul>
                 </div>
 
-                <!-- Socials -->
                 <div>
                     <p class="mb-4 text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                         Find me online
@@ -101,7 +96,6 @@ const year = new Date().getFullYear()
 
                     <div class="flex items-center gap-3">
 
-                        <!-- Email -->
                         <a
                             href="mailto:raleighgroesbeck@gmail.com"
                             class="
@@ -126,7 +120,6 @@ const year = new Date().getFullYear()
                             <Mail class="h-5 w-5" />
                         </a>
 
-                        <!-- GitHub -->
                         <a
                             target="_blank"
                             rel="noopener noreferrer"
@@ -181,7 +174,6 @@ const year = new Date().getFullYear()
                             </svg>
                         </a>
 
-                        <!-- LinkedIn -->
                         <a
                             target="_blank"
                             rel="noopener noreferrer"

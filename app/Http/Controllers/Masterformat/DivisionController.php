@@ -20,4 +20,15 @@ class DivisionController extends Controller
 
         return Inertia::render('masterformat/Index', compact('divisions', 'sections'));
     }
+
+    public function indexapi() {
+        
+        $divisions = CsiDivision::with('csi_section', 'csi_section.csi_subsection')->get();
+        $sections = CsiSection::with('csi_division', 'csi_subsection')->get();
+
+        return response()->json([
+            'divisions' => $divisions,
+            'sections' => $sections,
+        ]);
+    }
 }

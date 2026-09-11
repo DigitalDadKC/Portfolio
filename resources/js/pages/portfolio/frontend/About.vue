@@ -5,9 +5,9 @@
             section
             relative
             overflow-hidden
-            bg-light-secondary
             py-20
-            dark:bg-dark-primary
+            bg-light-secondary
+            dark:bg-dark-tertiary
         "
     >
         <!-- Decorative background -->

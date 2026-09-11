@@ -46,9 +46,9 @@ const submit = () => {
             section
             relative
             overflow-hidden
-            bg-light-primary
             py-20
-            dark:bg-dark-tertiary
+            bg-light-primary
+            dark:bg-dark-quatrenary
         ">
         <!-- Decorative background -->
         <div class="
