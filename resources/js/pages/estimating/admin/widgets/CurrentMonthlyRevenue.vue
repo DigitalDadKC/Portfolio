@@ -1,6 +1,7 @@
 <script setup>
+import { computed } from 'vue';
 import { useFormatCurrency } from "@/composables/useFormatCurrency";
-import { CircleDollarSign } from "lucide-vue-next";
+import { CircleDollarSign, TrendingUp, TrendingDown } from "lucide-vue-next";
 
 const { formatWithCommas } = useFormatCurrency()
 const props = defineProps({
@@ -12,32 +13,59 @@ const previous_month_jobs = props.jobs.filter(job => new Date(job.created_at).ge
 const current_month_revenue = current_month_jobs.flatMap(job => job.proposals.reduce((a, b) => a + b.scopes.reduce((c, d) => c + d.lines.reduce((e, f) => e + (f.price*f.quantity), 0), 0), 0)).reduce((g, h) => h + g, 0)
 const previous_month_revenue = previous_month_jobs.flatMap(job => job.proposals.reduce((a, b) => a + b.scopes.reduce((c, d) => c + d.lines.reduce((e, f) => e + (f.price*f.quantity), 0), 0), 0)).reduce((g, h) => h + g, 0)
 
+// Guard against divide-by-zero when there was no revenue last month.
+const percent_change = computed(() => {
+    if (!previous_month_revenue) return null
+    return (current_month_revenue - previous_month_revenue) / previous_month_revenue * 100
+})
+const trend_up = computed(() => (percent_change.value ?? 0) > 0)
+
 </script>
 
 <template>
-    <div class="relative">
-        <div class="p-3 bg-white inline-flex border-2 rounded-lg border-light-quatrenary dark:border-dark-quatrenary absolute -top-10 left-0">
-            <CircleDollarSign></CircleDollarSign>
+    <div class="flex h-full flex-col">
+
+        <!-- Header -->
+        <div class="flex items-center gap-3">
+            <div
+                class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black/20 dark:text-white"
+            >
+                <CircleDollarSign class="h-4 w-4" :stroke-width="2.5" />
+            </div>
+            <p class="font-mono text-[11px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+                Monthly revenue
+            </p>
         </div>
 
-        <div class="pl-16">
-            <h5 class="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Current Monthly Revenue</h5>
-            <h5 class="text-lg font-bold tracking-tight text-gray-900 dark:text-white mb-2">{{ formatWithCommas(current_month_revenue, 'currency') }}</h5>
-            <h6>Previous Monthly Revenue</h6>
-            <h6>{{ formatWithCommas(previous_month_revenue, 'currency') }}</h6>
+        <!-- Headline amount -->
+        <div class="mt-4 min-h-0 flex-1">
+            <p class="font-mono text-2xl font-extrabold tabular-nums text-black dark:text-white">
+                {{ formatWithCommas(current_month_revenue, 'currency') }}
+            </p>
 
-            <div class="flex items-center">
-                <svg class="w-6 h-6 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" v-if="current_month_revenue-previous_month_revenue>0">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
-                </svg>
-                <svg class="w-6 h-6 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" v-if="current_month_revenue-previous_month_revenue<0">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4"/>
-                </svg>
-                <h6>
-                    {{ formatWithCommas((current_month_revenue - previous_month_revenue)/previous_month_revenue*100, 'percent') }}
-                </h6>
+            <div class="mt-2 flex items-center gap-2">
+                <span
+                    v-if="percent_change !== null"
+                    class="inline-flex items-center gap-1 rounded-lg border-2 border-black px-2 py-0.5 text-xs font-bold"
+                    :class="trend_up
+                        ? 'bg-green-50 text-green-700 dark:border-white dark:bg-green-950/40 dark:text-green-400'
+                        : 'bg-red-50 text-red-700 dark:border-white dark:bg-red-950/40 dark:text-red-400'"
+                >
+                    <component :is="trend_up ? TrendingUp : TrendingDown" class="h-3.5 w-3.5" :stroke-width="3" />
+                    {{ formatWithCommas(Math.abs(percent_change), 'percent') }}
+                </span>
+                <span class="text-xs font-medium text-black/50 dark:text-white/50">vs last month</span>
             </div>
         </div>
 
+        <!-- Previous month -->
+        <div class="flex items-center justify-between border-t-2 border-black/10 pt-3 dark:border-white/10">
+            <span class="font-mono text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40">
+                Previous month
+            </span>
+            <span class="text-sm font-bold text-black dark:text-white">
+                {{ formatWithCommas(previous_month_revenue, 'currency') }}
+            </span>
+        </div>
     </div>
 </template>

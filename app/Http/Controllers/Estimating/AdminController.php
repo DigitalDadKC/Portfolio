@@ -49,7 +49,7 @@ class AdminController extends Controller
             'new' => $new,
             'company' => $company,
             'jobs' => $jobs,
-            'proposals' => ProposalResource::collection(Proposal::orderBy('created_at', 'desc')->get()),
+            'proposals' => ProposalResource::collection(Proposal::with('scopes.lines.unit_of_measurement')->orderBy('created_at', 'desc')->get()),
             'states' => StateResource::collection(State::all()),
             'users' => UserResource::collection(User::with('roles')->get()),
             'roles' => RoleResource::collection(Role::all()),

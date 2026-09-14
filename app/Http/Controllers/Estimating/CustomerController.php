@@ -22,7 +22,7 @@ class CustomerController extends Controller
         $filters['order'] = $request->input('order', 'asc');
         $filters['state'] = $request->input('state', NULL);
 
-        $customers = CustomerResource::collection(Customer::with('state', 'jobs')
+        $customers = CustomerResource::collection(Customer::with('state', 'jobs.state', 'jobs.customer')
             ->when($request->search, fn($query, $search) => $query->where('name', 'like', "%{$search}%"))
             ->when($request->state, fn($query, $state) => $query->where('state_id', $state))
             ->orderBy('name', $filters['order'])
