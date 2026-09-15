@@ -25,7 +25,7 @@ defineProps({
 
     <FrontendLayout>
         <Hero />
-        <Calendar />
+        <!-- <Calendar /> -->
         <Promote />
         <Services />
         <Skills :skills="skills" />

@@ -3,42 +3,34 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
 </script>
 
 <template>
-    <section
-        id="home"
-        class="
+    <section id="home" class="
             relative
             min-h-[calc(100vh-5rem)]
             overflow-hidden
             bg-light-primary
             dark:bg-dark-primary
-        "
-    >
+        ">
         <!-- Decorative background -->
-        <div
-            class="
+        <div class="
                 pointer-events-none
                 absolute -right-32 -top-32
                 h-96 w-96
                 rounded-full
                 border-2 border-black/10
                 dark:border-white/10
-            "
-        />
+            " />
 
-        <div
-            class="
+        <div class="
                 pointer-events-none
                 absolute -bottom-40 -left-32
                 h-96 w-96
                 rounded-full
                 bg-light-quatrenary/20
                 dark:bg-dark-tertiary/20
-            "
-        />
+            " />
 
         <!-- Small decorative dots -->
-        <div
-            class="
+        <div class="
                 pointer-events-none
                 absolute right-[18%] top-[20%]
                 hidden
@@ -46,11 +38,9 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 rounded-full
                 bg-accent
                 lg:block
-            "
-        />
+            " />
 
-        <div
-            class="
+        <div class="
                 pointer-events-none
                 absolute bottom-[20%] left-[12%]
                 hidden
@@ -59,11 +49,9 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 bg-black
                 dark:bg-white
                 lg:block
-            "
-        />
+            " />
 
-        <div
-            class="
+        <div class="
                 relative
                 container mx-auto
                 flex
@@ -72,29 +60,22 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 px-4
                 py-16
                 lg:py-20
-            "
-            v-motion
-            :initial="{ opacity: 0, y: 24 }"
-            :visibleOnce="{ opacity: 1, y: 0 }"
-        >
-            <div
-                class="
+            " v-motion :initial="{ opacity: 0, y: 24 }" :visibleOnce="{ opacity: 1, y: 0 }">
+            <div class="
                     grid
                     w-full
                     items-center
                     gap-12
                     lg:grid-cols-[1.1fr_0.9fr]
                     lg:gap-16
-                "
-            >
+                ">
 
                 <!-- Copy -->
                 <div class="max-w-3xl">
 
                     <!-- Intro -->
                     <div class="mb-6 flex flex-wrap items-center gap-3">
-                        <span
-                            class="
+                        <span class="
                                 inline-flex
                                 items-center
                                 gap-2
@@ -107,26 +88,22 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                 uppercase
                                 tracking-widest
                                 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                            "
-                        >
+                            ">
                             Hey, I'm Raleigh
                         </span>
 
-                        <span
-                            class="
+                        <span class="
                                 text-sm
                                 font-bold
                                 text-gray-500
                                 dark:text-gray-400
-                            "
-                        >
+                            ">
                             (Raw-lee)
                         </span>
                     </div>
 
                     <!-- Main heading -->
-                    <h1
-                        class="
+                    <h1 class="
                             max-w-4xl
                             text-5xl
                             font-extrabold
@@ -136,8 +113,7 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                             sm:text-6xl
                             lg:text-8xl
                             dark:text-white
-                        "
-                    >
+                        ">
                         I make
                         <span class="text-accent">
                             web apps.
@@ -145,8 +121,7 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                     </h1>
 
                     <!-- Description -->
-                    <p
-                        class="
+                    <p class="
                             mt-7
                             max-w-2xl
                             text-xl
@@ -156,25 +131,20 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                             sm:text-2xl
                             sm:leading-9
                             dark:text-gray-300
-                        "
-                    >
+                        ">
                         Transforming spreadsheets and business processes
                         into sophisticated, robust software.
                     </p>
 
                     <!-- CTA -->
-                    <div
-                        class="
+                    <div class="
                             mt-8
                             flex
                             flex-col
                             gap-4
                             sm:flex-row
-                        "
-                    >
-                        <a
-                            href="#contact"
-                            class="
+                        ">
+                        <a href="#contact" class="
                                 group
                                 inline-flex
                                 items-center
@@ -200,25 +170,19 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                 dark:bg-white
                                 dark:text-black
                                 dark:hover:bg-accent
-                            "
-                        >
+                            ">
                             Let's work together
 
-                            <ArrowUpRight
-                                class="
+                            <ArrowUpRight class="
                                     h-5 w-5
                                     transition-transform
                                     duration-200
                                     group-hover:translate-x-1
                                     group-hover:-translate-y-1
-                                "
-                                :stroke-width="2.5"
-                            />
+                                " :stroke-width="2.5" />
                         </a>
 
-                        <a
-                            href="#projects"
-                            class="
+                        <a href="#projects" class="
                                 inline-flex
                                 items-center
                                 justify-center
@@ -237,16 +201,14 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                 dark:bg-black/20
                                 dark:text-white
                                 dark:hover:bg-dark-tertiary
-                            "
-                        >
+                            ">
                             See my work
                         </a>
                     </div>
 
                     <!-- Socials -->
                     <div class="mt-10">
-                        <p
-                            class="
+                        <p class="
                                 mb-3
                                 text-sm
                                 font-bold
@@ -254,17 +216,14 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                 tracking-widest
                                 text-gray-500
                                 dark:text-gray-400
-                            "
-                        >
+                            ">
                             Find me online
                         </p>
 
                         <div class="flex items-center gap-3">
 
                             <!-- Email -->
-                            <a
-                                href="mailto:raleighgroesbeck@gmail.com"
-                                class="
+                            <a href="mailto:raleighgroesbeck@gmail.com" class="
                                     group
                                     flex h-11 w-11
                                     items-center justify-center
@@ -280,18 +239,12 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                     dark:border-white
                                     dark:bg-black/20
                                     dark:hover:bg-dark-tertiary
-                                "
-                                aria-label="Email Raleigh"
-                            >
+                                " aria-label="Email Raleigh">
                                 <Mail class="h-5 w-5" />
                             </a>
 
                             <!-- GitHub -->
-                            <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href="https://github.com/DigitalDadKC"
-                                class="
+                            <a target="_blank" rel="noopener noreferrer" href="https://github.com/DigitalDadKC" class="
                                     group
                                     flex h-11 w-11
                                     items-center justify-center
@@ -307,17 +260,9 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                     dark:border-white
                                     dark:bg-black/20
                                     dark:hover:bg-dark-tertiary
-                                "
-                                aria-label="GitHub"
-                            >
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    class="h-5 w-5"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M12 .297c-6.63 0-12 5.373-12 12
+                                " aria-label="GitHub">
+                                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+                                    <path d="M12 .297c-6.63 0-12 5.373-12 12
                                         0 5.303 3.438 9.8 8.205 11.385
                                         .6.113.82-.258.82-.577
                                         0-.285-.01-1.04-.015-2.04
@@ -341,16 +286,12 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                         0 1.606-.015 2.896-.015 3.286
                                         0 .315.21.69.825.57
                                         C20.565 22.092 24 17.592 24 12.297
-                                        c0-6.627-5.373-12-12-12"
-                                    />
+                                        c0-6.627-5.373-12-12-12" />
                                 </svg>
                             </a>
 
                             <!-- LinkedIn -->
-                            <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href="https://www.linkedin.com/in/digitaldad"
+                            <!-- <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/digitaldad"
                                 class="
                                     group
                                     flex h-11 w-11
@@ -367,17 +308,9 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                     dark:border-white
                                     dark:bg-black/20
                                     dark:hover:bg-dark-tertiary
-                                "
-                                aria-label="LinkedIn"
-                            >
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    class="h-5 w-5"
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M20.447 20.452h-3.554v-5.569
+                                " aria-label="LinkedIn">
+                                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+                                    <path d="M20.447 20.452h-3.554v-5.569
                                         c0-1.328-.027-3.037-1.852-3.037
                                         -1.853 0-2.136 1.445-2.136 2.939
                                         v5.667H9.351V8.999h3.414v1.561h.046
@@ -389,27 +322,23 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                         M22.225 0H1.771C.792 0 0 .774 0 1.729
                                         v20.542C0 23.227.792 24 1.771 24h20.451
                                         C23.2 24 24 23.227 24 22.271V1.729
-                                        C24 .774 23.2 0 22.222 0h.003z"
-                                    />
+                                        C24 .774 23.2 0 22.222 0h.003z" />
                                 </svg>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
 
                 <!-- Hero image -->
- <div
-    class="
+                <div class="
         relative
         mx-auto
         w-full
         max-w-md
         lg:max-w-lg
-    "
->
-    <!-- Decorative card -->
-    <div
-        class="
+    ">
+                    <!-- Decorative card -->
+                    <div class="
             absolute
             inset-0
             translate-x-3
@@ -418,12 +347,10 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
             border-2 border-black
             bg-accent
             dark:border-white
-        "
-    />
+        " />
 
-    <!-- Image -->
-    <div
-        class="
+                    <!-- Image -->
+                    <div class="
             group
             relative
             overflow-hidden
@@ -432,35 +359,28 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
             bg-white
             dark:border-white
             dark:bg-black/20
-        "
-    >
-<div class="relative h-[600px] overflow-hidden ...">
-    <img
-        src="/img/profile 2.jpg"
-        class="
+        ">
+                        <div class="relative h-[600px] overflow-hidden ...">
+                            <img src="/img/profile 2.jpg" class="
             h-full
             w-full
             object-cover
             object-top
-        "
-    />
-</div>
+        " />
+                        </div>
 
-        <!-- Image gradient -->
-        <div
-            class="
+                        <!-- Image gradient -->
+                        <div class="
                 pointer-events-none
                 absolute inset-0
                 bg-gradient-to-t
                 from-black/40
                 via-transparent
                 to-transparent
-            "
-        />
+            " />
 
-        <!-- Floating badge -->
-        <div
-            class="
+                        <!-- Floating badge -->
+                        <div class="
                 absolute
                 bottom-5
                 left-5
@@ -471,37 +391,31 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
                 dark:border-white
                 dark:bg-black
-            "
-        >
-            <p
-                class="
+            ">
+                            <p class="
                     text-xs
                     font-bold
                     uppercase
                     tracking-widest
                     text-gray-500
                     dark:text-gray-400
-                "
-            >
-                Currently
-            </p>
+                ">
+                                Currently
+                            </p>
 
-            <p
-                class="
+                            <p class="
                     mt-1
                     font-extrabold
                     text-black
                     dark:text-white
-                "
-            >
-                Building cool stuff
-            </p>
-        </div>
-    </div>
+                ">
+                                Building cool stuff
+                            </p>
+                        </div>
+                    </div>
 
-    <!-- Decorative accent -->
-    <div
-        class="
+                    <!-- Decorative accent -->
+                    <div class="
             absolute
             -right-4
             -top-4
@@ -513,16 +427,13 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
             bg-light-quatrenary
             lg:block
             dark:border-white
-        "
-    />
-</div>
+        " />
+                </div>
             </div>
         </div>
 
         <!-- Scroll indicator -->
-        <a
-            href="#about"
-            class="
+        <a href="#about" class="
                 absolute
                 bottom-6
                 left-1/2
@@ -537,24 +448,17 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 md:flex
                 dark:text-gray-400
                 dark:hover:text-white
-            "
-            aria-label="Scroll to About section"
-        >
-            <span
-                class="
+            " aria-label="Scroll to About section">
+            <span class="
                     text-[10px]
                     font-bold
                     uppercase
                     tracking-[0.25em]
-                "
-            >
+                ">
                 Explore
             </span>
 
-            <ArrowDown
-                class="h-4 w-4 animate-bounce"
-                :stroke-width="2.5"
-            />
+            <ArrowDown class="h-4 w-4 animate-bounce" :stroke-width="2.5" />
         </a>
     </section>
 </template>
