@@ -174,7 +174,7 @@ const year = new Date().getFullYear()
                             </svg>
                         </a>
 
-                        <a
+                        <!-- <a
                             target="_blank"
                             rel="noopener noreferrer"
                             href="https://www.linkedin.com/in/digitaldad"
@@ -214,7 +214,7 @@ const year = new Date().getFullYear()
                                     C24 .774 23.2 0 22.222 0h.003z"
                                 />
                             </svg>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>

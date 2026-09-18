@@ -31,7 +31,7 @@ defineProps({
         <Skills :skills="skills" />
         <Projects :projects :skills />
         <Features :features />
-        <Questions />
+        <!-- <Questions /> -->
         <About />
         <Contact />
     </FrontendLayout>
