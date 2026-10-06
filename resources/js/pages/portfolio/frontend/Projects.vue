@@ -1,6 +1,9 @@
 <script setup>
-import Project from './Project.vue'
-import { computed, ref } from 'vue'
+import Project from "./Project.vue";
+import Bubble from '@/components/Bubble.vue';
+import Dot from '@/components/Dot.vue';
+import SectionTag from "@/components/SectionTag.vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
     skills: {
@@ -11,127 +14,64 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
-})
+});
 
-const activeSkill = ref('all')
+const activeSkill = ref("all");
 
 const filteredProjects = computed(() => {
-    if (activeSkill.value === 'all') {
-        return props.projects
+    if (activeSkill.value === "all") {
+        return props.projects;
     }
 
     return props.projects.filter((project) =>
-        project.skills?.some((skill) => skill.id === activeSkill.value)
-    )
-})
+        project.skills?.some((skill) => skill.id === activeSkill.value),
+    );
+});
 
 const filterProjects = (id) => {
-    activeSkill.value = id
-}
+    activeSkill.value = id;
+};
 </script>
 
 <template>
     <section
         id="projects"
-        class="
-            relative
-            overflow-hidden
-            py-20
-            dark:bg-dark-tertiary
-        "
+        class="relative overflow-hidden py-20 dark:bg-dark-tertiary"
     >
-        <!-- Decorative background -->
-        <div
-            class="
-                pointer-events-none
-                absolute -right-32 top-10
-                h-72 w-72
-                rounded-full
-                border-2 border-black/10
-                dark:border-white/10
-            "
-        />
-
-        <div
-            class="
-                pointer-events-none
-                absolute -bottom-40 -left-32
-                h-96 w-96
-                rounded-full
-                bg-light-quatrenary/20
-                dark:bg-dark-tertiary/20
-            "
-        />
+        <Bubble class="-right-32 top-64 h-72 w-72 border-2 border-black/10 dark:border-white/10" />
+        <Bubble class="-left-32 bottom-32 h-96 w-96 bg-light-quatrenary/20 dark:bg-dark-quatrenary/20" />
+        <Dot class="top-[20%] left-[12%] bg-black dark:bg-white" />
+        <Dot class="right-[10%] bottom-[20%] bg-accent" />
 
         <div class="relative container mx-auto px-4">
-
             <!-- Heading -->
             <div class="mb-12 text-center">
-                <span
-                    class="
-                        mb-4 inline-block
-                        rounded-full
-                        border-2 border-black
-                        bg-light-quatrenary
-                        px-4 py-1
-                        text-sm font-bold
-                        uppercase tracking-widest
-                        shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                    "
-                >
+                <section-tag>
                     Selected work
-                </span>
+                </section-tag>
 
                 <h2
-                    class="
-                        text-4xl
-                        font-extrabold
-                        tracking-tight
-                        text-black
-                        dark:text-white
-                        sm:text-5xl
-                    "
+                    class="text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl"
                 >
                     Projects I've built
                 </h2>
 
                 <p
-                    class="
-                        mx-auto mt-4
-                        max-w-2xl
-                        text-gray-600
-                        dark:text-gray-300
-                    "
+                    class="mx-auto mt-4 max-w-2xl text-gray-600 dark:text-gray-300"
                 >
-                    A selection of applications, tools, and systems
-                    built to solve real problems.
+                    A selection of applications, tools, and systems built to
+                    solve real problems.
                 </p>
             </div>
 
             <!-- Filters -->
             <nav
-                class="
-                    mb-12
-                    flex flex-wrap
-                    items-center
-                    justify-center
-                    gap-3
-                "
+                class="mb-12 flex flex-wrap items-center justify-center gap-3"
                 aria-label="Filter projects"
             >
                 <button
                     type="button"
-                    class="
-                        project-filter
-                        rounded-full
-                        border-2 border-black
-                        px-4 py-2
-                        text-sm font-bold
-                        transition-[transform,box-shadow,background-color,color]
-                        duration-200
-                        ease-out
-                        hover:-translate-y-0.5
-                    "
+                    class="project-filter rounded-full border-2 border-black px-4 py-2 text-sm font-bold transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-y-0.5"
                     :class="
                         activeSkill === 'all'
                             ? 'bg-black text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:bg-white dark:text-black'
@@ -146,17 +86,7 @@ const filterProjects = (id) => {
                     v-for="skill in skills"
                     :key="skill.id"
                     type="button"
-                    class="
-                        project-filter
-                        rounded-full
-                        border-2 border-black
-                        px-4 py-2
-                        text-sm font-bold
-                        transition-[transform,box-shadow,background-color,color]
-                        duration-200
-                        ease-out
-                        hover:-translate-y-0.5
-                    "
+                    class="project-filter rounded-full border-2 border-black px-4 py-2 text-sm font-bold transition-[transform,box-shadow,background-color,color] duration-200 ease-out hover:-translate-y-0.5"
                     :class="
                         activeSkill === skill.id
                             ? 'bg-black text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:bg-white dark:text-black'
@@ -172,12 +102,7 @@ const filterProjects = (id) => {
             <TransitionGroup
                 name="project"
                 tag="section"
-                class="
-                    grid
-                    gap-6
-                    md:grid-cols-2
-                    xl:grid-cols-4
-                "
+                class="grid gap-6 md:grid-cols-2 xl:grid-cols-4"
             >
                 <Project
                     v-for="project in filteredProjects"
@@ -189,34 +114,15 @@ const filterProjects = (id) => {
             <!-- Empty state -->
             <div
                 v-if="filteredProjects.length === 0"
-                class="
-                    rounded-2xl
-                    border-2 border-dashed border-black
-                    p-12
-                    text-center
-                    dark:border-white
-                "
+                class="rounded-2xl border-2 border-dashed border-black p-12 text-center dark:border-white"
             >
-                <p
-                    class="
-                        text-lg
-                        font-bold
-                        text-gray-600
-                        dark:text-gray-300
-                    "
-                >
+                <p class="text-lg font-bold text-gray-600 dark:text-gray-300">
                     No projects found for this skill.
                 </p>
 
                 <button
                     type="button"
-                    class="
-                        mt-4
-                        font-bold
-                        text-accent
-                        underline
-                        underline-offset-4
-                    "
+                    class="mt-4 font-bold text-accent underline underline-offset-4"
                     @click="filterProjects('all')"
                 >
                     View all projects

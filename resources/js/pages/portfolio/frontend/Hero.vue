@@ -1,268 +1,114 @@
 <script setup lang="ts">
-import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
+import Bubble from '@/components/Bubble.vue';
+import Dot from '@/components/Dot.vue';
+import SectionTag from "@/components/SectionTag.vue";
+import { Mail, ArrowDown, ArrowUpRight } from "lucide-vue-next";
 </script>
 
 <template>
-    <section id="home" class="
-            relative
-            min-h-[calc(100vh-5rem)]
-            overflow-hidden
-            bg-light-primary
-            dark:bg-dark-primary
-        ">
-        <!-- Decorative background -->
-        <div class="
-                pointer-events-none
-                absolute -right-32 -top-32
-                h-96 w-96
-                rounded-full
-                border-2 border-black/10
-                dark:border-white/10
-            " />
+    <section
+        id="home"
+        class="relative min-h-[calc(100vh-5rem)] overflow-hidden bg-light-primary dark:bg-dark-primary"
+    >
+        <Bubble class="-right-32 top-32 h-96 w-96 border-2 border-black/10 dark:border-white/10" />
+        <Bubble class="-bottom-40 -left-32 h-96 w-96 bg-light-quatrenary/20 dark:bg-dark-tertiary/20" />
+        <Dot class="bottom-[20%] left-[12%] bg-black dark:bg-white" />
+        <Dot class="right-[18%] top-[20%] bg-accent" />
 
-        <div class="
-                pointer-events-none
-                absolute -bottom-40 -left-32
-                h-96 w-96
-                rounded-full
-                bg-light-quatrenary/20
-                dark:bg-dark-tertiary/20
-            " />
-
-        <!-- Small decorative dots -->
-        <div class="
-                pointer-events-none
-                absolute right-[18%] top-[20%]
-                hidden
-                h-3 w-3
-                rounded-full
-                bg-accent
-                lg:block
-            " />
-
-        <div class="
-                pointer-events-none
-                absolute bottom-[20%] left-[12%]
-                hidden
-                h-2 w-2
-                rounded-full
-                bg-black
-                dark:bg-white
-                lg:block
-            " />
-
-        <div class="
-                relative
-                container mx-auto
-                flex
-                min-h-[calc(100vh-5rem)]
-                items-center
-                px-4
-                py-16
-                lg:py-20
-            " v-motion :initial="{ opacity: 0, y: 24 }" :visibleOnce="{ opacity: 1, y: 0 }">
-            <div class="
-                    grid
-                    w-full
-                    items-center
-                    gap-12
-                    lg:grid-cols-[1.1fr_0.9fr]
-                    lg:gap-16
-                ">
-
+        <div
+            class="relative container mx-auto flex min-h-[calc(100vh-5rem)] items-center px-4 py-16 lg:py-20"
+            v-motion
+            :initial="{ opacity: 0, y: 24 }"
+            :visibleOnce="{ opacity: 1, y: 0 }"
+        >
+            <div class="grid w-full items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
                 <!-- Copy -->
                 <div class="max-w-3xl">
-
                     <!-- Intro -->
                     <div class="mb-6 flex flex-wrap items-center gap-3">
-                        <span class="
-                                inline-flex
-                                items-center
-                                gap-2
-                                rounded-full
-                                border-2 border-black
-                                bg-light-quatrenary
-                                px-4 py-1.5
-                                text-sm
-                                font-extrabold
-                                uppercase
-                                tracking-widest
-                                shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                            ">
-                            Hey, I'm Raleigh
-                        </span>
+                        <section-tag>
+                            Hey I'm Raleigh
+                        </section-tag>
 
-                        <span class="
-                                text-sm
-                                font-bold
-                                text-gray-500
-                                dark:text-gray-400
-                            ">
+                        <span
+                            class="mb-4 text-sm font-bold text-gray-500 dark:text-gray-400"
+                        >
                             (Raw-lee)
                         </span>
                     </div>
 
                     <!-- Main heading -->
-                    <h1 class="
-                            max-w-4xl
-                            text-5xl
-                            font-extrabold
-                            leading-[0.95]
-                            tracking-[-0.04em]
-                            text-black
-                            sm:text-6xl
-                            lg:text-8xl
-                            dark:text-white
-                        ">
+                    <h1
+                        class="max-w-4xl text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-black sm:text-6xl lg:text-8xl dark:text-white"
+                    >
                         I make
-                        <span class="text-accent">
-                            web apps.
-                        </span>
+                        <span class="text-accent"> web apps. </span>
                     </h1>
 
                     <!-- Description -->
-                    <p class="
-                            mt-7
-                            max-w-2xl
-                            text-xl
-                            font-medium
-                            leading-8
-                            text-gray-600
-                            sm:text-2xl
-                            sm:leading-9
-                            dark:text-gray-300
-                        ">
-                        Transforming spreadsheets and business processes
-                        into sophisticated, robust software.
+                    <p
+                        class="mt-7 max-w-2xl text-xl font-medium leading-8 text-gray-600 sm:text-2xl sm:leading-9 dark:text-gray-300"
+                    >
+                        Transforming spreadsheets and business processes into
+                        sophisticated, robust software.
                     </p>
 
                     <!-- CTA -->
-                    <div class="
-                            mt-8
-                            flex
-                            flex-col
-                            gap-4
-                            sm:flex-row
-                        ">
-                        <a href="#contact" class="
-                                group
-                                inline-flex
-                                items-center
-                                justify-center
-                                gap-2
-                                rounded-xl
-                                border-2 border-black
-                                bg-black
-                                px-6 py-3.5
-                                text-base
-                                font-extrabold
-                                text-white
-                                shadow-[5px_5px_0px_0px_rgba(0,0,0,1)]
-                                transition-[transform,box-shadow,background-color,color]
-                                duration-200
-                                hover:-translate-y-1
-                                hover:bg-accent
-                                hover:text-black
-                                hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)]
-                                active:translate-y-0
-                                active:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                                dark:border-white
-                                dark:bg-white
-                                dark:text-black
-                                dark:hover:bg-accent
-                            ">
+                    <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                        <a
+                            href="#contact"
+                            class="group inline-flex items-center justify-center gap-2 rounded-xl border-2 border-black bg-black px-6 py-3.5 text-base font-extrabold text-white shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-[transform,box-shadow,background-color,color] duration-200 hover:-translate-y-1 hover:bg-accent hover:text-black hover:shadow-[7px_7px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-white dark:text-black dark:hover:bg-accent"
+                        >
                             Let's work together
 
-                            <ArrowUpRight class="
-                                    h-5 w-5
-                                    transition-transform
-                                    duration-200
-                                    group-hover:translate-x-1
-                                    group-hover:-translate-y-1
-                                " :stroke-width="2.5" />
+                            <ArrowUpRight
+                                class="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
+                                :stroke-width="2.5"
+                            />
                         </a>
 
-                        <a href="#projects" class="
-                                inline-flex
-                                items-center
-                                justify-center
-                                rounded-xl
-                                border-2 border-black
-                                bg-white/70
-                                px-6 py-3.5
-                                text-base
-                                font-extrabold
-                                text-black
-                                transition-[transform,background-color]
-                                duration-200
-                                hover:-translate-y-1
-                                hover:bg-light-quatrenary
-                                dark:border-white
-                                dark:bg-black/20
-                                dark:text-white
-                                dark:hover:bg-dark-tertiary
-                            ">
+                        <a
+                            href="#projects"
+                            class="inline-flex items-center justify-center rounded-xl border-2 border-black bg-white/70 px-6 py-3.5 text-base font-extrabold text-black transition-[transform,background-color] duration-200 hover:-translate-y-1 hover:bg-light-quatrenary dark:border-white dark:bg-black/20 dark:text-white dark:hover:bg-dark-tertiary"
+                        >
                             See my work
                         </a>
                     </div>
 
                     <!-- Socials -->
                     <div class="mt-10">
-                        <p class="
-                                mb-3
-                                text-sm
-                                font-bold
-                                uppercase
-                                tracking-widest
-                                text-gray-500
-                                dark:text-gray-400
-                            ">
+                        <p
+                            class="mb-3 text-sm font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400"
+                        >
                             Find me online
                         </p>
 
                         <div class="flex items-center gap-3">
-
                             <!-- Email -->
-                            <a href="mailto:raleighgroesbeck@gmail.com" class="
-                                    group
-                                    flex h-11 w-11
-                                    items-center justify-center
-                                    rounded-xl
-                                    border-2 border-black
-                                    bg-white/70
-                                    shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                                    transition-[transform,background-color,box-shadow]
-                                    duration-200
-                                    hover:-translate-y-1
-                                    hover:bg-light-quatrenary
-                                    hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                                    dark:border-white
-                                    dark:bg-black/20
-                                    dark:hover:bg-dark-tertiary
-                                " aria-label="Email Raleigh">
+                            <a
+                                href="mailto:raleighgroesbeck@gmail.com"
+                                class="group flex h-11 w-11 items-center justify-center rounded-xl border-2 border-black bg-white/70 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-1 hover:bg-light-quatrenary hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black/20 dark:hover:bg-dark-tertiary"
+                                aria-label="Email Raleigh"
+                            >
                                 <Mail class="h-5 w-5" />
                             </a>
 
                             <!-- GitHub -->
-                            <a target="_blank" rel="noopener noreferrer" href="https://github.com/DigitalDadKC" class="
-                                    group
-                                    flex h-11 w-11
-                                    items-center justify-center
-                                    rounded-xl
-                                    border-2 border-black
-                                    bg-white/70
-                                    shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                                    transition-[transform,background-color,box-shadow]
-                                    duration-200
-                                    hover:-translate-y-1
-                                    hover:bg-light-quatrenary
-                                    hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                                    dark:border-white
-                                    dark:bg-black/20
-                                    dark:hover:bg-dark-tertiary
-                                " aria-label="GitHub">
-                                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
-                                    <path d="M12 .297c-6.63 0-12 5.373-12 12
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://github.com/DigitalDadKC"
+                                class="group flex h-11 w-11 items-center justify-center rounded-xl border-2 border-black bg-white/70 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-1 hover:bg-light-quatrenary hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black/20 dark:hover:bg-dark-tertiary"
+                                aria-label="GitHub"
+                            >
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    class="h-5 w-5"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        d="M12 .297c-6.63 0-12 5.373-12 12
                                         0 5.303 3.438 9.8 8.205 11.385
                                         .6.113.82-.258.82-.577
                                         0-.285-.01-1.04-.015-2.04
@@ -286,7 +132,8 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                                         0 1.606-.015 2.896-.015 3.286
                                         0 .315.21.69.825.57
                                         C20.565 22.092 24 17.592 24 12.297
-                                        c0-6.627-5.373-12-12-12" />
+                                        c0-6.627-5.373-12-12-12"
+                                    />
                                 </svg>
                             </a>
 
@@ -330,131 +177,61 @@ import { Mail, ArrowDown, ArrowUpRight } from 'lucide-vue-next'
                 </div>
 
                 <!-- Hero image -->
-                <div class="
-        relative
-        mx-auto
-        w-full
-        max-w-md
-        lg:max-w-lg
-    ">
+                <div class="relative mx-auto w-full max-w-md lg:max-w-lg">
                     <!-- Decorative card -->
-                    <div class="
-            absolute
-            inset-0
-            translate-x-3
-            translate-y-3
-            rounded-3xl
-            border-2 border-black
-            bg-accent
-            dark:border-white
-        " />
+                    <div
+                        class="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border-2 border-black bg-accent dark:border-white"
+                    />
 
                     <!-- Image -->
-                    <div class="
-            group
-            relative
-            overflow-hidden
-            rounded-3xl
-            border-2 border-black
-            bg-white
-            dark:border-white
-            dark:bg-black/20
-        ">
+                    <div
+                        class="group relative overflow-hidden rounded-3xl border-2 border-black bg-white dark:border-white dark:bg-black/20"
+                    >
                         <div class="relative h-[600px] overflow-hidden ...">
-                            <img src="/img/profile 2.jpg" class="
-            h-full
-            w-full
-            object-cover
-            object-top
-        " />
+                            <img
+                                src="/img/profile 2.jpg"
+                                class="h-full w-full object-cover object-top"
+                            />
                         </div>
 
                         <!-- Image gradient -->
-                        <div class="
-                pointer-events-none
-                absolute inset-0
-                bg-gradient-to-t
-                from-black/40
-                via-transparent
-                to-transparent
-            " />
+                        <div
+                            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"
+                        />
 
                         <!-- Floating badge -->
-                        <div class="
-                absolute
-                bottom-5
-                left-5
-                rounded-xl
-                border-2 border-black
-                bg-white
-                px-4 py-3
-                shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                dark:border-white
-                dark:bg-black
-            ">
-                            <p class="
-                    text-xs
-                    font-bold
-                    uppercase
-                    tracking-widest
-                    text-gray-500
-                    dark:text-gray-400
-                ">
+                        <div
+                            class="absolute bottom-5 left-5 rounded-xl border-2 border-black bg-white px-4 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black"
+                        >
+                            <p
+                                class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400"
+                            >
                                 Currently
                             </p>
 
-                            <p class="
-                    mt-1
-                    font-extrabold
-                    text-black
-                    dark:text-white
-                ">
+                            <p
+                                class="mt-1 font-extrabold text-black dark:text-white"
+                            >
                                 Building cool stuff
                             </p>
                         </div>
                     </div>
 
                     <!-- Decorative accent -->
-                    <div class="
-            absolute
-            -right-4
-            -top-4
-            hidden
-            h-10 w-10
-            rotate-12
-            rounded-lg
-            border-2 border-black
-            bg-light-quatrenary
-            lg:block
-            dark:border-white
-        " />
+                    <div
+                        class="absolute -right-4 -top-4 hidden h-10 w-10 rotate-12 rounded-lg border-2 border-black bg-light-quatrenary lg:block dark:border-white"
+                    />
                 </div>
             </div>
         </div>
 
         <!-- Scroll indicator -->
-        <a href="#about" class="
-                absolute
-                bottom-6
-                left-1/2
-                hidden
-                -translate-x-1/2
-                flex-col
-                items-center
-                gap-1
-                text-gray-500
-                transition-colors
-                hover:text-black
-                md:flex
-                dark:text-gray-400
-                dark:hover:text-white
-            " aria-label="Scroll to About section">
-            <span class="
-                    text-[10px]
-                    font-bold
-                    uppercase
-                    tracking-[0.25em]
-                ">
+        <a
+            href="#about"
+            class="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 text-gray-500 transition-colors hover:text-black md:flex dark:text-gray-400 dark:hover:text-white"
+            aria-label="Scroll to About section"
+        >
+            <span class="text-[10px] font-bold uppercase tracking-[0.25em]">
                 Explore
             </span>
 

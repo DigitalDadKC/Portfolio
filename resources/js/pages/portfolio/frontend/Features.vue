@@ -1,111 +1,64 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useSortable } from '@vueuse/integrations/useSortable'
+import { ref } from "vue";
+import Bubble from '@/components/Bubble.vue';
+import { useSortable } from "@vueuse/integrations/useSortable";
+import SectionTag from "@/components/SectionTag.vue";
 
 const props = defineProps({
     features: Object,
-})
+});
 
-const isDragging = ref(false)
-const featuresList = ref([...props.features])
-const featuresContainer = ref(null)
+const isDragging = ref(false);
+const featuresList = ref([...props.features]);
+const featuresContainer = ref(null);
 
 useSortable(featuresContainer, featuresList, {
     animation: 180,
-    ghostClass: 'feature-ghost',
-    chosenClass: 'feature-chosen',
-    dragClass: 'feature-dragging',
+    ghostClass: "feature-ghost",
+    chosenClass: "feature-chosen",
+    dragClass: "feature-dragging",
 
     onStart() {
-        isDragging.value = true
+        isDragging.value = true;
     },
 
     onEnd() {
-        isDragging.value = false
+        isDragging.value = false;
     },
-})
+});
 </script>
 
 <template>
     <section
         id="features"
-        class="
-            relative overflow-hidden
-            section
-            bg-light-tertiary dark:bg-dark-quatrenary
-            py-24
-        "
+        class="relative overflow-hidden section bg-light-tertiary dark:bg-dark-quatrenary py-24"
     >
-        <!-- Decorative background shapes -->
-        <div
-            class="
-                pointer-events-none absolute -right-20 -top-20
-                h-64 w-64 rounded-full
-                border-2 border-black/10
-                dark:border-white/10
-            "
-        />
-
-        <div
-            class="
-                pointer-events-none absolute -bottom-32 -left-20
-                h-72 w-72 rounded-full
-                bg-light-quatrenary/40
-                dark:bg-dark-tertiary/20
-            "
-        />
+        <Bubble class="-right-20 -top-20 h-64 w-64 border-2 border-black/10 dark:border-dark-primary/10" />
+        <Bubble class="-bottom-32 -left-20 h-72 w-72 bg-light-quatrenary/40 dark:bg-dark-tertiary/20" />
 
         <div class="relative mx-auto max-w-6xl px-6">
-
             <!-- Heading -->
             <div class="mb-12 text-center">
-                <span
-                    class="
-                        mb-3 inline-block
-                        rounded-full border-2 border-black
-                        bg-light-quatrenary
-                        px-4 py-1
-                        text-sm font-bold uppercase tracking-widest
-                        shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                    "
-                >
+                <section-tag>
                     What I use
-                </span>
+                </section-tag>
 
-                <h2
-                    class="
-                        section-title
-                        dark:text-dark-secondary
-                    "
-                >
-                    Features
-                </h2>
+                <h2 class="section-title dark:text-dark-secondary">Features</h2>
 
                 <p
-                    class="
-                        mx-auto mt-4 max-w-xl
-                        text-gray-600 dark:text-gray-800
-                    "
+                    class="mx-auto mt-4 max-w-xl text-gray-600 dark:text-gray-800"
                 >
-                    A collection of tools, technologies, and features
-                    that give a wide range of capabilities and functionality
-                    that bring my projects to life
+                    A collection of tools, technologies, and features that give
+                    a wide range of capabilities and functionality that bring my
+                    projects to life
                 </p>
 
                 <!-- Drag hint -->
                 <div
-                    class="
-                        mt-6 inline-flex items-center gap-2
-                        text-sm font-medium
-                        text-gray-500 dark:text-gray-400
-                    "
+                    class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400"
                 >
                     <div
-                        class="
-                            mt-6 inline-flex items-center gap-2
-                            text-sm font-medium
-                            text-gray-500 dark:text-gray-400
-                        "
+                        class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400"
                     >
                         <span class="text-base">✦</span>
                         Drag any card to rearrange
@@ -118,44 +71,17 @@ useSortable(featuresContainer, featuresList, {
                 ref="featuresContainer"
                 :class="[
                     'grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
-                    { 'is-dragging': isDragging }
+                    { 'is-dragging': isDragging },
                 ]"
             >
                 <div
                     v-for="(feature, index) in featuresList"
                     :key="feature.id ?? index"
-                    class="
-                        feature-card
-                        group
-                        relative
-                        flex items-center gap-4
-                        rounded-xl
-                        border-2 border-black
-                        bg-white/70 dark:bg-black/20
-                        px-5 py-4
-                        font-semibold
-                        text-accent
-                        shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                        cursor-grab
-                        active:cursor-grabbing
-                        select-none
-                        transition-[opacity,filter,box-shadow,background-color]
-                        duration-200
-                        ease-out
-                    "
+                    class="feature-card group relative flex items-center gap-4 rounded-xl border-2 border-black bg-white/70 dark:bg-black/20 px-5 py-4 font-semibold text-accent shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-grab active:cursor-grabbing select-none transition-[opacity,filter,box-shadow,background-color] duration-200 ease-out"
                 >
                     <!-- Icon -->
                     <div
-                        class="
-                            flex h-10 w-10 shrink-0
-                            items-center justify-center
-                            rounded-lg
-                            border-2 border-black
-                            bg-light-quatrenary
-                            transition-transform duration-200 ease-out
-                            group-hover:rotate-[-6deg]
-                            group-hover:scale-105
-                        "
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-light-quatrenary transition-transform duration-200 ease-out group-hover:rotate-[-6deg] group-hover:scale-105"
                     >
                         <svg
                             class="h-5 w-5"
@@ -180,7 +106,6 @@ useSortable(featuresContainer, featuresList, {
                     </p>
                 </div>
             </div>
-
         </div>
     </section>
 </template>
@@ -194,8 +119,7 @@ useSortable(featuresContainer, featuresList, {
     transform: rotate(-1.5deg) scale(1.04);
     opacity: 0.95;
 
-    box-shadow:
-        8px 8px 0 rgba(0, 0, 0, 0.9);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.9);
 }
 
 /*
