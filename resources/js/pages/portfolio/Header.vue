@@ -4,6 +4,8 @@ import { useDark, useToggle } from "@vueuse/core";
 import { Link } from '@inertiajs/vue3';
 import ApplicationLogo from '@/components/ApplicationLogo.vue';
 import { Sun, Moon, Menu, X, ArrowUpRight } from 'lucide-vue-next';
+import DarkMode from '@/components/DarkMode.vue';
+import Button from '@/components/Button.vue';
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
@@ -126,63 +128,16 @@ onUnmounted(() => {
 
                 <!-- Right controls -->
                 <div class="flex items-center gap-3">
-
-                    <!-- Dark mode toggle -->
-                    <button
-                        @click="toggleDark()"
-                        aria-label="switch dark/light mode"
-                        class="
-                            group
-                            cursor-pointer
-                            flex h-11 w-11
-                            items-center justify-center
-                            rounded-xl
-                            border-2 border-black
-                            bg-white/70
-                            shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                            transition-[transform,background-color,box-shadow]
-                            duration-200
-                            hover:-translate-y-1
-                            hover:bg-light-quatrenary
-                            hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                            dark:border-white
-                            dark:bg-black/20
-                            dark:hover:bg-dark-tertiary
-                        "
-                    >
-                        <Sun v-if="isDark" class="h-5 w-5" :stroke-width="2.5" />
-                        <Moon v-else class="h-5 w-5" :stroke-width="2.5" />
-                    </button>
-
-                    <!-- Login / Dashboard -->
+                     <DarkMode />
                     <a
                         v-if="!$page.props.auth.user"
                         :href="route('admin.dashboard')"
                         aria-label="login"
                         aria-current="page"
-                        class="
-                            hidden
-                            items-center
-                            justify-center
-                            rounded-xl
-                            border-2 border-black
-                            bg-white/70
-                            px-5 py-2.5
-                            text-sm
-                            font-extrabold
-                            text-black
-                            transition-[transform,background-color]
-                            duration-200
-                            hover:-translate-y-1
-                            hover:bg-light-quatrenary
-                            md:inline-flex
-                            dark:border-white
-                            dark:bg-black/20
-                            dark:text-white
-                            dark:hover:bg-dark-tertiary
-                        "
                     >
-                        Login
+                        <Button>
+                            Login
+                        </Button>
                     </a>
 
                     <a
@@ -190,44 +145,10 @@ onUnmounted(() => {
                         :href="route('admin.dashboard')"
                         aria-label="dashboard"
                         aria-current="page"
-                        class="
-                            group
-                            hidden
-                            items-center
-                            justify-center
-                            gap-2
-                            rounded-xl
-                            border-2 border-black
-                            bg-black
-                            px-5 py-2.5
-                            text-sm
-                            font-extrabold
-                            text-white
-                            shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                            transition-[transform,box-shadow,background-color,color]
-                            duration-200
-                            hover:-translate-y-1
-                            hover:bg-accent
-                            hover:text-black
-                            hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                            md:inline-flex
-                            dark:border-white
-                            dark:bg-white
-                            dark:text-black
-                            dark:hover:bg-accent
-                        "
                     >
-                        Dashboard
-                        <ArrowUpRight
-                            class="
-                                h-4 w-4
-                                transition-transform
-                                duration-200
-                                group-hover:translate-x-1
-                                group-hover:-translate-y-1
-                            "
-                            :stroke-width="2.5"
-                        />
+                        <Button>
+                            Dashboard
+                        </Button>
                     </a>
 
                     <!-- Mobile menu toggle -->
