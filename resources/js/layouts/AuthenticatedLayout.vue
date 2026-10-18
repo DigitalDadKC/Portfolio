@@ -83,6 +83,16 @@ const showingNavigationDropdown = ref(false);
                                                 </ul>
                                             </NavigationMenuContent>
                                         </NavigationMenuItem>
+                                        <NavigationMenuItem>
+                                            <NavigationMenuTrigger>Trading</NavigationMenuTrigger>
+                                            <NavigationMenuContent>
+                                                <ul class="grid w-[100px] gap-4">
+                                                    <li>
+                                                        <NavLink :href="route('trades.index')" :active="route().current('trades.index')">Trades</NavLink>
+                                                    </li>
+                                                </ul>
+                                            </NavigationMenuContent>
+                                        </NavigationMenuItem>
                                     </NavigationMenuList>
                                 </NavigationMenu>
                             </div>

@@ -13,7 +13,9 @@ use App\Http\Controllers\Admin\OutreachController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\TradeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Contracts\ContractController as ContractsController;
 use App\Http\Controllers\DatatableController;
 use App\Http\Controllers\Estimating\AdminController;
 use App\Http\Controllers\Estimating\CustomerController;
@@ -21,9 +23,8 @@ use App\Http\Controllers\Estimating\JobController;
 use App\Http\Controllers\Estimating\ProposalController;
 use App\Http\Controllers\Invoicing\InvoiceController;
 use App\Http\Controllers\Invoicing\ProductController;
-use App\Http\Controllers\Opportunities\OpportunitiesController;
-use App\Http\Controllers\Contracts\ContractController as ContractsController;
 use App\Http\Controllers\Masterformat\DivisionController;
+use App\Http\Controllers\Opportunities\OpportunitiesController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/contracts/browser', [ContractController::class, 'browser'])->name('contracts.browser');
     Route::post('/contracts/send/{contract}', [ContractController::class, 'send'])->name('contracts.send');
     Route::resource('/services', ServiceController::class);
+    Route::resource('/trades', TradeController::class);
     
     Route::get('/auth/github/redirect', [GithubAuthController::class, 'redirect'])->name('github.redirect');
     Route::get('/auth/github/callback', [GithubAuthController::class, 'callback'])->name('github.callback');

@@ -1,17 +1,16 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useDark, useToggle } from "@vueuse/core";
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useDark } from "@vueuse/core";
 import { Link } from '@inertiajs/vue3';
 import ApplicationLogo from '@/components/ApplicationLogo.vue';
-import { Sun, Moon, Menu, X, ArrowUpRight } from 'lucide-vue-next';
+import { Menu, X } from 'lucide-vue-next';
 import DarkMode from '@/components/DarkMode.vue';
 import Button from '@/components/Button.vue';
+import { useScrolled } from '@/composables/useScrolled'
+import LoginButton from '@/components/LoginButton.vue';
 
-const isDark = useDark();
-const toggleDark = useToggle(isDark);
-
+const { scrolled } = useScrolled()
 const showMobileMenu = ref(false);
-const scrollBackground = ref(false);
 
 const navigations = [
     { name: "Home", href: "/#home" },
@@ -22,18 +21,6 @@ const navigations = [
     { name: "Contact", href: "/#contact" },
 ];
 
-const handleScroll = () => {
-    scrollBackground.value = window.scrollY > 50;
-};
-
-onMounted(() => {
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-});
-
-onUnmounted(() => {
-    window.removeEventListener("scroll", handleScroll);
-});
 </script>
 
 <template>
@@ -48,11 +35,10 @@ onUnmounted(() => {
             dark:bg-dark-primary/80
             border-b-2
         "
-        :class="scrollBackground
+        :class="scrolled
             ? 'border-black dark:border-white bg-light-secondary/80 dark:bg-dark-secondary/80 shadow-md'
             : 'border-transparent'"
     >
-        <!-- Header content -->
         <div
             class="
                 origin-top
@@ -61,11 +47,10 @@ onUnmounted(() => {
                 ease-in-out
                 will-change-transform
             "
-            :class="scrollBackground ? 'scale-[0.9]' : 'scale-100'"
+            :class="scrolled ? 'scale-[0.9]' : 'scale-100'"
         >
             <div class="container mx-auto flex items-center justify-between px-4 py-3">
 
-                <!-- Logo -->
                 <Link href="/" class="group flex items-center gap-3">
                     <div
                         class="
@@ -73,15 +58,18 @@ onUnmounted(() => {
                             items-center justify-center
                             overflow-hidden
                             rounded-xl
-                            border-2 border-black
-                            bg-light-tertiary
-                            shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]
-                            transition-transform duration-200
+                            border-2
+                            transition-[transform,background-color,border-color,box-shadow]
+                            duration-500
+                            ease-in-out
                             group-hover:-translate-y-0.5
-                            dark:border-white
+                            motion-reduce:transition-none
                         "
+                        :class="scrolled
+                            ? 'border-black bg-light-tertiary shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:border-white'
+                            : 'border-transparent bg-transparent shadow-none'"
                     >
-                        <ApplicationLogo :scrollBackground="scrollBackground" />
+                        <ApplicationLogo :scrolled />
                     </div>
 
                     <span
@@ -128,28 +116,8 @@ onUnmounted(() => {
 
                 <!-- Right controls -->
                 <div class="flex items-center gap-3">
-                     <DarkMode />
-                    <a
-                        v-if="!$page.props.auth.user"
-                        :href="route('admin.dashboard')"
-                        aria-label="login"
-                        aria-current="page"
-                    >
-                        <Button>
-                            Login
-                        </Button>
-                    </a>
-
-                    <a
-                        v-else
-                        :href="route('admin.dashboard')"
-                        aria-label="dashboard"
-                        aria-current="page"
-                    >
-                        <Button>
-                            Dashboard
-                        </Button>
-                    </a>
+                    <DarkMode />
+                    <LoginButton />
 
                     <!-- Mobile menu toggle -->
                     <button

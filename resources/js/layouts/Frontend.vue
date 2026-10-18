@@ -1,6 +1,7 @@
-<script setup>
-    import Header from '@/pages/portfolio/Header.vue';
-    import Footer from '@/pages/portfolio/Footer.vue';
+<script setup lang="ts">
+import Header from '@/pages/portfolio/Header.vue';
+import Footer from '@/pages/portfolio/Footer.vue';
+
 </script>
 
 <template>
