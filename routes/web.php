@@ -87,7 +87,7 @@ Route::resource('estimating/jobs', JobController::class)->only('update', 'destro
 
 // proposal
 Route::post('/proposals/{job}', [ProposalController::class, 'store'])->name('proposals.store');
-Route::resource('proposals', ProposalController::class)->only('store', 'edit', 'update', 'destroy');
+Route::resource('proposals', ProposalController::class)->only('edit', 'update', 'destroy');
 
 // scopes
 Route::post('proposals/scopes/create/{proposal}', [ProposalController::class, 'createScope'])->name('scopes.create');
