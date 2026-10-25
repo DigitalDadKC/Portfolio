@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import GuestLayout from './GuestLayout.vue';
+import GuestLayout from './ProjectLayout.vue/index.js';
 import { Notebook } from 'lucide-vue-next';
 
 const links = [

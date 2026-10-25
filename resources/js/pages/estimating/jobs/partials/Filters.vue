@@ -35,7 +35,6 @@ const filterCount = computed(
 )
 
 const toggleState = (id: number) => {
-    console.log('idiot')
     selectedStates.value = selectedStates.value.includes(id)
         ? selectedStates.value.filter(stateId => stateId !== id)
         : [...selectedStates.value, id]

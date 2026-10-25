@@ -14,44 +14,47 @@ use Inertia\Inertia;
 
 class JobController extends Controller
 {
-    public function index(Request $request)
-    {
-        $filters = [
-            'search'   => $request->search,
-            'pages'    => $request->pages ?: 25,
-            'states'   => $request->states ?: null,
-            'customers' => $request->customers ?: null,
-        ];
+public function index(Request $request)
+{
+    $filters = [
+        'search'    => $request->input('search'),
+        'pages'     => (int) $request->input('pages', 10),
+        'states'    => $request->input('states') ?: null,
+        'customers' => $request->input('customers') ?: null,
+    ];
 
-        $query = Job::query()
-            ->with(['state', 'customer', 'proposals.user:id,name,email', 'proposals.scopes.lines.unit_of_measurement'])
-            ->when($filters['search'], function ($q, $search) {
-                $q->where(function ($q) use ($search) {
-                    $q->where('number', 'like', "%{$search}%")
+    $query = Job::query()
+        ->with([
+            'state',
+            'customer',
+            'proposals.user:id,name,email',
+            'proposals.scopes.lines.unit_of_measurement',
+        ])
+        ->when($request->search, function ($q, $search) {
+            $q->where(function ($q) use ($search) {
+                $q->where('number', 'like', "%{$search}%")
                     ->orWhere('city', 'like', "%{$search}%")
                     ->orWhere('address', 'like', "%{$search}%");
-                });
-            })
-            ->when($request->states, fn($query, $states) => $query->whereIn('state_id', $states))
-            ->when($request->customers, fn($query, $customers) => $query->whereIn('customer_id', $customers))
-            ->orderBy('created_at', 'desc');      
+            });
+        })
+        ->when($request->states, fn($q, $states) => $q->whereIn('state_id', $states))
+        ->when($request->customers, fn($q, $customers) => $q->whereIn('customer_id', $customers))
+        ->orderBy('created_at', 'desc');
 
-        $paginated = $query->paginate($filters['pages'])->appends($filters);
-
+        $paginated = $query->paginate($filters['pages']);
         if ($paginated->isEmpty() && $paginated->currentPage() > 1) {
-            $paginated = $query->paginate($filters['pages'], ['*'], 'page', 1)
-                ->appends($filters);
+            $paginated = $query->paginate($filters['pages'], ['*'], 'page', 1);
         }
 
-        $jobs = JobResource::collection($paginated);
+    $jobs = JobResource::collection($paginated);
 
-        return Inertia::render('estimating/jobs/Index', [
-            'jobs' => fn() => $jobs,
-            'states' => StateResource::collection(State::orderBy('state')->get()),
-            'customers' => CustomerResource::collection(Customer::orderBy('name')->get()),
-            'filters' => $filters
-        ]);
-    }
+    return Inertia::render('estimating/jobs/Index', [
+        'jobs' => fn() => $jobs,
+        'states' => StateResource::collection(State::orderBy('state')->get()),
+        'customers' => CustomerResource::collection(Customer::orderBy('name')->get()),
+        'filters' => fn() => $filters,
+    ]);
+}
 
     public function store(Request $request)
     {
@@ -79,6 +82,7 @@ class JobController extends Controller
 
         return back();
     }
+
     public function update(Request $request, Job $job)
     {
         $request->validate([

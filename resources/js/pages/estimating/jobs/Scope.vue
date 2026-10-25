@@ -71,7 +71,7 @@ const fieldClass =
 
 <template>
     <div
-        class="relative overflow-hidden rounded-2xl border-2 border-black bg-light-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-dark-tertiary"
+        class="relative overflow-hidden rounded-2xl border-2 border-black bg-light-tertiary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-dark-tertiary"
         v-motion-slide-right
     >
         <!-- Scope header -->
@@ -83,12 +83,6 @@ const fieldClass =
                     class="inline-flex items-center rounded-lg border-2 border-black bg-black px-2.5 py-1 font-mono text-xs font-bold tracking-wide text-white dark:border-white dark:bg-white dark:text-black"
                 >
                     Scope #{{ props.index + 1 }}
-                </span>
-
-                <span
-                    :class="eyebrowClass"
-                >
-                    Work scope
                 </span>
             </div>
 

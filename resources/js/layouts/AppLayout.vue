@@ -12,7 +12,6 @@ defineProps({
 });
 
 const showingNavigationDropdown = ref(false);
-const showSideBar = ref(false)
 
 const logout = () => {
     router.post(route('logout'));

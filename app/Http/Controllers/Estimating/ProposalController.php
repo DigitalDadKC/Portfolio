@@ -20,11 +20,7 @@ use App\Http\Resources\ProposalResource;
 
 class ProposalController extends Controller
 {
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Job $job, Request $request)
+    public function store(Job $job)
     {
         $proposal = Proposal::create([
             'job_id' => $job->id,
@@ -34,9 +30,6 @@ class ProposalController extends Controller
         return to_route('proposals.edit', ['proposal' => $proposal->id]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Proposal $proposal)
     {
         $proposal = ProposalResource::collection(Proposal::where('id', $proposal->id)->with('job', 'scopes', 'scopes.lines', 'scopes.lines.unit_of_measurement')->get())->first();
@@ -51,9 +44,6 @@ class ProposalController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Proposal $proposal)
     {
         $proposal->update([
@@ -75,7 +65,7 @@ class ProposalController extends Controller
     public function destroy(Proposal $proposal)
     {
         $proposal->delete();
-        return to_route('estimating.jobs.index');
+        return to_route('jobs.index');
     }
 
     public function createScope(Proposal $proposal) {

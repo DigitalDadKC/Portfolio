@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch } from "vue";
 import { Link, router } from "@inertiajs/vue3";
 import EstimatingLayout from "@/layouts/EstimatingLayout.vue";
 import Paginator from "@/components/Paginator.vue";
@@ -23,34 +23,31 @@ const props = defineProps({
 
 const { formatWithCommas } = useFormatCurrency();
 const search = ref(props.filters.search);
+const page = ref(1)
 const pages = ref(props.filters.pages);
 const state_ids = ref(props.filters.states ?? []);
 const customer_ids = ref(props.filters.customers ?? []);
 
 const reload = () => {
     router.post(
-        route("estimating.jobs.filter"),
-        {
-            search: search.value,
+        route('jobs.filter'), {
+            page: page.value,
             pages: pages.value,
+            search: search.value,
             states: state_ids.value,
             customers: customer_ids.value,
-        },
-        {
+        }, {
             only: ["jobs", "filters"],
             replace: true,
+            preserveState: true,
+            preserveScroll: true,
         },
     );
 };
 
-watch(
-    [search, pages, state_ids, customer_ids],
-    () => {
-        reload();
-    },
-    {
-        deep: true,
-    },
+watch([page, pages, search, state_ids, customer_ids], () => {
+        reload()
+    }
 );
 
 const remove_state_filter = (id) => {
@@ -63,8 +60,6 @@ const remove_customer_filter = (id) => {
     );
 };
 
-// Cycles jobs through the existing token palette for a quick-scan status
-// stripe, rather than hardcoding specific state names we don't have here.
 const stripePalette = [
     "bg-accent",
     "bg-light-quatrenary",
@@ -85,28 +80,8 @@ const proposalTotal = (proposal) =>
 
 <template>
     <EstimatingLayout>
-        <template #navigation>
-            <ul
-                class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 dark:border-dark-tertiary"
-            >
-                <li v-for="(link, index) in links" :key="index" class="py-2">
-                    <Link
-                        :href="link.url"
-                        class="text-light-quatrenary dark:text-dark-quatrenary hover:text-light-quatrenary hover:border-b-2 border-light-quatrenary dark:hover:text-dark-tertiary"
-                        :class="{
-                            'text-base': scrollBackground,
-                            'text-lg': !scrollBackground,
-                        }"
-                        :aria-label="navigation.name"
-                        aria-current="page"
-                        >{{ navigation.name }}</Link
-                    >
-                </li>
-            </ul>
-        </template>
 
         <div class="mx-auto w-full max-w-7xl px-4 py-8">
-            <!-- Page header -->
             <div
                 class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
             >
@@ -122,10 +97,8 @@ const proposalTotal = (proposal) =>
                         Jobs
                     </h1>
                 </div>
-                <ManageJob :new="true" :states :customers></ManageJob>
             </div>
 
-            <!-- Toolbar -->
             <div
                 class="mb-5 flex flex-col gap-4 rounded-2xl border-2 border-black bg-light-primary p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-dark-primary lg:flex-row lg:items-center lg:justify-between"
             >
@@ -139,13 +112,9 @@ const proposalTotal = (proposal) =>
                         v-model:selectedCustomers="customer_ids"
                     />
 
-                    <div
-                        class="hidden h-8 w-px shrink-0 bg-black/10 dark:bg-white/10 lg:block"
-                    ></div>
+                    <div class="hidden h-8 w-px shrink-0 bg-black/10 dark:bg-white/10 lg:block"></div>
 
-                    <div
-                        class="flex shrink-0 items-center gap-3 whitespace-nowrap text-sm font-bold text-black/60 dark:text-white/60"
-                    >
+                    <div class="flex shrink-0 items-center gap-3 whitespace-nowrap text-sm font-bold text-black/60 dark:text-white/60">
                         <span class="font-mono tabular-nums">
                             {{ props.jobs.meta.from }}–{{ props.jobs.meta.to }}
                         </span>
@@ -199,8 +168,16 @@ const proposalTotal = (proposal) =>
             </div>
 
             <!-- Pagination (top) -->
-            <div class="mb-4 flex justify-end">
-                <Paginator :links="props.jobs.meta.links" />
+            <div class="mb-4 flex justify-between">
+                <ManageJob :new="true" :states :customers></ManageJob>
+                <div>
+                    <Paginator
+                        :links="props.jobs.meta.links"
+                        @update:model-value="(d) => {
+                            console.log(d); page = parseInt(d)
+                        }"
+                    />
+                </div>
             </div>
 
             <!-- Job cards -->

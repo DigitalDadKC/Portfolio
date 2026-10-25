@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useDark } from "@vueuse/core";
 import { Link } from '@inertiajs/vue3';
 import ApplicationLogo from '@/components/ApplicationLogo.vue';
 import { Menu, X } from 'lucide-vue-next';
 import DarkMode from '@/components/DarkMode.vue';
-import Button from '@/components/Button.vue';
 import { useScrolled } from '@/composables/useScrolled'
 import LoginButton from '@/components/LoginButton.vue';
 
@@ -51,41 +49,7 @@ const navigations = [
         >
             <div class="container mx-auto flex items-center justify-between px-4 py-3">
 
-                <Link href="/" class="group flex items-center gap-3">
-                    <div
-                        class="
-                            flex h-10 w-12 shrink-0
-                            items-center justify-center
-                            overflow-hidden
-                            rounded-xl
-                            border-2
-                            transition-[transform,background-color,border-color,box-shadow]
-                            duration-500
-                            ease-in-out
-                            group-hover:-translate-y-0.5
-                            motion-reduce:transition-none
-                        "
-                        :class="scrolled
-                            ? 'border-black bg-light-tertiary shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:border-white'
-                            : 'border-transparent bg-transparent shadow-none'"
-                    >
-                        <ApplicationLogo :scrolled />
-                    </div>
-
-                    <span
-                        class="
-                            self-center
-                            whitespace-nowrap
-                            text-lg
-                            font-extrabold
-                            tracking-tight
-                            text-black
-                            dark:text-white
-                        "
-                    >
-                        Digital<span class="text-accent"> Dad</span>, LLC
-                    </span>
-                </Link>
+                <ApplicationLogo :scroll-effect="true" />
 
                 <!-- Desktop nav links -->
                 <ul class="hidden items-center gap-1 md:flex">

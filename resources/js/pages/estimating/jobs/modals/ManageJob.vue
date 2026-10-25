@@ -96,7 +96,7 @@ const closeDialog = () => {
 
 const submit = () => {
     if (props.new) {
-        form.post(route("jobs.store"), {
+        form.post(route('jobs.store'), {
             preserveScroll: true,
             onSuccess: () => {
                 form.reset();
@@ -108,7 +108,8 @@ const submit = () => {
         return;
     }
 
-    form.patch(route("jobs.update", props.job.id), {
+    console.log(props.job)
+    form.patch(route('jobs.update', props.job.id), {
         preserveScroll: true,
         onSuccess: () => {
             form.clearErrors();
@@ -295,10 +296,7 @@ const destroy = () => {
                             class="mt-4 flex items-center justify-between gap-4 rounded-xl border-2 border-black bg-white px-4 py-3 dark:border-white dark:bg-black/20"
                         >
                             <div>
-                                <Label
-                                    for="prevailing_wage"
-                                    class="cursor-pointer text-sm font-extrabold text-black dark:text-white"
-                                >
+                                <Label class="text-sm font-extrabold text-black dark:text-white">
                                     Prevailing wage
                                 </Label>
 

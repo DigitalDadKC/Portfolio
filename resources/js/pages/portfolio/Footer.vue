@@ -30,17 +30,7 @@ const year = new Date().getFullYear();
             <div class="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr] md:gap-8">
                 <div>
                     <Link href="/" class="group inline-flex items-center gap-3">
-                        <div
-                            class="flex h-10 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border-2 border-black bg-light-tertiary shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-transform duration-200 group-hover:-translate-y-0.5 dark:border-white"
-                        >
-                            <ApplicationLogo />
-                        </div>
-
-                        <span
-                            class="text-xl font-extrabold tracking-tight text-black dark:text-white"
-                        >
-                            Digital<span class="text-accent">Dad</span>KC
-                        </span>
+                        <ApplicationLogo />
                     </Link>
 
                     <p

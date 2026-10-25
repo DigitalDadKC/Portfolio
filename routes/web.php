@@ -80,15 +80,14 @@ Route::post('/cancel', [AdminInvoiceController::class, 'cancel'])->name('checkou
 Route::post('/webhook', [AdminInvoiceController::class, 'webhook'])->name('checkout.webhook');
 
 // jobs
-Route::resource('estimating/jobs', JobController::class);
-Route::get('/estimating/jobs', [JobController::class, 'index'])->name('estimating.jobs.index');
-Route::post('/estimating/jobs/filter', [JobController::class, 'index'])->name('estimating.jobs.filter');
+Route::get('/estimating/jobs', [JobController::class, 'index'])->name('jobs.index');
+Route::post('/estimating/jobs', [JobController::class, 'index'])->name('jobs.filter');
+Route::post('/estimating/jobs/store', [JobController::class, 'store'])->name('jobs.store');
+Route::resource('estimating/jobs', JobController::class)->only('update', 'destroy');
 
 // proposal
 Route::post('/proposals/{job}', [ProposalController::class, 'store'])->name('proposals.store');
-Route::get('/proposals/edit/{proposal}', [ProposalController::class, 'edit'])->name('proposals.edit');
-Route::put('/proposals/update/{proposal}', [ProposalController::class, 'updateProposal'])->name('proposals.update');
-Route::delete('/proposals/delete/{proposal}', [ProposalController::class, 'destroy'])->name('proposals.destroy');
+Route::resource('proposals', ProposalController::class)->only('store', 'edit', 'update', 'destroy');
 
 // scopes
 Route::post('proposals/scopes/create/{proposal}', [ProposalController::class, 'createScope'])->name('scopes.create');
