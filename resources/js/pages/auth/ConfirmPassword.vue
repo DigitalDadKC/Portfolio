@@ -1,5 +1,5 @@
 <script setup>
-import ProjectLayout from '@/layouts/ProjectLayout.vue';
+import GuestLayout from '@/layouts/GuestLayout.vue';
 import InputError from '@/components/InputError.vue';
 import InputLabel from '@/components/InputLabel.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
@@ -18,7 +18,7 @@ const submit = () => {
 </script>
 
 <template>
-    <ProjectLayout>
+    <GuestLayout>
         <Head title="Confirm Password" />
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
@@ -46,5 +46,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-    </ProjectLayout>
+    </GuestLayout>
 </template>

@@ -3,7 +3,7 @@ import { ref, computed, shallowRef, useTemplateRef } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-vue-next';
-import ProjectLayout from '@/layouts/ProjectLayout.vue';
+import GuestLayout from '@/layouts/GuestLayout.vue';
 import { useFuse } from '@vueuse/integrations/useFuse';
 import { refDebounced } from '@vueuse/core'
 import { UseFuseOptions } from '@vueuse/integrations';
@@ -197,7 +197,7 @@ const filteredResults = computed(() => {
 <template>
     <Head title="Masterformat" />
 
-    <ProjectLayout title="Masterformat (CSI) Reference" :show-sidebar="true">
+    <GuestLayout title="Masterformat (CSI) Reference" :show-sidebar="true">
         <div class="antialiased bg-light-tertiary dark:bg-dark-tertiary" v-motion-fade>
             <main class="p-4 h-auto py-20 md:px-10">
                 <div class="relative w-full items-center">
@@ -245,5 +245,5 @@ const filteredResults = computed(() => {
                 </div> -->
             </main>
         </div>
-    </ProjectLayout>
+    </GuestLayout>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
 import { Notebook, ArrowLeft, Trash2 } from 'lucide-vue-next';
-import ProjectLayout from './ProjectLayout.vue';
+import ProjectLayout from './GuestLayout.vue';
 
 const props = defineProps({
     proposalId: Number,
