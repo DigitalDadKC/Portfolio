@@ -3,19 +3,13 @@ vue
 import { ref, computed, shallowRef, nextTick, useTemplateRef } from "vue";
 import { Head } from "@inertiajs/vue3";
 import { Input } from "@/components/ui/input";
-import {
-    Search,
-    Layers3,
-    FolderTree,
-    FileText,
-    ChevronRight,
-    Command,
-    X,
-    Boxes,
-} from "lucide-vue-next";
+import { Search, Layers3, FolderTree, FileText, ChevronRight, Command, X } from "lucide-vue-next";
 import GuestLayout from "@/layouts/GuestLayout.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import { refDebounced } from "@vueuse/core";
+import Panel from "./partials/Panel.vue";
+import Header from "./partials/Header.vue";
+import Current from "./partials/Current.vue";
 
 interface Division {
     id: number;
@@ -216,70 +210,7 @@ const clearSearch = () => {
             class="min-h-screen bg-light-tertiary text-slate-800 rounded-md antialiased transition-colors duration-300 dark:bg-dark-tertiary dark:text-slate-100"
         >
             <main class="mx-auto max-w-[1600px] space-y-8 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
-                <!-- Page heading -->
-                <header
-                    class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"
-                >
-                    <div class="space-y-3">
-                        <div
-                            class="inline-flex items-center gap-2 rounded-full border border-light-quatrenary bg-light-secondary px-3 py-1 text-xs font-semibold tracking-wide text-indigo-700 dark:border-dark-quatrenary dark:bg-dark-secondary dark:text-indigo-300"
-                        >
-                            <span class="size-1.5 rounded-full bg-indigo-500" />
-                            REFERENCE LIBRARY
-                        </div>
-
-                        <div>
-                            <h1
-                                class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
-                            >
-                                MasterFormat
-                                <span
-                                    class="text-indigo-600 dark:text-indigo-400"
-                                >
-                                    Explorer
-                                </span>
-                            </h1>
-
-                            <p
-                                class="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base dark:text-slate-400"
-                            >
-                                Navigate the CSI construction classification
-                                system, from divisions to individual
-                                subsections.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="flex w-fit items-center gap-3 rounded-2xl border border-light-quatrenary bg-light-secondary px-4 py-3 shadow-sm dark:border-dark-quatrenary dark:bg-dark-secondary"
-                    >
-                        <div
-                            class="flex size-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-400/15 dark:text-indigo-300"
-                        >
-                            <Boxes class="size-5" />
-                        </div>
-                        <div>
-                            <p
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400"
-                            >
-                                Total classifications
-                            </p>
-                            <p
-                                class="text-xl font-bold tracking-tight text-slate-900 dark:text-white"
-                            >
-                                {{
-                                    (
-                                        props.divisions.length +
-                                        props.sections.length +
-                                        props.subsections.length
-                                    ).toLocaleString()
-                                }}
-                            </p>
-                        </div>
-                    </div>
-                </header>
-
-                <!-- Search panel -->
+                 <Header :divisions :sections="props.sections" :subsections="props.subsections" />
                 <section
                     class="relative z-20 rounded-2xl border border-light-quatrenary bg-light-secondary p-4 shadow-sm sm:p-6 dark:border-dark-quatrenary dark:bg-dark-secondary"
                 >
@@ -429,90 +360,9 @@ const clearSearch = () => {
                 </section>
 
                 <!-- Current selection -->
-                <section
-                    class="flex flex-col gap-3 rounded-2xl border border-light-quatrenary bg-light-secondary p-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 dark:border-dark-quatrenary dark:bg-dark-secondary"
-                >
-                    <div>
-                        <p
-                            class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
-                        >
-                            Current selection
-                        </p>
-
-                        <div
-                            class="mt-2 flex flex-wrap items-center gap-2 text-sm"
-                        >
-                            <span
-                                v-if="div"
-                                class="rounded-lg bg-indigo-100 px-2.5 py-1 font-mono text-xs font-semibold text-indigo-800 dark:bg-indigo-400/15 dark:text-indigo-300"
-                            >
-                                {{ div.code }}
-                            </span>
-                            <span
-                                v-if="div"
-                                class="font-medium text-slate-700 dark:text-slate-200"
-                            >
-                                {{ div.name }}
-                            </span>
-
-                            <ChevronRight
-                                v-if="section"
-                                class="size-3.5 text-slate-300"
-                            />
-
-                            <span
-                                v-if="section"
-                                class="rounded-lg bg-sky-100 px-2.5 py-1 font-mono text-xs font-semibold text-sky-800 dark:bg-sky-400/15 dark:text-sky-300"
-                            >
-                                {{ section.code }}
-                            </span>
-                            <span
-                                v-if="section"
-                                class="font-medium text-slate-700 dark:text-slate-200"
-                            >
-                                {{ section.name }}
-                            </span>
-
-                            <ChevronRight
-                                v-if="subsection"
-                                class="size-3.5 text-slate-300"
-                            />
-
-                            <span
-                                v-if="subsection"
-                                class="rounded-lg bg-emerald-100 px-2.5 py-1 font-mono text-xs font-semibold text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300"
-                            >
-                                {{ subsection.code }}
-                            </span>
-                            <span
-                                v-if="subsection"
-                                class="font-medium text-slate-700 dark:text-slate-200"
-                            >
-                                {{ subsection.name }}
-                            </span>
-
-                            <span
-                                v-if="!div"
-                                class="text-slate-500 dark:text-slate-400"
-                            >
-                                Select a division to get started.
-                            </span>
-                        </div>
-                    </div>
-
-                    <div
-                        class="flex shrink-0 items-center gap-2 self-start sm:self-center"
-                    >
-                        <span
-                            class="size-2 rounded-full bg-emerald-500"
-                        />
-                        <span
-                            class="text-xs font-medium text-slate-500 dark:text-slate-400"
-                        >
-                            {{ activePath }} of 3 levels selected
-                        </span>
-                    </div>
-                </section>
+                 <Current
+                    :div :section :subsection :activePath
+                 />
 
                 <!-- Classification hierarchy -->
                 <section class="space-y-4">
@@ -547,324 +397,145 @@ const clearSearch = () => {
                     <div
                         class="grid grid-cols-1 gap-5 lg:grid-cols-3"
                     >
-                        <!-- Division panel -->
-                        <section
-                            class="overflow-hidden rounded-2xl border border-light-quatrenary bg-light-secondary shadow-sm dark:border-dark-quatrenary dark:bg-dark-secondary"
-                        >
-                            <header
-                                class="flex items-center justify-between border-b border-light-quatrenary bg-light-primary px-4 py-4 dark:border-dark-quatrenary dark:bg-dark-primary"
+                        <Panel name="Division" :items="props.divisions">
+                            <button
+                                v-for="division in props.divisions"
+                                :key="division.id"
+                                :id="`division-${division.code}`"
+                                type="button"
+                                class="group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left transition-all hover:bg-light-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:hover:bg-dark-tertiary"
+                                :class="{
+                                    'border-indigo-200 bg-indigo-50 shadow-sm dark:border-indigo-400/30 dark:bg-indigo-400/10':
+                                        div?.id === division.id,
+                                }"
+                                @click="selectDivision(division)"
                             >
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="flex size-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-400/15 dark:text-indigo-300"
-                                    >
-                                        <Layers3 class="size-5" />
-                                    </div>
-                                    <div>
-                                        <h3
-                                            class="text-sm font-bold text-slate-900 dark:text-white"
-                                        >
-                                            Divisions
-                                        </h3>
-                                        <p
-                                            class="mt-0.5 text-xs text-slate-500 dark:text-slate-400"
-                                        >
-                                            Top-level categories
-                                        </p>
-                                    </div>
-                                </div>
-
                                 <span
-                                    class="rounded-lg border border-light-quatrenary bg-light-secondary px-2.5 py-1 font-mono text-xs font-semibold text-slate-500 dark:border-dark-quatrenary dark:bg-dark-secondary dark:text-slate-400"
-                                >
-                                    {{ props.divisions.length }}
-                                </span>
-                            </header>
-
-                            <div
-                                class="h-[420px] space-y-1 overflow-y-auto p-2"
-                            >
-                                <button
-                                    v-for="division in props.divisions"
-                                    :key="division.id"
-                                    :id="`division-${division.code}`"
-                                    type="button"
-                                    class="group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left transition-all hover:bg-light-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:hover:bg-dark-tertiary"
+                                    class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-light-tertiary font-mono text-[11px] font-bold text-slate-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 dark:bg-dark-tertiary dark:text-slate-300 dark:group-hover:bg-indigo-400/15 dark:group-hover:text-indigo-300"
                                     :class="{
-                                        'border-indigo-200 bg-indigo-50 shadow-sm dark:border-indigo-400/30 dark:bg-indigo-400/10':
+                                        'bg-indigo-100 text-indigo-700 dark:bg-indigo-400/20 dark:text-indigo-300':
                                             div?.id === division.id,
                                     }"
-                                    @click="selectDivision(division)"
                                 >
-                                    <span
-                                        class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-light-tertiary font-mono text-[11px] font-bold text-slate-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 dark:bg-dark-tertiary dark:text-slate-300 dark:group-hover:bg-indigo-400/15 dark:group-hover:text-indigo-300"
-                                        :class="{
-                                            'bg-indigo-100 text-indigo-700 dark:bg-indigo-400/20 dark:text-indigo-300':
-                                                div?.id === division.id,
-                                        }"
-                                    >
-                                        {{ division.code }}
-                                    </span>
-
-                                    <span class="min-w-0 flex-1">
-                                        <span
-                                            class="block text-sm font-medium leading-5 text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
-                                            :class="{
-                                                'font-semibold text-indigo-950 dark:text-indigo-200':
-                                                    div?.id === division.id,
-                                            }"
-                                        >
-                                            {{ division.name }}
-                                        </span>
-                                    </span>
-
-                                    <ChevronRight
-                                        class="mt-1 size-4 shrink-0 text-slate-300 transition group-hover:text-indigo-500 dark:text-slate-600"
-                                        :class="{
-                                            'text-indigo-500 dark:text-indigo-300':
-                                                div?.id === division.id,
-                                        }"
-                                    />
-                                </button>
-
-                                <div
-                                    v-if="!props.divisions.length"
-                                    class="px-4 py-12 text-center text-sm text-slate-400"
-                                >
-                                    No divisions available.
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Section panel -->
-                        <section
-                            class="overflow-hidden rounded-2xl border border-light-quatrenary bg-light-secondary shadow-sm dark:border-dark-quatrenary dark:bg-dark-secondary"
-                        >
-                            <header
-                                class="flex items-center justify-between border-b border-light-quatrenary bg-light-primary px-4 py-4 dark:border-dark-quatrenary dark:bg-dark-primary"
-                            >
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="flex size-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 dark:bg-sky-400/15 dark:text-sky-300"
-                                    >
-                                        <FolderTree class="size-5" />
-                                    </div>
-                                    <div>
-                                        <h3
-                                            class="text-sm font-bold text-slate-900 dark:text-white"
-                                        >
-                                            Sections
-                                        </h3>
-                                        <p
-                                            class="mt-0.5 text-xs text-slate-500 dark:text-slate-400"
-                                        >
-                                            {{
-                                                div
-                                                    ? `Division ${div.code}`
-                                                    : "Choose a division"
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <span
-                                    class="rounded-lg border border-light-quatrenary bg-light-secondary px-2.5 py-1 font-mono text-xs font-semibold text-slate-500 dark:border-dark-quatrenary dark:bg-dark-secondary dark:text-slate-400"
-                                >
-                                    {{ sections.length }}
+                                    {{ division.code }}
                                 </span>
-                            </header>
 
-                            <div
-                                ref="sectionSection"
-                                class="h-[420px] space-y-1 overflow-y-auto p-2"
-                            >
-                                <button
-                                    v-for="refSection in sections"
-                                    :key="refSection.id"
-                                    :id="`section-${refSection.code}`"
-                                    type="button"
-                                    class="group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left transition-all hover:bg-light-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-dark-tertiary"
+                                <span class="min-w-0 flex-1">
+                                    <span
+                                        class="block text-sm font-medium leading-5 text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
+                                        :class="{
+                                            'font-semibold text-indigo-950 dark:text-indigo-200':
+                                                div?.id === division.id,
+                                        }"
+                                    >
+                                        {{ division.name }}
+                                    </span>
+                                </span>
+
+                                <ChevronRight
+                                    class="mt-1 size-4 shrink-0 text-slate-300 transition group-hover:text-indigo-500 dark:text-slate-600"
                                     :class="{
-                                        'border-sky-200 bg-sky-50 shadow-sm dark:border-sky-400/30 dark:bg-sky-400/10':
+                                        'text-indigo-500 dark:text-indigo-300':
+                                            div?.id === division.id,
+                                    }"
+                                />
+                            </button>
+                        </Panel>
+                        
+                        <Panel :key="`section-panel-${div?.id}`" name="Section" :items="sections" :div>
+                            <button
+                                v-for="refSection in sections"
+                                :key="refSection.id"
+                                :id="`section-${refSection.code}`"
+                                type="button"
+                                class="group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left transition-all hover:bg-light-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-dark-tertiary"
+                                :class="{
+                                    'border-sky-200 bg-sky-50 shadow-sm dark:border-sky-400/30 dark:bg-sky-400/10':
+                                        section?.id === refSection.id,
+                                }"
+                                @click="selectSection(refSection)"
+                            >
+                                <span
+                                    class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-light-tertiary font-mono text-[11px] font-bold text-slate-600 group-hover:bg-sky-100 group-hover:text-sky-700 dark:bg-dark-tertiary dark:text-slate-300 dark:group-hover:bg-sky-400/15 dark:group-hover:text-sky-300"
+                                    :class="{
+                                        'bg-sky-100 text-sky-700 dark:bg-sky-400/20 dark:text-sky-300':
                                             section?.id === refSection.id,
                                     }"
-                                    @click="selectSection(refSection)"
                                 >
+                                    {{ refSection.code }}
+                                </span>
+
+                                <span class="min-w-0 flex-1">
                                     <span
-                                        class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-light-tertiary font-mono text-[11px] font-bold text-slate-600 group-hover:bg-sky-100 group-hover:text-sky-700 dark:bg-dark-tertiary dark:text-slate-300 dark:group-hover:bg-sky-400/15 dark:group-hover:text-sky-300"
+                                        class="block text-sm font-medium leading-5 text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
                                         :class="{
-                                            'bg-sky-100 text-sky-700 dark:bg-sky-400/20 dark:text-sky-300':
+                                            'font-semibold text-sky-950 dark:text-sky-200':
                                                 section?.id === refSection.id,
                                         }"
                                     >
+                                        {{ refSection.name }}
+                                    </span>
+                                    <span
+                                        class="mt-1 block font-mono text-[10px] text-slate-400 dark:text-slate-500"
+                                    >
+                                        {{ div?.code }}
                                         {{ refSection.code }}
                                     </span>
-
-                                    <span class="min-w-0 flex-1">
-                                        <span
-                                            class="block text-sm font-medium leading-5 text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
-                                            :class="{
-                                                'font-semibold text-sky-950 dark:text-sky-200':
-                                                    section?.id === refSection.id,
-                                            }"
-                                        >
-                                            {{ refSection.name }}
-                                        </span>
-                                        <span
-                                            class="mt-1 block font-mono text-[10px] text-slate-400 dark:text-slate-500"
-                                        >
-                                            {{ div?.code }}
-                                            {{ refSection.code }}
-                                        </span>
-                                    </span>
-
-                                    <ChevronRight
-                                        class="mt-1 size-4 shrink-0 text-slate-300 transition group-hover:text-sky-500 dark:text-slate-600"
-                                        :class="{
-                                            'text-sky-500 dark:text-sky-300':
-                                                section?.id === refSection.id,
-                                        }"
-                                    />
-                                </button>
-
-                                <div
-                                    v-if="div && !sections.length"
-                                    class="px-4 py-12 text-center text-sm text-slate-400"
-                                >
-                                    No sections in this division.
-                                </div>
-
-                                <div
-                                    v-if="!div"
-                                    class="flex h-full flex-col items-center justify-center px-6 text-center"
-                                >
-                                    <FolderTree
-                                        class="size-8 text-slate-300 dark:text-slate-600"
-                                    />
-                                    <p
-                                        class="mt-3 text-sm font-medium text-slate-600 dark:text-slate-300"
-                                    >
-                                        Select a division
-                                    </p>
-                                    <p
-                                        class="mt-1 text-xs leading-5 text-slate-400"
-                                    >
-                                        Its sections will appear here.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Subsection panel -->
-                        <section
-                            class="overflow-hidden rounded-2xl border border-light-quatrenary bg-light-secondary shadow-sm dark:border-dark-quatrenary dark:bg-dark-secondary"
-                        >
-                            <header
-                                class="flex items-center justify-between border-b border-light-quatrenary bg-light-primary px-4 py-4 dark:border-dark-quatrenary dark:bg-dark-primary"
-                            >
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="flex size-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300"
-                                    >
-                                        <FileText class="size-5" />
-                                    </div>
-                                    <div>
-                                        <h3
-                                            class="text-sm font-bold text-slate-900 dark:text-white"
-                                        >
-                                            Subsections
-                                        </h3>
-                                        <p
-                                            class="mt-0.5 text-xs text-slate-500 dark:text-slate-400"
-                                        >
-                                            {{
-                                                section
-                                                    ? `Section ${section.code}`
-                                                    : "Choose a section"
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <span
-                                    class="rounded-lg border border-light-quatrenary bg-light-secondary px-2.5 py-1 font-mono text-xs font-semibold text-slate-500 dark:border-dark-quatrenary dark:bg-dark-secondary dark:text-slate-400"
-                                >
-                                    {{ subsections.length }}
                                 </span>
-                            </header>
 
-                            <div
-                                class="h-[420px] space-y-1 overflow-y-auto p-2"
-                            >
-                                <button
-                                    v-for="refSubsection in subsections"
-                                    :key="refSubsection.id"
-                                    :id="`subsection-${refSubsection.id}`"
-                                    type="button"
-                                    class="group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left transition-all hover:bg-light-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:hover:bg-dark-tertiary"
+                                <ChevronRight
+                                    class="mt-1 size-4 shrink-0 text-slate-300 transition group-hover:text-sky-500 dark:text-slate-600"
                                     :class="{
-                                        'border-emerald-200 bg-emerald-50 shadow-sm dark:border-emerald-400/30 dark:bg-emerald-400/10':
+                                        'text-sky-500 dark:text-sky-300':
+                                            section?.id === refSection.id,
+                                    }"
+                                />
+                            </button>
+                        </Panel>
+                        
+                        <Panel :key="`subsection-panel-${section?.id}`" name="Subsection" :items="subsections" :section>
+                            <button
+                                v-for="refSubsection in subsections"
+                                :key="refSubsection.id"
+                                :id="`subsection-${refSubsection.id}`"
+                                type="button"
+                                class="group flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left transition-all hover:bg-light-tertiary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:hover:bg-dark-tertiary"
+                                :class="{
+                                    'border-emerald-200 bg-emerald-50 shadow-sm dark:border-emerald-400/30 dark:bg-emerald-400/10':
+                                        subsection?.id === refSubsection.id,
+                                }"
+                                @click="subsection = refSubsection"
+                            >
+                                <span
+                                    class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-light-tertiary font-mono text-[11px] font-bold text-slate-600 group-hover:bg-emerald-100 group-hover:text-emerald-700 dark:bg-dark-tertiary dark:text-slate-300 dark:group-hover:bg-emerald-400/15 dark:group-hover:text-emerald-300"
+                                    :class="{
+                                        'bg-emerald-100 text-emerald-700 dark:bg-emerald-400/20 dark:text-emerald-300':
                                             subsection?.id === refSubsection.id,
                                     }"
-                                    @click="subsection = refSubsection"
                                 >
+                                    {{ refSubsection.code }}
+                                </span>
+
+                                <span class="min-w-0 flex-1">
                                     <span
-                                        class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-light-tertiary font-mono text-[11px] font-bold text-slate-600 group-hover:bg-emerald-100 group-hover:text-emerald-700 dark:bg-dark-tertiary dark:text-slate-300 dark:group-hover:bg-emerald-400/15 dark:group-hover:text-emerald-300"
+                                        class="block text-sm font-medium leading-5 text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
                                         :class="{
-                                            'bg-emerald-100 text-emerald-700 dark:bg-emerald-400/20 dark:text-emerald-300':
+                                            'font-semibold text-emerald-950 dark:text-emerald-200':
                                                 subsection?.id === refSubsection.id,
                                         }"
                                     >
+                                        {{ refSubsection.name }}
+                                    </span>
+                                    <span
+                                        class="mt-1 block font-mono text-[10px] text-slate-400 dark:text-slate-500"
+                                    >
+                                        {{ div?.code }}
+                                        {{ section?.code }}
                                         {{ refSubsection.code }}
                                     </span>
-
-                                    <span class="min-w-0 flex-1">
-                                        <span
-                                            class="block text-sm font-medium leading-5 text-slate-700 group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
-                                            :class="{
-                                                'font-semibold text-emerald-950 dark:text-emerald-200':
-                                                    subsection?.id === refSubsection.id,
-                                            }"
-                                        >
-                                            {{ refSubsection.name }}
-                                        </span>
-                                        <span
-                                            class="mt-1 block font-mono text-[10px] text-slate-400 dark:text-slate-500"
-                                        >
-                                            {{ div?.code }}
-                                            {{ section?.code }}
-                                            {{ refSubsection.code }}
-                                        </span>
-                                    </span>
-                                </button>
-
-                                <div
-                                    v-if="section && !subsections.length"
-                                    class="px-4 py-12 text-center text-sm text-slate-400"
-                                >
-                                    No subsections in this section.
-                                </div>
-
-                                <div
-                                    v-if="!section"
-                                    class="flex h-full flex-col items-center justify-center px-6 text-center"
-                                >
-                                    <FileText
-                                        class="size-8 text-slate-300 dark:text-slate-600"
-                                    />
-                                    <p
-                                        class="mt-3 text-sm font-medium text-slate-600 dark:text-slate-300"
-                                    >
-                                        Select a section
-                                    </p>
-                                    <p
-                                        class="mt-1 text-xs leading-5 text-slate-400"
-                                    >
-                                        Its subsections will appear here.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
+                                </span>
+                            </button>
+                        </Panel>
                     </div>
                 </section>
             </main>
