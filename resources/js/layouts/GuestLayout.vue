@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
-import { Notebook, BookMarked, DollarSign } from 'lucide-vue-next';
+import { Notebook, BookMarked, DollarSign, House } from 'lucide-vue-next';
 
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 
@@ -20,24 +20,31 @@ const props = defineProps({
 const isSidebarOpen = useStorage('sidebar-state', true);
 const { scrolled } = useScrolled();
 
+const currentDate = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+}).format(new Date());
+
 const navigations = [
     { name: 'Construction Estimating', url: '/estimating/jobs', icon: Notebook },
     { name: 'Invoicing', url: '/invoices', icon: DollarSign },
-    { name: 'Masterformat', url: '/masterformat', icon: BookMarked },
+    { name: 'CSI/Masterformat Reference', url: '/masterformat', icon: BookMarked },
+    { name: 'Per Diem', url: '/lodging', icon: House },
 ];
 </script>
 
 <template>
     <div
-        class="min-h-screen bg-slate-50 text-slate-900
+        class="flex h-dvh flex-col overflow-hidden
+               bg-slate-50 text-slate-900
                dark:bg-slate-950 dark:text-slate-100"
     >
         <SidebarProvider
             :default-open="isSidebarOpen"
             style="--sidebar-width: 17rem; --sidebar-width-mobile: 18rem"
-            class="min-h-screen"
+            class="min-h-0 flex-1 overflow-hidden"
         >
-            <!-- Application header -->
             <header
                 class="fixed inset-x-0 top-0 z-40 h-16
                        border-b border-slate-200/80
@@ -47,7 +54,6 @@ const navigations = [
                 :class="{ 'shadow-sm': scrolled }"
             >
                 <div class="flex h-full items-center justify-between gap-4 px-4 sm:px-6">
-
                     <div class="flex min-w-0 items-center gap-3">
                         <SidebarTrigger
                             v-if="showSidebar"
@@ -74,43 +80,54 @@ const navigations = [
                         </template>
                     </div>
 
-                    <!-- Right: page actions, then theme toggle -->
                     <div class="flex shrink-0 items-center gap-2 sm:gap-3">
                         <template v-if="$slots.navigation">
                             <slot name="navigation" />
                             <span class="h-6 w-px bg-slate-200 dark:bg-slate-800" />
                         </template>
 
+                        <!-- Current date -->
+                        <div
+                            class="hidden items-center rounded-lg border border-slate-200
+                                bg-slate-50 px-3 py-1.5 text-xs font-medium
+                                text-slate-600 sm:flex
+                                dark:border-slate-800 dark:bg-slate-900
+                                dark:text-slate-300"
+                        >
+                            <span>{{ currentDate }}</span>
+                        </div>
+
                         <DarkMode />
                     </div>
                 </div>
             </header>
 
-            <!-- Project navigation -->
             <AppSidebar
                 v-if="showSidebar"
                 :navigations="navigations"
             />
 
-            <!-- Main content -->
-            <main class="min-h-screen w-full pt-16">
-                <div
-                    class="mx-auto w-full max-w-[1600px] px-4 py-6
-                           sm:px-6 sm:py-8 lg:px-8 lg:py-10"
-                >
-                    <slot />
+            <main class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-16">
+                <div class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+                    <div
+                        v-motion-fade
+                        class="min-h-screen bg-light-tertiary text-slate-800 rounded-md antialiased transition-colors duration-300 dark:bg-dark-tertiary dark:text-slate-100"
+                    >
+                        <slot />
+                    </div>
                 </div>
 
                 <footer
-                    class="mx-auto flex max-w-[1600px] flex-col gap-2
-                           border-t border-slate-200/80
-                           px-4 py-5 text-xs text-slate-500
-                           sm:flex-row sm:items-center sm:justify-between
-                           sm:px-6 lg:px-8
-                           dark:border-slate-800"
+                    class="mx-auto flex w-full shrink-0 max-w-[1600px]
+                        flex-col gap-2 border-t border-slate-200/80
+                        bg-slate-50 px-4 py-5 text-xs text-slate-500
+                        sm:flex-row sm:items-center sm:justify-end
+                        sm:px-6 lg:px-8
+                        dark:border-slate-800 dark:bg-slate-950"
                 >
                     <span>© {{ new Date().getFullYear() }} Digital Dad, LLC</span>
                 </footer>
+
             </main>
         </SidebarProvider>
     </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Contracts;
 
 use App\Http\Controllers\Controller;
-use App\Services\SamGovService;
+use App\Services\Sam\SamGovService;
 use Inertia\Inertia;
 
 class ContractController extends Controller
