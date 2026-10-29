@@ -8,8 +8,9 @@ import GuestLayout from "@/layouts/GuestLayout.vue";
 import { useFuse } from "@vueuse/integrations/useFuse";
 import { refDebounced } from "@vueuse/core";
 import Panel from "./partials/Panel.vue";
-import Header from "./partials/Header.vue";
 import Current from "./partials/Current.vue";
+import ProjectHeader from "@/components/ProjectHeader.vue";
+import { Boxes } from "lucide-vue-next";
 
 interface Division {
     id: number;
@@ -206,7 +207,21 @@ const clearSearch = () => {
 
     <GuestLayout title="MasterFormat Reference" :show-sidebar="true">
         <main class="mx-auto max-w-[1600px] space-y-8 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
-            <Header :divisions :sections="props.sections" :subsections="props.subsections" />
+
+            <ProjectHeader
+                title="Masterformat"
+                subtitle="Reference Library"
+                :total="divisions.length + sections.length + subsections.length"
+                total_category="Classifications"
+                explorer
+            
+            >
+                Navigate the CSI construction classification system, from divisions to individual subsections.
+                <template #icon>
+                    <Boxes class="size-5" />
+                </template>
+            </ProjectHeader>
+
             <section
                 class="relative z-20 rounded-2xl border border-light-quatrenary bg-light-secondary p-4 shadow-sm sm:p-6 dark:border-dark-quatrenary dark:bg-dark-secondary"
             >

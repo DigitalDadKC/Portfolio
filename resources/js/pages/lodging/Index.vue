@@ -4,6 +4,7 @@ import { computed, ref, watch } from 'vue';
 import FilterDropdown from '@/components/FilterDropdown.vue';
 import GuestLayout from '@/layouts/GuestLayout.vue';
 import { Landmark } from 'lucide-vue-next';
+import ProjectHeader from '@/components/ProjectHeader.vue';
 
 interface PerDiemRecord {
     State: string;
@@ -77,24 +78,20 @@ watch(state, () => {
     <GuestLayout title="Per Diem Explorer" :show-sidebar="true">
         <main class="mx-auto max-w-[1600px] space-y-8 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">
             <div class="mx-auto max-w-7xl space-y-8">
-
-                <!-- Page heading -->
-                <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                        <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-700">
-                            <span class="h-2 w-2 rounded-full bg-blue-600"></span>
-                            Government travel rates
-                        </div>
-
-                        <h1 class="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-                            Per Diem Explorer
-                        </h1>
-
-                        <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-                            Explore monthly lodging per diem rates by state and city.
-                        </p>
-                    </div>
-                </header>
+                
+                <ProjectHeader
+                    title="Per Diem / Lodging"
+                    subtitle="Government Travel Rates"
+                    :total="props.data.length * 12"
+                    total_category="Rates"
+                    explorer
+                
+                >
+                    Explore monthly lodging per diem rates by state and city.
+                    <template #icon>
+                        <Landmark class="size-5" />
+                    </template>
+                </ProjectHeader>
 
                 <!-- Filters -->
                 <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">

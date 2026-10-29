@@ -12,7 +12,8 @@ import StateTag from "./partials/StateTag.vue";
 import CustomerTag from "./partials/CustomerTag.vue";
 import { useDateFormat } from "@vueuse/core";
 import { useFormatCurrency } from "@/composables/useFormatCurrency";
-import { Download, FileText, Plus, ArrowUpRight } from "lucide-vue-next";
+import { Download, FileText, Plus, ArrowUpRight, HardHat } from "lucide-vue-next";
+import ProjectHeader from "@/components/ProjectHeader.vue";
 
 const props = defineProps({
     jobs: Object,
@@ -80,24 +81,19 @@ const proposalTotal = (proposal) =>
 
 <template>
     <EstimatingLayout>
-
         <div class="mx-auto w-full max-w-7xl px-4 py-8">
-            <div
-                class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+
+            <ProjectHeader
+                title="Estimating"
+                subtitle="Construction Software"
+                :total="props.jobs.data.length"
+                total_category="Jobs"
             >
-                <div>
-                    <p
-                        class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-black/40 dark:text-white/40"
-                    >
-                        Estimating
-                    </p>
-                    <h1
-                        class="text-3xl font-extrabold tracking-tight text-black dark:text-white"
-                    >
-                        Jobs
-                    </h1>
-                </div>
-            </div>
+                Create proposals with custom-built pricing tools
+                <template #icon>
+                    <HardHat class="size-5" />
+                </template>
+            </ProjectHeader>
 
             <div
                 class="mb-5 flex flex-col gap-4 rounded-2xl border-2 border-black bg-light-primary p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-dark-primary lg:flex-row lg:items-center lg:justify-between"
