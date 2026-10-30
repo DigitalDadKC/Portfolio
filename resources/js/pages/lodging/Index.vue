@@ -87,7 +87,7 @@ watch(state, () => {
                     explorer
                 
                 >
-                    Explore monthly lodging per diem rates by state and city.
+                    Explore monthly lodging per diem rates by state and city using rates set by <a href="https://open.gsa.gov/api/perdiem/" target="_blank" class="text-blue-500">Sam.gov</a>
                     <template #icon>
                         <Landmark class="size-5" />
                     </template>

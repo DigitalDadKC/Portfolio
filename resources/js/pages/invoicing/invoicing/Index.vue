@@ -60,7 +60,7 @@ const update_customers = (data) => {
 
             <ProjectHeader
                 title="Invoicing"
-                subtitle="Custom Invoicing Software"
+                subtitle="Invoicing Software"
                 :total="props.invoices.data.length"
                 total_category="Invoices"
             >
@@ -96,7 +96,7 @@ const update_customers = (data) => {
                                     <th scope="col" class="px-4 py-3" v-if="!trashed">Archive</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-light-tertiary dark:bg-dark-tertiary h-full">
+                            <tbody class="bg-light-secondary dark:bg-dark-tertiary h-full">
                                 <tr class="border-b dark:border-gray-700" v-for="(invoice, index) in props.invoices.data" :key="index">
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ invoice.number }}</th>
                                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ invoice.customer.name }}</th>

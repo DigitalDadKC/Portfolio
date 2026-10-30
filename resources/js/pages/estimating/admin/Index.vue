@@ -9,6 +9,8 @@ import RecentProposal from "./widgets/RecentProposal.vue";
 import DoughnutChart from "./widgets/DoughnutChart.vue";
 import CurrentMonthlyRevenue from "./widgets/CurrentMonthlyRevenue.vue";
 import LineChart from "./widgets/LineChart.vue";
+import ProjectHeader from "@/components/ProjectHeader.vue";
+import { UserGroup } from "@lucide/vue";
 
 const props = defineProps({
     new: Boolean,
@@ -32,14 +34,17 @@ const cardClass = 'rounded-2xl border-2 border-black bg-light-primary p-4 shadow
 
         <main class="mx-auto w-full max-w-7xl px-4 py-8">
 
-            <div class="mb-6">
-                <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-black/40 dark:text-white/40">
-                    Estimating
-                </p>
-                <h1 class="text-3xl font-extrabold tracking-tight text-black dark:text-white">
-                    Admin dashboard
-                </h1>
-            </div>
+            <ProjectHeader
+                title="Admin"
+                subtitle="Construction Software"
+                :total="props.users.length"
+                total_category="Users"
+            >
+                Custom-built dashboard showing user administration and a quick overview of your estimating progress.
+                <template #icon>
+                    <UserGroup class="size-5" />
+                </template>
+            </ProjectHeader>
 
             <div class="grid grid-cols-1 gap-4 mb-4 lg:grid-cols-2 xl:grid-cols-4">
                 <div :class="[cardClass, 'h-60']">

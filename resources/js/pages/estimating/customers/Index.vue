@@ -10,6 +10,8 @@ import SearchBox from "../jobs/partials/SearchBox.vue";
 import State from "../jobs/partials/State.vue";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ArrowDown, ArrowUp } from "lucide-vue-next";
+import ProjectHeader from "@/components/ProjectHeader.vue";
+import { BuildingComplex } from "@lucide/vue";
 
 const props = defineProps({
     customers: Object,
@@ -61,8 +63,6 @@ const sortIcon = computed(() => {
 
 const formatDate = (date) => useDateFormat(date, "M.D.YYYY").value
 
-// Shared eyebrow token, matching the column/section labels used everywhere
-// else (Filters group headers, widget titles, etc).
 const eyebrowClass = 'font-mono text-[11px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40'
 </script>
 
@@ -73,17 +73,18 @@ const eyebrowClass = 'font-mono text-[11px] font-bold uppercase tracking-widest 
 
         <div class="mx-auto w-full max-w-7xl px-4 py-8">
 
-            <!-- Page header -->
-            <div class="mb-6">
-                <p class="font-mono text-xs font-bold uppercase tracking-[0.2em] text-black/40 dark:text-white/40">
-                    Estimating
-                </p>
-                <h1 class="text-3xl font-extrabold tracking-tight text-black dark:text-white">
-                    Customers
-                </h1>
-            </div>
+            <ProjectHeader
+                title="Customers"
+                subtitle="Construction Software"
+                :total="props.customers.length"
+                total_category="Customers"
+            >
+                Add new, edit, or delete from a datatable of customers.
+                <template #icon>
+                    <BuildingComplex class="size-5" />
+                </template>
+            </ProjectHeader>
 
-            <!-- Toolbar -->
             <div
                 class="mb-5 flex flex-col gap-4 rounded-2xl border-2 border-black bg-light-primary p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-dark-primary"
             >

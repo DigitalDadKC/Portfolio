@@ -86,8 +86,8 @@ const proposalTotal = (proposal) =>
             <ProjectHeader
                 title="Estimating"
                 subtitle="Construction Software"
-                :total="props.jobs.data.length"
-                total_category="Jobs"
+                :total="props.jobs.data.flatMap(j => j.proposals).length"
+                total_category="Proposals"
             >
                 Create proposals with custom-built pricing tools
                 <template #icon>

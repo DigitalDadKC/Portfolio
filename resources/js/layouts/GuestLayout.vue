@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
-import { Notebook, BookMarked, DollarSign, House } from 'lucide-vue-next';
+import { Notebook, BookMarked, DollarSign, House, Upload } from 'lucide-vue-next';
 
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 
@@ -31,7 +31,8 @@ const navigations = [
     { name: 'Construction Estimating', url: '/estimating/jobs', icon: Notebook },
     { name: 'Invoicing', url: '/invoices', icon: DollarSign },
     { name: 'CSI/Masterformat Reference', url: '/masterformat', icon: BookMarked },
-    { name: 'Per Diem', url: '/lodging', icon: House },
+    { name: 'Sam.gov API', url: '/lodging', icon: House },
+    { name: 'Dropzone', url: '/dropzone', icon: Upload },
 ];
 </script>
 

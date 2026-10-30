@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\TradeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Contracts\ContractController as ContractsController;
 use App\Http\Controllers\DatatableController;
+use App\Http\Controllers\Dropzone\DropzoneController;
 use App\Http\Controllers\Estimating\AdminController;
 use App\Http\Controllers\Estimating\CustomerController;
 use App\Http\Controllers\Estimating\JobController;
@@ -131,11 +132,14 @@ Route::patch('/users/{user}', [AdminController::class, 'update_user'])->name('us
 
 // Lodging
 Route::get('/lodging', [LodgingController::class, 'index'])->name('lodging.index');
-// Route::get('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.index');
-// Route::post('/opportunities', [OpportunitiesController::class, 'index'])->name('opportunities.filter');
 
 // CONTRACTS
 Route::get('/contract-awards', [ContractsController::class, 'index'])->name('contract-awards.index');
+
+// DROPZONE
+Route::get('/dropzone', [DropzoneController::class, 'index'])->name('dropzone.index');
+Route::post('/dropzone/import', [DropzoneController::class, 'import'])->name('dropzone.import');
+
 
 require __DIR__ . '/auth.php';
 
