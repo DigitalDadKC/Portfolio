@@ -25,6 +25,7 @@ const form = useForm({
     image: props.project?.image,
     url: props.project?.url,
     active: !!props.project?.active,
+    icon: props.project?.icon,
     skills: props.project?.skills,
 })
 
@@ -52,6 +53,7 @@ const submit = () => {
             url: form.url,
             image: form.image,
             active: form.active,
+            icon: form.icon,
             skills: form.skills,
         }, {
             preserveScroll: true,
@@ -62,6 +64,8 @@ const submit = () => {
         });
     }
 };
+
+const domain = window.location.hostname
 </script>
 
 <template>
@@ -91,18 +95,39 @@ const submit = () => {
                     <Label for="description">Description</Label>
                     <Input id="description" class="bg-white dark:bg-dark-tertiary hover:bg-accent hover:dark:bg-input/50" v-model="form.description" />
                 </div>
+
                 <div>
                     <Label for="url">Project URL</Label>
-                    <Input id="url" class="bg-white dark:bg-dark-tertiary hover:bg-accent hover:dark:bg-input/50" v-model="form.url" />
+
+                    <div class="flex items-center rounded-md border border-input bg-white dark:bg-dark-tertiary">
+                        <span class="px-3 text-sm text-muted-foreground whitespace-nowrap">
+                            https://{{ domain }}/
+                        </span>
+
+                        <Input
+                            id="url"
+                            v-model="form.url"
+                            class="border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
+                        />
+                    </div>
                 </div>
+
+
+                <!-- <div>
+                    <Label for="url">Project URL</Label>
+                    <Input id="url" class="bg-white dark:bg-dark-tertiary hover:bg-accent hover:dark:bg-input/50" v-model="form.url" />
+                </div> -->
                 <div v-if="form.errors.url" class="text-red-500">{{ form.errors.url }}</div>
                 <div>
                     <Label for="active">{{ (form.active) ? `Active` : `Inactive` }}</Label>
                     <Switch id="active" v-model="form.active" />
                 </div>
                 <div>
+                    <Label for="icon">Icon</Label>
+                    <Input id="icon" class="bg-white dark:bg-dark-tertiary hover:bg-accent hover:dark:bg-input/50" v-model="form.icon" />
+                </div>
+                <div>
                     <Multiselect v-model="form.skills" :options="props.skills" placeholder="Select skills"/>
-                    <!-- <Skills v-model="form.skills" :project :skills></Skills> -->
                 </div>
                 <div class="mt-2">
                     <Label for="image">Image</Label>

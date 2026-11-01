@@ -12,10 +12,6 @@ const props = defineProps({
     element: Object,
     unit_of_measurements: Object,
 
-    /**
-     * True when the Scope or Proposal containing this line
-     * is currently being saved.
-     */
     parentUpdating: {
         type: Boolean,
         default: false,
@@ -29,8 +25,6 @@ const disabled = computed(() => {
 })
 
 const updateLine = () => {
-    // Don't allow another request while this line or its parent
-    // is already being updated.
     if (disabled.value) {
         return
     }

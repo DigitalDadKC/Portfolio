@@ -81,10 +81,10 @@ Route::post('/cancel', [AdminInvoiceController::class, 'cancel'])->name('checkou
 Route::post('/webhook', [AdminInvoiceController::class, 'webhook'])->name('checkout.webhook');
 
 // jobs
-Route::get('/estimating/jobs', [JobController::class, 'index'])->name('jobs.index');
-Route::post('/estimating/jobs', [JobController::class, 'index'])->name('jobs.filter');
-Route::post('/estimating/jobs/store', [JobController::class, 'store'])->name('jobs.store');
-Route::resource('estimating/jobs', JobController::class)->only('update', 'destroy');
+Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+Route::post('/jobs', [JobController::class, 'index'])->name('jobs.filter');
+Route::post('/jobs/store', [JobController::class, 'store'])->name('jobs.store');
+Route::resource('jobs', JobController::class)->only('update', 'destroy');
 
 // proposal
 Route::post('/proposals/{job}', [ProposalController::class, 'store'])->name('proposals.store');

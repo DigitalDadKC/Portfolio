@@ -10,9 +10,6 @@ use App\Http\Resources\FeatureResource;
 
 class FeatureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return Inertia::render('admin/features/Index', [
@@ -20,9 +17,6 @@ class FeatureController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -38,9 +32,6 @@ class FeatureController extends Controller
         return back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Feature $feature)
     {
         $request->validate([
@@ -54,9 +45,6 @@ class FeatureController extends Controller
         return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request, Feature $feature)
     {
         $feature->delete();
@@ -66,13 +54,15 @@ class FeatureController extends Controller
 
     public function sort(Request $request)
     {
-        $features = Feature::orderBy('order')->get();
-        $features->map(function($feature) use ($request) {
-            $target_feature = array_find($request->features ?? [], fn($item) => $item['id'] == $feature->id);
-            if($target_feature) {
-                $feature->update(['order' => $target_feature['order']]);
-            };
-        });
+        $data = $request->validate([
+            'features' => ['required', 'array'],
+            'features.*.id' => ['required', 'exists:features,id'],
+            'features.*.order' => ['required', 'integer', 'min:0'],
+        ]);
+
+        foreach ($data['features'] as $item) {
+            Feature::whereKey($item['id'])->update(['order' => $item['order']]);
+        }
 
         return back();
     }

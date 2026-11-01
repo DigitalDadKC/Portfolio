@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core';
-import { Notebook, BookMarked, DollarSign, House, Upload } from 'lucide-vue-next';
-
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-
 import AppSidebar from '@/components/AppSidebar.vue';
 import ApplicationLogo from '@/components/ApplicationLogo.vue';
 import DarkMode from '@/components/DarkMode.vue';
 import { useScrolled } from '@/composables/useScrolled';
+import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     title: String,
@@ -19,6 +17,7 @@ const props = defineProps({
 
 const isSidebarOpen = useStorage('sidebar-state', true);
 const { scrolled } = useScrolled();
+const projects = usePage().props.projects?.filter(p => p.active)
 
 const currentDate = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
@@ -27,13 +26,6 @@ const currentDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
 }).format(new Date());
 
-const navigations = [
-    { name: 'Construction Estimating', url: '/estimating/jobs', icon: Notebook },
-    { name: 'Invoicing', url: '/invoices', icon: DollarSign },
-    { name: 'CSI/Masterformat Reference', url: '/masterformat', icon: BookMarked },
-    { name: 'Sam.gov API', url: '/lodging', icon: House },
-    { name: 'Dropzone', url: '/dropzone', icon: Upload },
-];
 </script>
 
 <template>
@@ -106,7 +98,7 @@ const navigations = [
 
             <AppSidebar
                 v-if="showSidebar"
-                :navigations="navigations"
+                :projects
             />
 
             <main class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden pt-16">

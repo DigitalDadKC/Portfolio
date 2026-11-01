@@ -41,6 +41,7 @@ class ProjectController extends Controller
             'url' => $request->url,
             'order' => Project::count() + 1,
             'active' => $request->active,
+            'icon' => $request->icon,
             'image' => $image,
         ]);
         $project->skills()->sync(array_column($request->skills, 'id'));
@@ -69,6 +70,7 @@ class ProjectController extends Controller
             'url' => $request->url,
             'image' => $image,
             'active' => $request->active,
+            'icon' => $request->icon,
         ]);
         $project->skills()->sync(array_column($request->skills, 'id'));
 

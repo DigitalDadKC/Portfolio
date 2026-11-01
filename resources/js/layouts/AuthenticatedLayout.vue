@@ -17,6 +17,7 @@ import {
   NavigationMenuViewport,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu'
+import DarkMode from '@/components/DarkMode.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -99,6 +100,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
+                            <DarkMode />
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">

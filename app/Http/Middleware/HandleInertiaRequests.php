@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -47,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'message' => fn() => $request->session()->get('message'),
                 'imported' => fn() => $request->session()->get('imported'),
             ],
+            'projects' => fn() => Project::orderBy('order')->get(),
         ];
     }
 }

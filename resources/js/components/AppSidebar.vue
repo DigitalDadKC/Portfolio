@@ -9,10 +9,16 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import SidebarHeader from "./ui/sidebar/SidebarHeader.vue";
+import * as icons from 'lucide-vue-next';
 
+
+const getIcon = (iconName) => {
+    return icons[iconName] || icons.Folder;
+}
 const props = defineProps({
-    navigations: Object,
+    projects: Object,
 })
+
 </script>
 
 <template>
@@ -22,10 +28,10 @@ const props = defineProps({
             <SidebarGroup>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        <SidebarMenuItem v-for="project in navigations" :key="project.name">
+                        <SidebarMenuItem v-for="project in projects" :key="project.id">
                             <SidebarMenuButton asChild>
                             <Link :href="project.url" prefetch>
-                                <component :is="project.icon" />
+                                <component :is="getIcon(project.icon)" />
                                 <span>{{project.name}}</span>
                             </Link>
                             </SidebarMenuButton>
