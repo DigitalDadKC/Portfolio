@@ -190,7 +190,7 @@ console.log(domain)
                         <!-- URL -->
                         <TableCell>                            
                             <Link
-                                :href="`${domain}/${project.url.replace(/^\/+/, '')}`"
+                                :href="`/${project.url}`"
                                 target="_blank"
                                 class="
                                     inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5
@@ -206,22 +206,6 @@ console.log(domain)
                                 {{ project.name }}
                                 <ExternalLink class="w-3.5 h-3.5" />
                             </Link>
-                            <!-- <a
-                                v-if="project.url"
-                                :href="project.url"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5
-                                    text-xs font-semibold
-                                    text-indigo-600 bg-indigo-50
-                                    hover:bg-indigo-100 hover:text-indigo-700
-                                    dark:text-indigo-300 dark:bg-indigo-500/10
-                                    dark:hover:bg-indigo-500/20
-                                    transition-all duration-150"
-                            >
-                                Visit
-                                <ExternalLink class="w-3.5 h-3.5" />
-                            </a> -->
                             <span v-else class="text-xs text-gray-400">—</span>
                         </TableCell>
 

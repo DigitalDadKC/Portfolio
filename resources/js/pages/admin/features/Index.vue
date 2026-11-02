@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import Manage from './modals/Manage.vue';
 import Destroy from './modals/Destroy.vue';
-import { GripHorizontal } from 'lucide-vue-next';
+import { Grip } from 'lucide-vue-next';
 import { useDateFormat } from '@vueuse/core';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useSortable } from '@vueuse/integrations/useSortable'
@@ -87,7 +87,14 @@ watch(() => props.features, (features) => {
                 <TableBody class="bg-white dark:bg-gray-800 dark:border-gray-700" ref="el">
                     <TableRow v-for="feature in list" :key="feature.id" class="w-full">
                         <TableCell class="p-3">
-                            <GripHorizontal class="handle cursor-grab w-8 h-8"></GripHorizontal>
+                            <div
+                                class="handle flex items-center justify-center cursor-grab active:cursor-grabbing
+                                    text-gray-300 hover:text-indigo-500 dark:text-gray-600
+                                    dark:hover:text-indigo-400 transition-colors duration-200"
+                                title="Drag to reorder"
+                            >
+                                <Grip class="w-5 h-5 transition-transform duration-200 hover:scale-110" />
+                            </div>
                         </TableCell>
                         <TableCell>{{ feature.order }}</TableCell>
                         <TableCell>{{ feature.name }}</TableCell>
