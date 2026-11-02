@@ -2,24 +2,25 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\Job;
 use App\Models\Line;
-use App\Models\Scope;
 use App\Models\Proposal;
+use App\Models\Scope;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class ProductionSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Line::truncate();
-        Scope::truncate();
-        Proposal::truncate();
-        Job::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(AdminSeeder::class);
+        $this->call(StateSeeder::class);
+
+        Customer::factory(50)->create();
 
         Job::factory(250)
             ->create()
@@ -34,9 +35,5 @@ class ProductionSeeder extends Seeder
                     ->create()))
                 ))
             ));
-
-        // Invoice::factory(100)->create();
-        // InvoiceItem::factory(250)->create();
-        // Product::factory(3)->create();
     }
 }
