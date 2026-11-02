@@ -2,24 +2,35 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
 use App\Models\Job;
 use App\Models\Line;
-use App\Models\Scope;
 use App\Models\Proposal;
+use App\Models\Scope;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Support\Str;
 
 class ProductionSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Line::truncate();
-        Scope::truncate();
-        Proposal::truncate();
-        Job::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $models = [
+            'States',
+            'UnitOfMeasurements',
+        ];
+        foreach ($models as $model) {
+            $path = 'database/seeders/local/' . Str::of(strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $model)))->plural() . '.sql';
+            DB::unprepared(file_get_contents($path));
+            $this->command->info($model . ' Model Seeded!');
+        }
+
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(AdminSeeder::class);
+
+        Customer::factory(50)->create();
 
         Job::factory(250)
             ->create()
@@ -34,9 +45,5 @@ class ProductionSeeder extends Seeder
                     ->create()))
                 ))
             ));
-
-        // Invoice::factory(100)->create();
-        // InvoiceItem::factory(250)->create();
-        // Product::factory(3)->create();
     }
 }

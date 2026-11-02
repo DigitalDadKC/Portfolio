@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { GripVertical, Trash2, ChevronDown } from 'lucide-vue-next'
+import { GripVertical, Grip, Trash2, ChevronDown } from 'lucide-vue-next'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import FormattedInput from '@/components/FormattedInput.vue'
@@ -77,12 +77,13 @@ const fieldClass =
 
             <!-- Drag handle -->
             <div class="flex h-9 items-center justify-center">
-                <GripVertical
+                <Grip
                     class="handle h-5 w-5 cursor-grab text-black/30 transition-colors hover:text-black dark:text-white/30 dark:hover:text-white"
                     :class="{ 'cursor-not-allowed': disabled }"
                     :stroke-width="2.5"
                 />
             </div>
+
 
             <!-- Description -->
             <div class="min-w-0">
@@ -200,6 +201,14 @@ const fieldClass =
             <summary
                 class="flex cursor-pointer list-none items-center gap-2 p-3 [&::-webkit-details-marker]:hidden"
             >
+                <div
+                    class="handle flex items-center justify-center cursor-grab active:cursor-grabbing
+                        text-gray-300 hover:text-indigo-500 dark:text-gray-600
+                        dark:hover:text-indigo-400 transition-colors duration-200"
+                    title="Drag to reorder"
+                >
+                    <Grip class="w-5 h-5 transition-transform duration-200 hover:scale-110" />
+                </div>
                 <GripVertical
                     class="handle h-5 w-5 shrink-0 cursor-grab text-black/30 dark:text-white/30"
                     :stroke-width="2.5"
