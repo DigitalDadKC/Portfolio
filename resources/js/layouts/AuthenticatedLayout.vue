@@ -67,16 +67,34 @@ const showingNavigationDropdown = ref(false);
                                         </NavigationMenuItem>
                                         <NavigationMenuItem>
                                             <NavigationMenuTrigger>Business</NavigationMenuTrigger>
-                                            <NavigationMenuContent>
-                                                <ul class="grid w-[100px] gap-4">
+                                            <NavigationMenuContent style="overflow: visible">
+                                                <ul class="grid w-[140px] gap-4">
                                                     <li>
                                                         <NavLink :href="route('clients.index')" :active="route().current('clients.index')">Clients</NavLink>
                                                     </li>
                                                     <li>
                                                         <NavLink :href="route('services.index')" :active="route().current('services.index')">Services</NavLink>
                                                     </li>
-                                                    <li>
-                                                        <NavLink :href="route('contracts.index')" :active="route().current('contracts.index')">Contracts</NavLink>
+                                                    <li class="relative group/contracts">
+                                                        <button type="button" aria-haspopup="true"
+                                                            class="flex w-full items-center justify-between text-sm font-medium dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none cursor-pointer">
+                                                            Contracts
+                                                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                                    clip-rule="evenodd" />
+                                                            </svg>
+                                                        </button>
+                                                        <div class="hidden group-hover/contracts:block group-focus-within/contracts:block absolute left-full top-0 z-50 pl-4">
+                                                            <ul class="grid gap-4 w-max min-w-[140px] p-2 rounded-md border border-gray-100 dark:border-gray-700 bg-light-primary dark:bg-gray-800 shadow-md">
+                                                                <li>
+                                                                    <NavLink :href="route('contract-template.index')" :active="route().current('contract-template.index')">Template</NavLink>
+                                                                </li>
+                                                                <li>
+                                                                    <NavLink :href="route('contracts.index')" :active="route().current('contracts.index')">Contracts</NavLink>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </li>
                                                     <li>
                                                         <NavLink :href="route('admin.invoices.index')" :active="route().current('admin.invoices.index')">Invoices</NavLink>

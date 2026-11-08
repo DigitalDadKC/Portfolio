@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\ClientController;
-use App\Http\Controllers\Admin\ContractController;
+use App\Http\Controllers\Admin\Contracts\ContractController;
+use App\Http\Controllers\Admin\Contracts\TemplateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\FeatureController;
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::post('/features/sort', [FeatureController::class, 'sort'])->name('features.sort');
     Route::post('/projects/sort', [ProjectController::class, 'sort'])->name('projects.sort');
     Route::resource('/contracts', ContractController::class)->except(['show']);
+    Route::resource('/contract-template', TemplateController::class)->except(['show']);
     Route::get('/contracts/browser', [ContractController::class, 'browser'])->name('contracts.browser');
     Route::post('/contracts/send/{contract}', [ContractController::class, 'send'])->name('contracts.send');
     Route::resource('/services', ServiceController::class);

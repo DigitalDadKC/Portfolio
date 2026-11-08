@@ -1,74 +1,64 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Contracts;
 
-use Inertia\Inertia;
-use App\Models\Client;
-use App\Models\Service;
-use App\Models\Contract;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ContractResource;
+use App\Models\Client;
+use App\Models\Contract;
+use App\Models\Service;
 use App\Services\Pdf\PdfService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Inertia\Inertia;
 
 class ContractController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function __construct(protected PdfService $pdf) {}
     public function index()
     {
-        return Inertia::render('admin/contracts/Index', [
+        return Inertia::render('admin/contracts/contracts/Index', [
             'contracts' => ContractResource::collection(Contract::with('client', 'employee', 'services')->get()),
             'clients' => Client::with('employees')->orderBy('company')->get(),
             'services' => Service::orderBy('name')->get(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'price' => 'required',
             'client_id' => 'nullable|required',
-            'employee_id' => 'nullable|required',
         ]);
 
         $contract = Contract::create([
             'price' => $request->price,
             'status' => 'created',
             'client_id' => $request->client_id,
-            'employee_id' => $request->employee_id,
         ]);
-        $contract->services()->sync($request->services);
+        $service_ids = $request->services ? array_map(fn($service) => $service['id'], $request->services) : [];
+        $contract->services()->sync($service_ids);
 
         $this->pdf->createContract($contract);
 
         return back()->with('message', 'Contract created');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Contract $contract)
     {
         $request->validate([
             'price' => 'required',
             'client_id' => 'nullable|required',
-            'employee_id' => 'nullable|required',
         ]);
 
         $contract->update([
             'price' => $request->price,
             'client_id' => $request->client_id,
-            'employee_id' => $request->employee_id,
         ]);
-        $contract->services()->sync($request->services);
+
+        $service_ids = $request->services ? array_map(fn($service) => $service['id'], $request->services) : [];
+        $contract->services()->sync($service_ids);
 
         $this->pdf->destroyContract($contract);
         $this->pdf->createContract($contract);
@@ -76,9 +66,6 @@ class ContractController extends Controller
         return back()->with('message', 'Contract updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Contract $contract)
     {
         $this->pdf->destroyContract($contract);
@@ -139,6 +126,7 @@ class ContractController extends Controller
     public function send(Contract $contract)
     {
         $contract->load('client');
+        dd($contract);
         $this->pdf->sendContract($contract);
 
         return back()->with('message', 'Contract sent');

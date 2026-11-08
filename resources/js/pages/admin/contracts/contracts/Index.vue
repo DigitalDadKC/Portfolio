@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {  } from 'vue'
 import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import Manage from './modals/Manage.vue';
 import Destroy from './modals/Destroy.vue';
 import { Button } from '@/components/ui/button';
@@ -23,11 +23,11 @@ const { formatWithCommas } = useFormatCurrency();
 
 
 <template>
-    <Head title="Contract" />
+    <Head title="Contracts" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">Contract</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">Contracts</h2>
         </template>
 
         <div class="container mx-auto w-full">
@@ -41,9 +41,10 @@ const { formatWithCommas } = useFormatCurrency();
             <Table class="bg-light-primary dark:bg-dark-primary w-full">
                 <TableHeader class="bg-light-tertiary dark:bg-dark-tertiary">
                     <TableRow>
-                        <TableHead class="p-6 text-black">Recipient</TableHead>
-                        <TableHead class="p-6 text-black">Client</TableHead>
+                        <TableHead class="p-6 text-black text-center">Status</TableHead>
+                        <TableHead class="text-black">Client</TableHead>
                         <TableHead class="text-black">Price</TableHead>
+                        <TableHead class="text-black">Services</TableHead>
                         <TableHead class="text-black">Date</TableHead>
                         <TableHead class="text-black">Created</TableHead>
                         <TableHead class="text-black">Updated</TableHead>
@@ -54,20 +55,24 @@ const { formatWithCommas } = useFormatCurrency();
                 </TableHeader>
                 <TableBody class="bg-white dark:bg-gray-800 dark:border-gray-700" ref="el">
                     <TableRow v-for="contract in props.contracts" :key="contract.id" class="w-full">
-                        <TableCell>
-                            {{ contract.employee.name }}
-                            <p class="text-xs italic">{{contract.status}}</p>
-                        </TableCell>
+                        <TableCell class="text-center">{{ contract.status }}</TableCell>
                         <TableCell>{{ contract.client.company }}</TableCell>
                         <TableCell>{{ formatWithCommas(contract.price, 'currency') }}</TableCell>
+                        <TableCell>
+                            <ul>
+                                <li v-for="service in contract.services" :key="service.id">
+                                    {{ service.name }}
+                                </li>
+                            </ul>
+                        </TableCell>
                         <TableCell>{{ useDateFormat(contract.date, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
                         <TableCell>{{ useDateFormat(contract.created_at, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
                         <TableCell>{{ useDateFormat(contract.updated_at, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
                         <TableCell>
                             <div class="flex justify-end items-center gap-2" v-if="!contract.sent">
-                                <Send :contract />
                                 <Manage :new="false" :contract :clients :services></Manage>
                                 <Destroy :contract></Destroy>
+                                <Send :contract />
                             </div>
                             <div class="flex justify-end items-center gap-2" v-else>
                                 <Manage :new="false" :contract :clients :services></Manage>
@@ -85,5 +90,5 @@ const { formatWithCommas } = useFormatCurrency();
             </Table>
         </div>
 
-</AuthenticatedLayout>
+    </AuthenticatedLayout>
 </template>

@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import FormattedInput from '@/components/FormattedInput.vue';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import Client from '../partials/Client.vue';
-import Services from '../partials/Services.vue';
-import Employees from '../partials/Employees.vue';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { Pencil, Plus } from 'lucide-vue-next';
 import { useDateFormat } from '@vueuse/core';
+import Multiselect from "@/components/Multiselect.vue";
+import Select from '@/components/Select.vue';
 
 const props = defineProps({
     new: Boolean,
@@ -24,8 +23,7 @@ const form = useForm({
     price: props.contract?.price,
     date: props.contract?.date,
     client_id: props.contract?.client.id,
-    employee_id: props.contract?.employee.id,
-    services: props.contract?.service_ids,
+    services: props.contract?.services,
 })
 
 const submit = () => {
@@ -48,10 +46,6 @@ const submit = () => {
         })
     }
 }
-
-const employees = computed(() => {
-    return props.clients.find(client => client.id == form.client_id)?.employees
-})
 
 </script>
 
@@ -79,19 +73,21 @@ const employees = computed(() => {
             <div class="grid grid-cols-4 gap-4">
                 <div class="col-span-2">
                     <Label for="description">Client</Label>
-                    <Client :clients @update:model-value="form.employees = []" v-model="form.client_id" />
+                    <Select :options="props.clients" property="company" v-model="form.client_id" />
                 </div>
                 <div class="col-span-2">
-                    <Label>Recipient</Label>
-                    <Employees :employees v-model="form.employee_id" />
-                </div>
-                <div class="col-span-1">
                     <Label for="title">Price</Label>
                     <FormattedInput type="currency" class="w-full" v-model="form.price" />
                 </div>
-                <div class="col-span-3">
+                <div class="col-span-4">
                     <Label>Services</Label>
-                    <Services :services v-model="form.services" />
+                    <Multiselect :options="props.services" placeholder="Select Service(s)" property="name" v-model="form.services" />
+                </div>
+            </div>
+
+            <div v-if="Object.keys($page.props.errors).length">
+                <div v-for="error in Object.values($page.props.errors)" :key="error">
+                    <p class="text-red-500">{{ error }}</p>
                 </div>
             </div>
 

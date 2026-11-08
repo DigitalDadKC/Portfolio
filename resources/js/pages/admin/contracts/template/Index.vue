@@ -1,0 +1,83 @@
+<script setup lang="ts">
+import {  } from 'vue'
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import { Button } from '@/components/ui/button';
+import { FilePen, Eye } from 'lucide-vue-next';
+import { useDateFormat } from '@vueuse/core';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useFormatCurrency } from '@/composables/useFormatCurrency';
+
+const props = defineProps({
+    contracts: Object,
+    clients: Object,
+    services: Object,
+    webhooks: Object,
+})
+
+const { formatWithCommas } = useFormatCurrency();
+</script>
+
+
+<template>
+    <Head title="Contracts" />
+
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">Contract Template</h2>
+        </template>
+
+        <div class="container mx-auto w-full">
+
+            <Table class="bg-light-primary dark:bg-dark-primary w-full">
+                <TableHeader class="bg-light-tertiary dark:bg-dark-tertiary">
+                    <TableRow>
+                        <TableHead class="p-6 text-black text-center">Clause Item</TableHead>
+                        <TableHead class="text-black">Clause</TableHead>
+                        <TableHead class="text-black">Date</TableHead>
+                        <TableHead class="text-black">Created</TableHead>
+                        <TableHead class="text-black">Updated</TableHead>
+                        <TableHead class="text-black text-end">
+                            <!-- <Manage :new="true" :clients :services></Manage> -->
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody class="bg-white dark:bg-gray-800 dark:border-gray-700" ref="el">
+                    <TableRow v-for="contract in props.contracts" :key="contract.id" class="w-full">
+                        <TableCell class="text-center">{{ contract.status }}</TableCell>
+                        <TableCell>{{ contract.client.company }}</TableCell>
+                        <TableCell>{{ formatWithCommas(contract.price, 'currency') }}</TableCell>
+                        <TableCell>
+                            <ul>
+                                <li v-for="service in contract.services" :key="service.id">
+                                    {{ service.name }}
+                                </li>
+                            </ul>
+                        </TableCell>
+                        <TableCell>{{ useDateFormat(contract.date, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
+                        <TableCell>{{ useDateFormat(contract.created_at, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
+                        <TableCell>{{ useDateFormat(contract.updated_at, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
+                        <TableCell>
+                            <div class="flex justify-end items-center gap-2" v-if="!contract.sent">
+                                <!-- <Manage :new="false" :contract :clients :services></Manage>
+                                <Destroy :contract></Destroy>
+                                <Send :contract /> -->
+                            </div>
+                            <div class="flex justify-end items-center gap-2" v-else>
+                                <!-- <Manage :new="false" :contract :clients :services></Manage>
+                                <a target="_blank" :href="'https://www.signwell.com/app/builder/' + contract.signwell_id">
+                                    <Button>
+                                        View
+                                        <Eye></Eye>
+                                    </Button>
+                                </a>
+                                <Destroy :contract /> -->
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
+
+    </AuthenticatedLayout>
+</template>
