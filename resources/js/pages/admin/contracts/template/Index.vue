@@ -1,83 +1,183 @@
 <script setup lang="ts">
-import {  } from 'vue'
-import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { Button } from '@/components/ui/button';
-import { FilePen, Eye } from 'lucide-vue-next';
-import { useDateFormat } from '@vueuse/core';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useFormatCurrency } from '@/composables/useFormatCurrency';
+import { computed, ref } from 'vue'
+import CategoryPanel from './Components/CategoryPanel.vue'
+import ClausePanel from './Components/ClausePanel.vue'
 
-const props = defineProps({
-    contracts: Object,
-    clients: Object,
-    services: Object,
-    webhooks: Object,
-})
+interface Category {
+    id: number
+    name: string
+    slug: string
+    clauses_count: number
+}
 
-const { formatWithCommas } = useFormatCurrency();
+interface Clause {
+    id: number
+    category_id: number
+    name: string
+    content: string
+    is_active: boolean
+}
+
+const categories = ref<Category[]>([
+    { id: 1, name: 'Payment Terms', slug: 'payment-terms', clauses_count: 3 },
+    { id: 2, name: 'Confidentiality', slug: 'confidentiality', clauses_count: 2 },
+    { id: 3, name: 'Termination', slug: 'termination', clauses_count: 2 },
+    { id: 4, name: 'Indemnification', slug: 'indemnification', clauses_count: 1 },
+])
+
+const clauses = ref<Clause[]>([
+    {
+        id: 1,
+        category_id: 1,
+        name: 'Standard Payment Terms',
+        content: 'Payment shall be made within thirty (30) days...',
+        is_active: true,
+    },
+    {
+        id: 2,
+        category_id: 1,
+        name: 'Late Payment Penalties',
+        content: 'Late payments shall be subject to...',
+        is_active: true,
+    },
+    {
+        id: 3,
+        category_id: 1,
+        name: 'Payment Schedule',
+        content: 'Payments shall be made according to...',
+        is_active: true,
+    },
+    {
+        id: 4,
+        category_id: 2,
+        name: 'Confidential Information',
+        content: 'Each party agrees to maintain...',
+        is_active: true,
+    },
+    {
+        id: 5,
+        category_id: 2,
+        name: 'Disclosure Restrictions',
+        content: 'Neither party shall disclose...',
+        is_active: true,
+    },
+])
+
+const selectedCategoryId = ref<number | null>(1)
+
+const selectedCategory = computed(() =>
+    categories.value.find(
+        category => category.id === selectedCategoryId.value
+    ) ?? null
+)
+
+const selectedClauses = computed(() =>
+    clauses.value.filter(
+        clause => clause.category_id === selectedCategoryId.value
+    )
+)
+
+function selectCategory(id: number) {
+    selectedCategoryId.value = id
+}
+
+function createCategory(category: Omit<Category, 'id' | 'clauses_count'>) {
+    const id = Math.max(0, ...categories.value.map(c => c.id)) + 1
+
+    categories.value.push({
+        id,
+        ...category,
+        clauses_count: 0,
+    })
+
+    selectedCategoryId.value = id
+}
+
+function updateCategory(updated: Category) {
+    const index = categories.value.findIndex(c => c.id === updated.id)
+
+    if (index !== -1) {
+        categories.value[index] = updated
+    }
+}
+
+function deleteCategory(id: number) {
+    categories.value = categories.value.filter(c => c.id !== id)
+    clauses.value = clauses.value.filter(c => c.category_id !== id)
+
+    if (selectedCategoryId.value === id) {
+        selectedCategoryId.value = categories.value[0]?.id ?? null
+    }
+}
+
+function createClause(clause: Omit<Clause, 'id'>) {
+    const id = Math.max(0, ...clauses.value.map(c => c.id)) + 1
+
+    clauses.value.push({ id, ...clause })
+
+    const category = categories.value.find(
+        c => c.id === clause.category_id
+    )
+
+    if (category) category.clauses_count++
+}
+
+function updateClause(updated: Clause) {
+    const index = clauses.value.findIndex(c => c.id === updated.id)
+
+    if (index !== -1) {
+        clauses.value[index] = updated
+    }
+}
+
+function deleteClause(id: number) {
+    const clause = clauses.value.find(c => c.id === id)
+
+    clauses.value = clauses.value.filter(c => c.id !== id)
+
+    if (clause) {
+        const category = categories.value.find(
+            c => c.id === clause.category_id
+        )
+
+        if (category) category.clauses_count--
+    }
+}
 </script>
 
-
 <template>
-    <Head title="Contracts" />
+    <div class="space-y-6 p-6">
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">Contract Template</h2>
-        </template>
+        <div>
+            <h1 class="text-2xl font-semibold tracking-tight">
+                Clause Library
+            </h1>
 
-        <div class="container mx-auto w-full">
-
-            <Table class="bg-light-primary dark:bg-dark-primary w-full">
-                <TableHeader class="bg-light-tertiary dark:bg-dark-tertiary">
-                    <TableRow>
-                        <TableHead class="p-6 text-black text-center">Clause Item</TableHead>
-                        <TableHead class="text-black">Clause</TableHead>
-                        <TableHead class="text-black">Date</TableHead>
-                        <TableHead class="text-black">Created</TableHead>
-                        <TableHead class="text-black">Updated</TableHead>
-                        <TableHead class="text-black text-end">
-                            <!-- <Manage :new="true" :clients :services></Manage> -->
-                        </TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody class="bg-white dark:bg-gray-800 dark:border-gray-700" ref="el">
-                    <TableRow v-for="contract in props.contracts" :key="contract.id" class="w-full">
-                        <TableCell class="text-center">{{ contract.status }}</TableCell>
-                        <TableCell>{{ contract.client.company }}</TableCell>
-                        <TableCell>{{ formatWithCommas(contract.price, 'currency') }}</TableCell>
-                        <TableCell>
-                            <ul>
-                                <li v-for="service in contract.services" :key="service.id">
-                                    {{ service.name }}
-                                </li>
-                            </ul>
-                        </TableCell>
-                        <TableCell>{{ useDateFormat(contract.date, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
-                        <TableCell>{{ useDateFormat(contract.created_at, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
-                        <TableCell>{{ useDateFormat(contract.updated_at, 'MMM D, YYYY HH:MM:ss') }}</TableCell>
-                        <TableCell>
-                            <div class="flex justify-end items-center gap-2" v-if="!contract.sent">
-                                <!-- <Manage :new="false" :contract :clients :services></Manage>
-                                <Destroy :contract></Destroy>
-                                <Send :contract /> -->
-                            </div>
-                            <div class="flex justify-end items-center gap-2" v-else>
-                                <!-- <Manage :new="false" :contract :clients :services></Manage>
-                                <a target="_blank" :href="'https://www.signwell.com/app/builder/' + contract.signwell_id">
-                                    <Button>
-                                        View
-                                        <Eye></Eye>
-                                    </Button>
-                                </a>
-                                <Destroy :contract /> -->
-                            </div>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+            <p class="text-sm text-muted-foreground">
+                Manage reusable contractual clauses and categories.
+            </p>
         </div>
 
-    </AuthenticatedLayout>
+        <!-- Two Panel Layout -->
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
+
+            <CategoryPanel
+                :categories="categories"
+                :selected-category-id="selectedCategoryId"
+                @select="selectCategory"
+                @create="createCategory"
+                @update="updateCategory"
+                @delete="deleteCategory"
+            />
+
+            <ClausePanel
+                :category="selectedCategory"
+                :clauses="selectedClauses"
+                @create="createClause"
+                @update="updateClause"
+                @delete="deleteClause"
+            />
+
+        </div>
+    </div>
 </template>
