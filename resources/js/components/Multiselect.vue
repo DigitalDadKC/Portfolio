@@ -17,12 +17,13 @@ const props = defineProps({
     }
 })
 
-const modelValue = defineModel<string[]>({ default: [] });
+const modelValue = defineModel<{ id: string | number; [key: string]: any }[]>({
+    default: () => [],
+});
 
 const open = ref(false);
 
 function toggleOption(value: object) {
-    console.log(value)
     if (modelValue.value.map((v) => v.id).includes(value.id)) {
         modelValue.value = modelValue.value.filter((v) => v.id !== value.id);
     } else {
@@ -73,7 +74,7 @@ const selectedLabels = computed(() =>
                 <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
         </PopoverTrigger>
-        <PopoverContent class="w-[--reka-popover-trigger-width] p-2">
+        <PopoverContent class="w-[--reka-popover-trigger-width] p-2" side="bottom" align="end" :side-offset="4">
             <Command>
                 <CommandInput placeholder="Search..." />
                 <CommandList>
@@ -82,8 +83,17 @@ const selectedLabels = computed(() =>
                         <CommandItem
                             v-for="option in options"
                             :key="option.id"
-                            :value="option.id"
+                            :value="String(option.id)"
                             @select.prevent="toggleOption(option)"
+                            :class="
+                                cn(
+                                    'cursor-pointer transition-colors duration-150',
+                                    'hover:bg-accent hover:text-accent-foreground',
+                                    modelValue.map((s) => s.id).includes(option.id)
+                                        ? 'bg-accent text-accent-foreground'
+                                        : ''
+                                )
+                            "
                         >
                             <Check
                                 :class="
@@ -91,7 +101,7 @@ const selectedLabels = computed(() =>
                                         'mr-2 h-4 w-4',
                                         modelValue.map((s) => s.id).includes(option.id)
                                             ? 'opacity-100'
-                                            : 'opacity-0',
+                                            : 'opacity-0'
                                     )
                                 "
                             />

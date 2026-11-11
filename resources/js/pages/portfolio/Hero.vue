@@ -2,7 +2,14 @@
 import Bubble from '@/components/Bubble.vue';
 import Dot from '@/components/Dot.vue';
 import SectionTag from "@/components/SectionTag.vue";
-import { Mail, ArrowDown, ArrowUpRight } from "lucide-vue-next";
+import { Mail, ArrowDown, ArrowUpRight, KeyRound, Globe, DollarSign, Lock } from "lucide-vue-next";
+
+const perks = [
+    { icon: KeyRound, title: "You own the code", text: "Full source, handed over" },
+    { icon: Globe, title: "Your subdomain", text: "app.yourcompany.com" },
+    { icon: DollarSign, title: "No subscription", text: "Deployment fee only" },
+];
+
 </script>
 
 <template>
@@ -49,9 +56,33 @@ import { Mail, ArrowDown, ArrowUpRight } from "lucide-vue-next";
                     <p
                         class="mt-7 max-w-2xl text-xl font-medium leading-8 text-gray-600 sm:text-2xl sm:leading-9 dark:text-gray-300"
                     >
-                        Transforming spreadsheets and business processes into
-                        sophisticated, robust software.
+                        Turning spreadsheets and manual processes into software you actually own: your code, your subdomain, no monthly subscription.
                     </p>
+
+                    <div class="mt-8 grid max-w-2xl gap-3 sm:grid-cols-3">
+                        <div
+                            v-for="perk in perks"
+                            :key="perk.title"
+                            class="flex items-center gap-3 rounded-xl border-2 border-black bg-white/70 px-3 py-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black/20"
+                        >
+                            <span
+                                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-accent text-black dark:border-white"
+                            >
+                                <component :is="perk.icon" class="h-4 w-4" :stroke-width="2.5" />
+                            </span>
+
+                            <div class="min-w-0">
+                                <p class="text-sm font-extrabold leading-tight text-black dark:text-white">
+                                    {{ perk.title }}
+                                </p>
+                                <p class="truncate text-xs font-medium text-gray-600 dark:text-gray-300">
+                                    {{ perk.text }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <!-- CTA -->
                     <div class="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -86,7 +117,7 @@ import { Mail, ArrowDown, ArrowUpRight } from "lucide-vue-next";
                         <div class="flex items-center gap-3">
                             <!-- Email -->
                             <a
-                                href="mailto:raleighgroesbeck@gmail.com"
+                                href="mailto:info@digitaldadkc.com"
                                 class="group flex h-11 w-11 items-center justify-center rounded-xl border-2 border-black bg-white/70 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-1 hover:bg-light-quatrenary hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black/20 dark:hover:bg-dark-tertiary"
                                 aria-label="Email Raleigh"
                             >
@@ -99,7 +130,7 @@ import { Mail, ArrowDown, ArrowUpRight } from "lucide-vue-next";
                                 rel="noopener noreferrer"
                                 href="https://github.com/DigitalDadKC"
                                 class="group flex h-11 w-11 items-center justify-center rounded-xl border-2 border-black bg-white/70 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-[transform,background-color,box-shadow] duration-200 hover:-translate-y-1 hover:bg-light-quatrenary hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black/20 dark:hover:bg-dark-tertiary"
-                                aria-label="GitHub"
+                                aria-label="GitHub"`
                             >
                                 <svg
                                     viewBox="0 0 24 24"
@@ -199,21 +230,45 @@ import { Mail, ArrowDown, ArrowUpRight } from "lucide-vue-next";
                             class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"
                         />
 
-                        <!-- Floating badge -->
                         <div
-                            class="absolute bottom-5 left-5 rounded-xl border-2 border-black bg-white px-4 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black"
+                            class="absolute inset-x-5 bottom-5 overflow-hidden rounded-xl border-2 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-white dark:bg-black"
                         >
-                            <p
-                                class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400"
+                            <!-- Address bar -->
+                            <div
+                                class="flex items-center gap-2 border-b-2 border-black bg-light-quatrenary px-3 py-2 dark:border-white dark:bg-dark-tertiary"
                             >
-                                Currently
-                            </p>
+                                <span class="flex shrink-0 gap-1.5" aria-hidden="true">
+                                    <span class="h-2.5 w-2.5 rounded-full border-2 border-black bg-white dark:border-white" />
+                                    <span class="h-2.5 w-2.5 rounded-full border-2 border-black bg-white dark:border-white" />
+                                    <span class="h-2.5 w-2.5 rounded-full border-2 border-black bg-accent dark:border-white" />
+                                </span>
 
-                            <p
-                                class="mt-1 font-extrabold text-black dark:text-white"
-                            >
-                                Building cool stuff
-                            </p>
+                                <div
+                                    class="flex min-w-0 flex-1 items-center gap-1.5 rounded-md border-2 border-black bg-white px-2 py-0.5 text-xs font-bold text-black dark:border-white dark:bg-black dark:text-white"
+                                >
+                                    <Lock class="h-3 w-3 shrink-0" :stroke-width="2.5" />
+                                    <span class="truncate">app.<span class="text-accent">yourcompany</span>.com</span>
+                                </div>
+                            </div>
+
+                            <!-- Body -->
+                            <div class="flex items-center justify-between gap-4 px-4 py-3">
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                                        Your app
+                                    </p>
+                                    <p class="mt-0.5 font-extrabold text-black dark:text-white">
+                                        Owned by you
+                                    </p>
+                                </div>
+
+                                <p class="text-right">
+                                    <span class="text-3xl font-extrabold leading-none text-black dark:text-white">$0</span>
+                                    <span class="block text-xs font-bold text-gray-500 dark:text-gray-400">
+                                        / mo subscription
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
 

@@ -3,21 +3,22 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 
 const model = defineModel()
 const props = defineProps({
-    employees: Object,
+    options: Object,
+    property: String,
 })
 
 </script>
 
 <template>
     <Select id="client" onValueChange="{setSelectedValue}" value="{selectedValue}" v-model="model">
-        <SelectTrigger class="w-full cursor-pointer bg-white">
-            <SelectValue placeholder="Select Recipient" />
+        <SelectTrigger class="w-full cursor-pointer bg-white hover:bg-accent hover:text-accent-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+            <SelectValue placeholder="Select Client" />
         </SelectTrigger>
         <SelectContent>
             <SelectGroup>
-                <SelectLabel>Employees</SelectLabel>
-                <SelectItem v-for="employee in props.employees" :key="employee.id" :value="employee.id">
-                    {{ employee.name }}
+                <SelectLabel>Clients</SelectLabel>
+                <SelectItem v-for="option in props.options" :key="option.id" :value="option.id">
+                    {{ option[props.property] }}
                 </SelectItem>
             </SelectGroup>
         </SelectContent>
