@@ -57,18 +57,20 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/skills', SkillController::class);
     Route::resource('/projects', ProjectController::class);
+    Route::post('/projects/sort', [ProjectController::class, 'sort'])->name('projects.sort');
     Route::resource('/features', FeatureController::class);
+    Route::post('/features/sort', [FeatureController::class, 'sort'])->name('features.sort');
     Route::resource('/invoices', AdminInvoiceController::class, ['as' => '']);
     Route::get('/invoices/send/{client_invoice}', [AdminInvoiceController::class, 'sendInvoice'])->name('invoices.send');
     Route::resource('/clients', ClientController::class);
     Route::resource('/employees', EmployeeController::class)->except(['index', 'show', 'create', 'edit']);
-    Route::post('/features/sort', [FeatureController::class, 'sort'])->name('features.sort');
-    Route::post('/projects/sort', [ProjectController::class, 'sort'])->name('projects.sort');
 
     // CONTRACTS
     Route::resource('/contracts', ContractController::class)->except(['show', 'create', 'edit']);
     Route::resource('/contract-template', ContractTemplateController::class)->except(['show', 'create', 'edit']);
+    Route::post('/contract-template/sort', [ContractTemplateController::class, 'sort'])->name('contract-template.sort');
     Route::resource('/clause-categories', ClauseCategoryController::class)->except(['index', 'show', 'create', 'edit']);
+    Route::post('/clause-categories/sort', [ClauseCategoryController::class, 'sort'])->name('clause-categories.sort');
     Route::get('/contracts/browser', [ContractController::class, 'browser'])->name('contracts.browser');
     Route::post('/contracts/send/{contract}', [ContractController::class, 'send'])->name('contracts.send');
 

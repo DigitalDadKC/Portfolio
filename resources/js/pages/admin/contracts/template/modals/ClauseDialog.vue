@@ -15,8 +15,10 @@ const props = defineProps<{
 const name = ref(props.clause?.name ?? '')
 const content = ref(props.clause?.content ?? '')
 const isDialogOpen = ref(false)
+const isSubmitting = ref(false)
 
 function submit() {
+    isSubmitting.value = true
     if (!props.clause) {
         router.post(route('admin.contract-template.store'), {
             name: name.value,
@@ -27,6 +29,9 @@ function submit() {
                 isDialogOpen.value = false
                 name.value = ''
                 content.value = ''
+            },
+            onFinish: () => {
+                isSubmitting.value = false
             }
         })
     } else {
@@ -37,6 +42,9 @@ function submit() {
         },{
             onSuccess: () => {
                 isDialogOpen.value = false
+            },
+            onFinish: () => {
+                isSubmitting.value = false
             }
         })
     }
@@ -91,8 +99,16 @@ function submit() {
                     Cancel
                 </Button>
 
-                <Button :disabled="!name.trim() || !content.trim()" @click="submit">
-                    {{ clause ? 'Update Clause' : 'Save Clause' }}
+                <Button
+                    :disabled="isSubmitting || !name.trim() || !content.trim()"
+                    @click="submit"
+                >
+                    {{ isSubmitting
+                        ? 'Saving...'
+                        : clause
+                            ? 'Update Clause'
+                            : 'Save Clause'
+                    }}
                 </Button>
             </DialogFooter>
 

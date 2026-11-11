@@ -25,6 +25,8 @@ const props = defineProps<{
     clauses: Clause[]
 }>()
 
+console.log(props.categories)
+
 const selectedCategoryId = ref<number | null>(1)
 
 const selectedCategory = computed(() =>

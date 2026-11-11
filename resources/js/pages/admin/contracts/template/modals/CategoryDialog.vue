@@ -16,15 +16,21 @@ const props = defineProps<{
 
 const isDialogOpen = ref(false)
 const name = ref(props.category?.name ?? '')
+const isSubmitting = ref(false)
 
 const submit = () => {
+    isSubmitting.value = true
     if (!props.category) {
         router.post(route('admin.clause-categories.store'), {
             name: name.value
         }, {
             onSuccess: () => {
                 isDialogOpen.value = false
-            }
+                name.value = ''
+            },
+            onFinish: () => {
+                isSubmitting.value = false
+            },
         })
     } else {
         router.patch(route('admin.clause-categories.update', props.category.id), {
@@ -32,7 +38,10 @@ const submit = () => {
         },{
             onSuccess: () => {
                 isDialogOpen.value = false
-            }
+            },
+            onFinish: () => {
+                isSubmitting.value = false
+            },
         })
     }
 }
@@ -75,8 +84,13 @@ const submit = () => {
                     Cancel
                 </Button>
 
-                <Button :disabled="!name.trim()" @click="submit">
-                    {{ category ? 'Update Category' : 'Save Category' }}
+                <Button :disabled="isSubmitting || !name.trim()" @click="submit">
+                    {{ isSubmitting
+                        ? 'Saving...'
+                        : category
+                            ? 'Update Category'
+                            : 'Save Category'
+                    }}
                 </Button>
             </DialogFooter>
         </DialogContent>

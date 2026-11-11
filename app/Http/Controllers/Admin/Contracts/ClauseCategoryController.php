@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Contracts;
 use App\Http\Controllers\Controller;
 use App\Models\ClauseCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class ClauseCategoryController extends Controller
 {
@@ -39,19 +41,33 @@ class ClauseCategoryController extends Controller
 
     public function destroy(ClauseCategory $clauseCategory)
     {
-        $clauseCategory->delete();
+        DB::transaction(function () use ($clauseCategory) {
+            $clauseCategory->delete();
 
-        $this->sort(request()->merge(['order' => ClauseCategory::orderBy('order')->pluck('id')->toArray()]));
+            $this->resequence(
+                ClauseCategory::orderBy('order')->pluck('id')->all()
+            );
+        });
 
         return back()->with(['message' => 'Success!', 'type' => 'error', 'description' => 'Clause category deleted']);
     }
 
     public function sort(Request $request)
     {
-        foreach ($request->order as $index => $id) {
-            ClauseCategory::where('id', $id)->update(['order' => $index + 1]);
-        }
+        $data = $request->validate([
+            'ids' => ['required', 'array'],
+            'ids.*' => ['integer', 'distinct', Rule::exists(ClauseCategory::class, 'id')],
+        ]);
+
+        DB::transaction(fn () => $this->resequence($data['ids']));
 
         return back()->with(['message' => 'Reordered!', 'type' => 'info', 'description' => 'Clause categories reordered']);
+    }
+
+    private function resequence(array $ids): void
+    {
+        foreach ($ids as $index => $id) {
+            ClauseCategory::whereKey($id)->update(['order' => $index + 1]);
+        }
     }
 }
