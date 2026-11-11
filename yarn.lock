@@ -157,10 +157,10 @@
   resolved "https://registry.npmjs.org/@kurkle/color/-/color-0.3.4.tgz"
   integrity sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==
 
-"@lucide/vue@^1.70.0":
-  version "1.70.0"
-  resolved "https://registry.npmjs.org/@lucide/vue/-/vue-1.70.0.tgz"
-  integrity sha512-kutUu3oEtfQnyaP6hh76ShG2dxa8PiL6uY3rk3DqclQe0Vd2FtPlnclezR0XMQtlFMPiEaCOXDSuhehFHW5ErQ==
+"@lucide/vue@^1.71.0":
+  version "1.71.0"
+  resolved "https://registry.npmjs.org/@lucide/vue/-/vue-1.71.0.tgz"
+  integrity sha512-R64tQ5dJMvLjAOEIhF+vOunHm/wUI3VP6NhJEaigwpLVaAEL3O2251byH2IBEeBofLunvOiTGh4lkzDfIpgKcQ==
 
 "@mdi/font@^7.4.47":
   version "7.4.47"
@@ -722,10 +722,10 @@ confbox@^0.2.4:
   resolved "https://registry.npmjs.org/confbox/-/confbox-0.2.4.tgz"
   integrity sha512-ysOGlgTFbN2/Y6Cg3Iye8YKulHw+R2fNXHrgSmXISQdMnomY6eNDprVdW9R5xBguEqI954+S6709UyiO7B+6OQ==
 
-confbox@^0.3.0:
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/confbox/-/confbox-0.3.1.tgz"
-  integrity sha512-cKUSoKa8YxFZZSmraVi7onONx3amu77ngK3kGpsYHDH7drPwCRkQE1RYMPlLRrMtnciRj274XNRxcHxnKmDSnA==
+confbox@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.npmjs.org/confbox/-/confbox-0.3.2.tgz"
+  integrity sha512-ZUAKhKlkCOrIGKc8cj7zek9s9z1mveHif/25nUshI2BzCRzF7KH7KHa+Lnh2ubq+e1tIlaFuP763mzW4qVoehg==
 
 consola@^3.2.3, consola@^3.4.2:
   version "3.4.2"
@@ -882,10 +882,10 @@ estree-walker@^3.0.3:
   dependencies:
     "@types/estree" "^1.0.0"
 
-exsolve@^1.0.8, exsolve@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/exsolve/-/exsolve-1.1.1.tgz"
-  integrity sha512-9U/jZUgjnSGyntRr6y5Muu1MJcwFl6kPu7k8qLF0IMNfLqvw0NZ4nnVDq0RVoZ0RvCyumib4Ez3KYrVfilrw+g==
+exsolve@^1.0.8, exsolve@^1.1.1, exsolve@^1.1.3:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/exsolve/-/exsolve-1.2.0.tgz"
+  integrity sha512-h1pQPR9XoeSMdntRNCjyTznaume4UpfXrULBnlkZ2CUM/G5eSa+pBByGldO5uR8dxbPC+OuJXsPPNf+JZ81ADg==
 
 fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -1039,9 +1039,9 @@ https-proxy-agent@^5.0.1:
     debug "4"
 
 ignore@^7.0.6:
-  version "7.0.8"
-  resolved "https://registry.npmjs.org/ignore/-/ignore-7.0.8.tgz"
-  integrity sha512-YYNsSlXBjMk92SKnkwvB5LOVSa6OznlFUGcsvrFgNJbJCd0M1XKeFVRc8ZByeCqz32FivYNHJVooLmdqrmvp/Q==
+  version "7.0.14"
+  resolved "https://registry.npmjs.org/ignore/-/ignore-7.0.14.tgz"
+  integrity sha512-wCBiZ77u1tuWde6G/nfOtLaCTYcFDU5yCzARzK10y+rLhzYoL7a7yEemcopcc2Mzow7gZOIjnV2ym1NYmdiJOQ==
 
 is-core-module@^2.16.1:
   version "2.16.2"
@@ -1234,12 +1234,12 @@ pkg-types@^1.3.1:
     pathe "^2.0.1"
 
 pkg-types@^2.3.0, pkg-types@^2.3.1:
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/pkg-types/-/pkg-types-2.3.2.tgz"
-  integrity sha512-v0sVXzj7oPGysr543YYZLYbcJNJsKikSsp/fFzoxQ12ewY3ZZr7oCPC8y7OlmxfYB3QPvriXmuPD8KZggE1vqg==
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/pkg-types/-/pkg-types-2.4.0.tgz"
+  integrity sha512-07Fys7iVx0X6TcviMOgogM1Lk33ZyqOezMnU79S+kffWqwolG/5W9V8EgQSeYCIfFTYVgssRbnH630Oa2+soBA==
   dependencies:
-    confbox "^0.3.0"
-    exsolve "^1.1.1"
+    confbox "^0.3.1"
+    exsolve "^1.1.3"
     pathe "^2.0.3"
 
 popmotion@^11.0.5:
@@ -1358,9 +1358,9 @@ scule@^1.3.0:
   integrity sha512-6FtHJEvt+pVMIB9IBY+IcCJ6Z5f1iQnytgyfKMhDKgmzYG+TeH/wx1y3l27rshSbLiSanrR9ffZDrEsmjlQF2g==
 
 semver@^7.8.5:
-  version "7.8.5"
-  resolved "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz"
-  integrity sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==
+  version "7.8.6"
+  resolved "https://registry.npmjs.org/semver/-/semver-7.8.6.tgz"
+  integrity sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==
 
 side-channel-list@^1.0.1:
   version "1.0.1"
@@ -1579,6 +1579,11 @@ vue-demi@>=0.14.8:
   version "0.14.10"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.14.10.tgz"
   integrity sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==
+
+vue-sonner@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/vue-sonner/-/vue-sonner-2.0.9.tgz"
+  integrity sha512-i6BokNlNDL93fpzNxN/LZSn6D6MzlO+i3qXt6iVZne3x1k7R46d5HlFB4P8tYydhgqOrRbIZEsnRd3kG7qGXyw==
 
 "vue@^2.7 || ^3.0.0", "vue@^2.7.0 || ^3.0.0", vue@^3, vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", vue@^3.0.1, vue@^3.2.25, vue@^3.4.5, vue@^3.5.0, vue@^3.5.11, "vue@>= 3.4.0", vue@>=3.0.0, vue@>=3.0.1, vue@>=3.2, vue@>=3.3.0:
   version "3.5.42"

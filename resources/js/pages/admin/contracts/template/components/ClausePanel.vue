@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-
 import { Plus, Search, FileText, Pencil, Trash2 } from 'lucide-vue-next'
-
-import ClauseDialog from './ClauseDialog.vue'
+import ClauseDialog from '../modals/ClauseDialog.vue'
+import ClauseDeleteDialog from '../modals/ClauseDeleteDialog.vue'
 
 interface Category {
     id: number
@@ -31,7 +29,6 @@ const props = defineProps<{
 const emit = defineEmits(['create', 'update', 'delete'])
 
 const search = ref('')
-const dialogOpen = ref(false)
 const editingClause = ref<Clause | null>(null)
 
 const filteredClauses = computed(() =>
@@ -40,25 +37,6 @@ const filteredClauses = computed(() =>
     )
 )
 
-function openCreate() {
-    editingClause.value = null
-    dialogOpen.value = true
-}
-
-function openEdit(clause: Clause) {
-    editingClause.value = clause
-    dialogOpen.value = true
-}
-
-function saveClause(clause: Clause) {
-    if (editingClause.value) {
-        emit('update', clause)
-    } else {
-        emit('create', clause)
-    }
-
-    dialogOpen.value = false
-}
 </script>
 
 <template>
@@ -76,14 +54,10 @@ function saveClause(clause: Clause) {
                 </p>
             </div>
 
-            <Button
-                :disabled="!category"
-                @click="openCreate"
-            >
-                <Plus class="mr-2 size-4" />
-                Add Clause
-            </Button>
-
+            <ClauseDialog
+                :clause="editingClause"
+                :category-id="category?.id ?? null"
+            />
         </div>
 
         <Separator />
@@ -134,27 +108,18 @@ function saveClause(clause: Clause) {
                 </div>
 
                 <div class="flex shrink-0 items-center gap-2">
-
                     <Badge :variant="clause.is_active ? 'default' : 'secondary'">
                         {{ clause.is_active ? 'Active' : 'Inactive' }}
                     </Badge>
 
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        @click="openEdit(clause)"
-                    >
-                        <Pencil class="size-4" />
-                    </Button>
+                    <ClauseDialog
+                        :clause
+                        :category-id="category?.id ?? null"
+                    />
 
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        @click="emit('delete', clause.id)"
-                    >
-                        <Trash2 class="size-4 text-destructive" />
-                    </Button>
-
+                    <ClauseDeleteDialog
+                        :clause="clause"
+                    />
                 </div>
             </div>
 
@@ -169,18 +134,11 @@ function saveClause(clause: Clause) {
                 Add a clause to this category to get started.
             </p>
 
-            <Button class="mt-4" @click="openCreate">
-                <Plus class="mr-2 size-4" />
-                Add Clause
-            </Button>
+            <ClauseDialog
+                :clause="editingClause"
+                :category-id="category?.id ?? null"
+            />
+
         </div>
-
-        <ClauseDialog
-            v-model:open="dialogOpen"
-            :clause="editingClause"
-            :category-id="category?.id ?? null"
-            @save="saveClause"
-        />
-
     </div>
 </template>

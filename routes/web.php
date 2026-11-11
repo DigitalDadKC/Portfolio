@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\Contracts\ClauseCategoryController;
 use App\Http\Controllers\Admin\Contracts\ContractController;
 use App\Http\Controllers\Admin\Contracts\ContractTemplateController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -52,21 +53,25 @@ Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposals.index');
 
 // ADMIN ROUTES
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/skills', SkillController::class);
     Route::resource('/projects', ProjectController::class);
     Route::resource('/features', FeatureController::class);
-    Route::resource('/invoices', AdminInvoiceController::class, ['as' => 'admin']);
-    Route::get('/invoices/send/{client_invoice}', [AdminInvoiceController::class, 'sendInvoice'])->name('admin.invoices.send');
+    Route::resource('/invoices', AdminInvoiceController::class, ['as' => '']);
+    Route::get('/invoices/send/{client_invoice}', [AdminInvoiceController::class, 'sendInvoice'])->name('invoices.send');
     Route::resource('/clients', ClientController::class);
     Route::resource('/employees', EmployeeController::class)->except(['index', 'show', 'create', 'edit']);
     Route::post('/features/sort', [FeatureController::class, 'sort'])->name('features.sort');
     Route::post('/projects/sort', [ProjectController::class, 'sort'])->name('projects.sort');
-    Route::resource('/contracts', ContractController::class)->except(['show']);
-    Route::resource('/contract-template', ContractTemplateController::class)->except(['show', 'create']);
+
+    // CONTRACTS
+    Route::resource('/contracts', ContractController::class)->except(['show', 'create', 'edit']);
+    Route::resource('/contract-template', ContractTemplateController::class)->except(['show', 'create', 'edit']);
+    Route::resource('/clause-categories', ClauseCategoryController::class)->except(['index', 'show', 'create', 'edit']);
     Route::get('/contracts/browser', [ContractController::class, 'browser'])->name('contracts.browser');
     Route::post('/contracts/send/{contract}', [ContractController::class, 'send'])->name('contracts.send');
+
     Route::resource('/services', ServiceController::class);
     Route::resource('/trades', TradeController::class);
     

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('clause_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('section');
             $table->string('name');
+            $table->integer('order')->default(0);
             $table->timestamps();
         });
     }
