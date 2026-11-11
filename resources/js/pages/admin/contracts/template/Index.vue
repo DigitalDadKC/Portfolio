@@ -2,8 +2,8 @@
 import { computed, ref } from 'vue'
 import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue'
 import { Head } from '@inertiajs/vue3';
-import CategoryPanel from './Components/CategoryPanel.vue'
-import ClausePanel from './Components/ClausePanel.vue'
+import CategoryPanel from './components/CategoryPanel.vue'
+import ClausePanel from './components/ClausePanel.vue'
 
 interface Category {
     id: number
@@ -24,8 +24,6 @@ const props = defineProps<{
     categories: Category[]
     clauses: Clause[]
 }>()
-
-console.log(props.categories)
 
 const selectedCategoryId = ref<number | null>(1)
 

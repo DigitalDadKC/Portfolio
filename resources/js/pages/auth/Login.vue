@@ -84,9 +84,6 @@ const submit = () => {
                     >
                         <ApplicationLogo />
                     </div>
-                    <span class="text-xl font-extrabold tracking-tight text-black dark:text-white">
-                        Digital<span class="text-accent">Dad</span>KC
-                    </span>
                 </Link>
             </div>
 
