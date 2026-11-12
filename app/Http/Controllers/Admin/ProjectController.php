@@ -78,7 +78,11 @@ class ProjectController extends Controller
     }
 
     public function destroy(Project $project)
-    {r2}
+    {
+        Storage::disk('r2')->delete($project?->image ?? '');
+        $project->delete();
+        return back()->with('message', 'Project deleted');
+    }
 
     public function sort(Request $request)
     {
