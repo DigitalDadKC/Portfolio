@@ -3,13 +3,13 @@
     <p>Here's a copy of your message</p>
 
     <div id="body" style="margin-bottom: 20px;">
-        "{{ $body }}""
+        "{{ $body }}"
     </div>
 
     <div id="outro" style="font-style: italic; color: #77685D">
         <p style="padding: 0; margin: 0;">
             <a href="https://digitaldadkc.com" aria-label="Visit my site">
-                <img src="{{ $message->embed('img/dad.png') }}" alt="logo" id="image" width="30" />
+                <img src="{{ $message->embed(public_path('img/dad.png')) }}" alt="logo" id="image" width="30" />
             </a>
         </p>
         <p style="padding: 0; margin: 0;">RALEIGH GROESBECK</p>
