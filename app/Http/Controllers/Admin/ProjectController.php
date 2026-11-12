@@ -32,7 +32,7 @@ class ProjectController extends Controller
 
         $image = NULL;
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('projects', 'public');
+            $image = $request->file('image')->store('projects', 'r2');
         }
 
         $project = Project::create([
@@ -59,9 +59,9 @@ class ProjectController extends Controller
         $image = $project->image;
         if ($request->hasFile('image')) {
             if($image) {
-                Storage::disk('public')->delete($project->image);
+                Storage::disk('r2')->delete($project->image);
             }
-            $image = $request->file('image')->store('projects', 'public');
+            $image = $request->file('image')->store('projects', 'r2');
         }
 
         $project->update([
@@ -78,11 +78,7 @@ class ProjectController extends Controller
     }
 
     public function destroy(Project $project)
-    {
-        Storage::disk('public')->delete($project?->image ?? '');
-        $project->delete();
-        return back()->with('message', 'Project deleted');
-    }
+    {r2}
 
     public function sort(Request $request)
     {
