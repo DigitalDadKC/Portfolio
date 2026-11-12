@@ -4,19 +4,12 @@ import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Manage from './modals/Manage.vue';
 import Destroy from './modals/Destroy.vue';
-import { GripHorizontal } from 'lucide-vue-next';
 import { useDateFormat } from '@vueuse/core';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 const props = defineProps({
     services: Object,
 })
-
-// watch(() => (props.features), (features) => {
-//     list.value = features
-// }, {
-//     deep: true,
-// })
 
 </script>
 

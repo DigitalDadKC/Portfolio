@@ -43,7 +43,7 @@ const updateFeatureOrder = () => {
     const ordered = list.value.map((feature, index) => ({ ...feature, order: index }))
     list.value = ordered
 
-    router.post(route('features.sort'), {
+    router.post(route('admin.features.sort'), {
         features: ordered.map(({ id, order }) => ({ id, order })),
     }, {
         preserveScroll: true,

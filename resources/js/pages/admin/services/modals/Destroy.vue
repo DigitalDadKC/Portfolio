@@ -1,5 +1,5 @@
-<script setup>
-import { ref, watch } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-vue-next';
@@ -16,7 +16,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.delete(route('services.destroy', form.id), {
+    form.delete(route('admin.services.destroy', form.id), {
         onSuccess: () => {
             isDialogOpen.value = false
         }
