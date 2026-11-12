@@ -33,7 +33,7 @@ class SkillController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('skills', 'public');
+            $image = $request->file('image')->store('skills');
         }
 
         Skill::create([
@@ -53,9 +53,9 @@ class SkillController extends Controller
 
         if ($request->hasFile('image')) {
             if($skill->image) {
-                Storage::disk('public')->delete($skill?->image);
+                Storage::delete($skill?->image);
             }
-            $image = $request->file('image')->store('skills', 'public');
+            $image = $request->file('image')->store('skills');
         }
 
         $skill->update([
@@ -68,7 +68,7 @@ class SkillController extends Controller
 
     public function destroy(Skill $skill)
     {
-        Storage::disk('public')->delete($skill->image);
+        Storage::delete($skill->image);
         $skill->delete();
 
         return back()->with('message', 'Skill deleted');
