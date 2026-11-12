@@ -18,7 +18,7 @@ const form = useForm({
 })
 
 const sendMail = () => {
-    form.post(route('outreach'), {
+    form.post(route('admin.outreach'), {
         onSuccess: () => {
             isDialogOpen.value = false
             form.reset()

@@ -20,14 +20,14 @@ const form = useForm({
 
 const submit = () => {
     if (props.new) {
-        form.post(route('features.store'), {
+        form.post(route('admin.features.store'), {
             onSuccess: () => {
                 isDialogOpen.value = false
                 form.reset()
             }
         })
     } else {
-        form.patch(route('features.update', form.id), {
+        form.patch(route('admin.features.update', form.id), {
             onSuccess: () => {
                 isDialogOpen.value = false
             }

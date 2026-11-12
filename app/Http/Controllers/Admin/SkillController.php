@@ -63,7 +63,7 @@ class SkillController extends Controller
             'image' => $image
         ]);
 
-        return Redirect::route('skills.index')->with('message', 'Skill updated successfully!');
+        return back()->with('message', 'Skill updated successfully!');
     }
 
     public function destroy(Skill $skill)
@@ -71,6 +71,6 @@ class SkillController extends Controller
         Storage::disk('public')->delete($skill->image);
         $skill->delete();
 
-        return Redirect::back()->with('message', 'Skill deleted');
+        return back()->with('message', 'Skill deleted');
     }
 }

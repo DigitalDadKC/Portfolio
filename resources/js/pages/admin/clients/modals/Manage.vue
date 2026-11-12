@@ -43,14 +43,14 @@ const center = computed(() => {
 
 const submit = () => {
     if (props.new) {
-        form.post(route('clients.store'), {
+        form.post(route('admin.clients.store'), {
             onSuccess: () => {
                 isDialogOpen.value = false
                 form.reset()
             }
         })
     } else {
-        form.patch(route('clients.update', form.id), {
+        form.patch(route('admin.clients.update', form.id), {
             onSuccess: () => {
                 isDialogOpen.value = false
             }

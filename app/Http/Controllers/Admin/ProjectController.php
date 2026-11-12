@@ -81,18 +81,11 @@ class ProjectController extends Controller
     {
         Storage::disk('public')->delete($project?->image ?? '');
         $project->delete();
-        return Redirect::back()->with('message', 'Project deleted');
+        return back()->with('message', 'Project deleted');
     }
 
     public function sort(Request $request)
     {
-        // dd($request);
-        // $request->validate([
-        //     'projects' => ['required', 'array'],
-        //     'projects.*.id' => ['required', 'integer', 'exists:projects,id'],
-        //     'projects.*.order' => ['required', 'integer', 'min:0'],
-        // ]);
-
         foreach ($request->projects as $project) {
             Project::where('id', $project['id'])
                 ->update([

@@ -16,7 +16,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.delete(route('projects.destroy', props.project.id), {
+    form.delete(route('admin.projects.destroy', props.project.id), {
         preserveScroll: true,
         onSuccess: () => {
             isDialogOpen.value = false
