@@ -30,14 +30,14 @@ const handleImage = (e) => {
 
 const submit = () => {
     if(props.new) {
-        form.post(route('skills.store'), {
+        form.post(route('admin.skills.store'), {
             onSuccess: () => {
                 isDialogOpen.value = false
                 form.reset()
             }
         });
     } else {
-        router.post(route('skills.update', props.skill.id), {
+        router.post(route('admin.skills.update', props.skill.id), {
             _method: 'put',
             name: form.name,
             image: form.image

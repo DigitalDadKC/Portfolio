@@ -26,9 +26,6 @@ class ClientController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -52,9 +49,6 @@ class ClientController extends Controller
         return back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Client $client)
     {
         $request->validate([
@@ -78,9 +72,6 @@ class ClientController extends Controller
         return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Client $client)
     {
         $client->delete();

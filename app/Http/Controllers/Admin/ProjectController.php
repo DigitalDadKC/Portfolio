@@ -32,7 +32,7 @@ class ProjectController extends Controller
 
         $image = NULL;
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('projects', 'public');
+            $image = $request->file('image')->store('projects');
         }
 
         $project = Project::create([
@@ -44,7 +44,7 @@ class ProjectController extends Controller
             'icon' => $request->icon,
             'image' => $image,
         ]);
-        $project->skills()->sync(array_column($request->skills, 'id'));
+        $project->skills()->sync(array_column($request->skills ?? [], 'id'));
 
         return back()->with('message', 'Project created successfully!');
     }
@@ -59,9 +59,9 @@ class ProjectController extends Controller
         $image = $project->image;
         if ($request->hasFile('image')) {
             if($image) {
-                Storage::disk('public')->delete($project->image);
+                Storage::delete($project->image);
             }
-            $image = $request->file('image')->store('projects', 'public');
+            $image = $request->file('image')->store('projects');
         }
 
         $project->update([
@@ -72,27 +72,20 @@ class ProjectController extends Controller
             'active' => $request->active,
             'icon' => $request->icon,
         ]);
-        $project->skills()->sync(array_column($request->skills, 'id'));
+        $project->skills()->sync(array_column($request->skills ?? [], 'id'));
 
         return back()->with('message', 'Project updated successfully!');
     }
 
     public function destroy(Project $project)
     {
-        Storage::disk('public')->delete($project?->image ?? '');
+        Storage::delete($project?->image ?? '');
         $project->delete();
-        return Redirect::back()->with('message', 'Project deleted');
+        return back()->with('message', 'Project deleted');
     }
 
     public function sort(Request $request)
     {
-        // dd($request);
-        // $request->validate([
-        //     'projects' => ['required', 'array'],
-        //     'projects.*.id' => ['required', 'integer', 'exists:projects,id'],
-        //     'projects.*.order' => ['required', 'integer', 'min:0'],
-        // ]);
-
         foreach ($request->projects as $project) {
             Project::where('id', $project['id'])
                 ->update([

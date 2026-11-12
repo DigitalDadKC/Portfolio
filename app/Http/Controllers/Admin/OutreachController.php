@@ -18,6 +18,6 @@ class OutreachController extends Controller
             'date_emailed' => date('Y-m-d')
         ]);
 
-        return redirect()->back();
+        return back();
     }
 }
