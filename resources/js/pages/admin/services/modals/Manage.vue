@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { Input } from '@/components/ui/input';
@@ -20,14 +20,14 @@ const form = useForm({
 
 const submit = () => {
     if (props.new) {
-        form.post(route('services.store'), {
+        form.post(route('admin.services.store'), {
             onSuccess: () => {
                 isDialogOpen.value = false
                 form.reset()
             }
         })
     } else {
-        form.patch(route('services.update', form.id), {
+        form.patch(route('admin.services.update', form.id), {
             onSuccess: () => {
                 isDialogOpen.value = false
             }
