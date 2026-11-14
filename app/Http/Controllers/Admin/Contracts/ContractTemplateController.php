@@ -97,7 +97,6 @@ class ContractTemplateController extends Controller
         $data = $request->validate([
             'category_id' => ['required', Rule::exists(ClauseCategory::class, 'id')],
             'ids' => ['required', 'array'],
-            // Every ID must be a clause that actually belongs to this category
             'ids.*' => [
                 'integer',
                 'distinct',
@@ -110,14 +109,6 @@ class ContractTemplateController extends Controller
         return back()->with(['message' => 'Reordered!', 'type' => 'info', 'description' => 'Clause reordered']);
     }
 
-    /**
-     * Renumber a category's clauses as 1..n.
-     *
-     * $orderedIds go first, in the order given. Any clauses in the category that
-     * weren't in the list (e.g. added by another admin since the page loaded) are
-     * kept after them in their existing order, so numbers never collide.
-     * With no $orderedIds this simply closes gaps (used by update/destroy).
-     */
     private function resequence(int|string $categoryId, array $orderedIds = []): void
     {
         $remaining = Clause::where('clause_category_id', $categoryId)

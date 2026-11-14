@@ -24,6 +24,7 @@ use App\Http\Controllers\Estimating\AdminController;
 use App\Http\Controllers\Estimating\CustomerController;
 use App\Http\Controllers\Estimating\JobController;
 use App\Http\Controllers\Estimating\ProposalController;
+use App\Http\Controllers\HusbandController;
 use App\Http\Controllers\Invoicing\InvoiceController;
 use App\Http\Controllers\Invoicing\ProductController;
 use App\Http\Controllers\Lodging\LodgingController;
@@ -51,7 +52,8 @@ Route::get('/datatable', [DatatableController::class, 'index'])->name('datatable
 Route::get('/datatable/export', [DatatableController::class, 'export'])->name('export');
 Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
 Route::get('/proposals', [ProposalController::class, 'index'])->name('proposals.index');
-
+Route::resource('/husband', HusbandController::class);
+;
 // ADMIN ROUTES
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
