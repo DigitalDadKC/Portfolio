@@ -14,7 +14,7 @@ class HusbandController extends Controller
     public function index()
     {
         return Inertia::render('Husband', [
-            'favors' => Favor::all(),
+            'favors' => Favor::orderBy('date')->get(),
         ]);
     }
 
@@ -32,21 +32,32 @@ class HusbandController extends Controller
             'favor' => $request->favor,
             'date' => $request->date,
         ]);
+
+        return back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
-    {
-        //
+    {      
+        $favor = Favor::findOrFail($id);
+
+        $request->validate([
+            'favor' => 'required',
+            'date' => 'required',
+        ]);
+
+        $favor->update([
+            'favor' => $request->favor,
+            'date' => $request->date,
+        ]);
+
+        return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $favor = Favor::findOrFail($id);
+        $favor->delete();
+
+        return back();
     }
 }
