@@ -26,12 +26,17 @@ const props = defineProps<{
 }>()
 
 const selectedCategoryId = ref<number | null>(1)
+// const selectedCategoryIndex = ref<number | null>(0)
 
 const selectedCategory = computed(() =>
     props.categories.find(
         category => category.id === selectedCategoryId.value
     ) ?? null
 )
+
+const selectedCategoryIndex = computed(() => {
+    return props.categories.map(c => c.id).indexOf(selectedCategoryId.value)+1
+})
 
 const selectedClauses = computed(() =>
     props.clauses.filter(
@@ -63,7 +68,6 @@ function selectCategory(id: number) {
                 </p>
             </div>
 
-            <!-- Two Panel Layout -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
 
                 <CategoryPanel
@@ -75,6 +79,7 @@ function selectCategory(id: number) {
                 <ClausePanel
                     :category="selectedCategory"
                     :clauses="selectedClauses"
+                    :selected-category-index="selectedCategoryIndex"
                 />
 
             </div>

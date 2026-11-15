@@ -73,9 +73,9 @@ watch(() => props.categories, (categories) => {
 
         <div class="flex items-center justify-between p-4">
             <div>
-                <h2 class="font-semibold">Categories</h2>
+                <h2 class="font-semibold">Sections</h2>
                 <p class="text-xs text-muted-foreground">
-                    {{ list.length }} categories
+                    {{ list.length }} sections
                 </p>
             </div>
 
@@ -87,7 +87,7 @@ watch(() => props.categories, (categories) => {
         <div class="p-3">
             <Input
                 v-model="search"
-                placeholder="Search categories..."
+                placeholder="Search sections..."
             />
         </div>
 
@@ -95,7 +95,7 @@ watch(() => props.categories, (categories) => {
             <div class="space-y-1 p-2" ref="el">
 
                 <button
-                    v-for="category in filteredList"
+                    v-for="(category, index) in filteredList"
                     :key="category.id"
                     class="group flex w-full items-center gap-3 rounded-md px-3 py-3 text-left transition-colors"
                     :class="selectedCategoryId === category.id
@@ -115,7 +115,7 @@ watch(() => props.categories, (categories) => {
                     <Folder class="size-8 shrink-0 text-muted-foreground" />
 
                     <span class="flex-1 truncate text-sm font-medium">
-                        {{ category.name }}
+                        Section {{ index+1 }} - {{ category.name }}
                     </span>
 
                     <span class="text-xs text-muted-foreground">

@@ -14,7 +14,7 @@ class HusbandController extends Controller
     public function index()
     {
         return Inertia::render('Husband', [
-            'favors' => Favor::orderBy('date')->get(),
+            'favors' => Favor::orderBy('date', 'desc')->get(),
         ]);
     }
 

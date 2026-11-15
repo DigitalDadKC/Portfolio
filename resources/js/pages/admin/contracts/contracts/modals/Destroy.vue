@@ -15,7 +15,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.delete(route('contracts.destroy', form.id), {
+    form.delete(route('admin.contracts.destroy', form.id), {
         onSuccess: () => {
             isDialogOpen.value = false
         }

@@ -15,6 +15,7 @@ const props = defineProps({
     contract: Object,
     clients: Object,
     services: Object,
+    standardClauses: Object,
 })
 
 const isDialogOpen = ref(false)
@@ -32,14 +33,14 @@ const submit = () => {
         date: (form.date) ? useDateFormat(form.date, 'YYYY-MM-DD').value : null,
     }))
     if (props.new) {
-        form.post(route('contracts.store'), {
+        form.post(route('admin.contracts.store'), {
             onSuccess: () => {
                 isDialogOpen.value = false
                 form.reset()
             }
         })
     } else {
-        form.patch(route('contracts.update', form.id), {
+        form.patch(route('admin.contracts.update', form.id), {
             onSuccess: () => {
                 isDialogOpen.value = false
             }
@@ -82,6 +83,19 @@ const submit = () => {
                 <div class="col-span-4">
                     <Label>Services</Label>
                     <Multiselect :options="props.services" placeholder="Select Service(s)" property="name" v-model="form.services" />
+                </div>
+                <div class="col-span-4">
+                    <div v-for="(section, index) in props.standardClauses" :key="section.id">
+                        {{ index+1 }} - {{ section.name }}
+                        <div v-for="(clause, i) in section.clauses" :key="clause.id">
+                            <p class="ml-4">
+                               <span class="font-semibold">{{ index+1 }}.{{ i+1 }} {{ clause.name }}</span>
+                               <p class="ml-4">
+                                    {{ clause.content }}
+                               </p>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
