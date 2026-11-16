@@ -9,6 +9,7 @@ import { Pencil, Plus } from 'lucide-vue-next';
 import { useDateFormat } from '@vueuse/core';
 import Multiselect from "@/components/Multiselect.vue";
 import Select from '@/components/Select.vue';
+import Input from '@/components/ui/input/Input.vue';
 
 const props = defineProps({
     new: Boolean,
@@ -91,7 +92,7 @@ const submit = () => {
                             <p class="ml-4">
                                <span class="font-semibold">{{ index+1 }}.{{ i+1 }} {{ clause.name }}</span>
                                <p class="ml-4">
-                                    {{ clause.content }}
+                                    <Input v-model="clause.content" />
                                </p>
                             </p>
                         </div>

@@ -117,7 +117,7 @@ const toastOptions = {
                                                         <div class="hidden group-hover/contracts:block group-focus-within/contracts:block absolute left-full top-0 z-50 pl-4">
                                                             <ul class="grid gap-4 w-max min-w-[140px] p-2 rounded-md border border-gray-100 dark:border-gray-700 bg-light-primary dark:bg-gray-800 shadow-md">
                                                                 <li>
-                                                                    <NavLink :href="route('admin.contract-template.index')" :active="route().current('admin.contract-template.index')">Template</NavLink>
+                                                                    <NavLink :href="route('admin.standard-clauses.index')" :active="route().current('admin.standard-clauses.index')">Standard Contract</NavLink>
                                                                 </li>
                                                                 <li>
                                                                     <NavLink :href="route('admin.contracts.index')" :active="route().current('admin.contracts.index')">Contracts</NavLink>

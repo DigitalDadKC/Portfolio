@@ -10,7 +10,7 @@ import CategoryDialog from '../modals/CategoryDialog.vue'
 import CategoryDeleteDialog from '../modals/CategoryDeleteDialog.vue'
 import { useSortable } from '@vueuse/integrations/useSortable'
 
-interface Category {
+interface ClauseCategory {
     id: number
     name: string
     slug: string
@@ -18,7 +18,7 @@ interface Category {
 }
 
 const props = defineProps<{
-    categories: Category[]
+    clauseCategories: ClauseCategory[]
     selectedCategoryId: number | null
 }>()
 
@@ -27,7 +27,7 @@ const search = ref('')
 const isSearching = computed(() => search.value.trim() !== '')
 
 const el = useTemplateRef<HTMLElement | ComponentPublicInstance>('el')
-const list = shallowRef<Category[]>([...props.categories])
+const list = shallowRef<Category[]>([...props.clauseCategories])
 
 const filteredList = computed(() =>
     list.value.filter(c => c.name.toLowerCase().includes(search.value.toLowerCase()))
@@ -55,12 +55,12 @@ const saveOrder = () => {
         preserveState: true,
         only: ['categories'],
         onError: () => {
-            list.value = [...props.categories]
+            list.value = [...props.clauseCategories]
         },
     })
 }
 
-watch(() => props.categories, (categories) => {
+watch(() => props.clauseCategories, (categories) => {
     list.value = [...categories]
 }, {
     deep: true,

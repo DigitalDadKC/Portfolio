@@ -23,7 +23,7 @@ class ContractController extends Controller
             'contracts' => ContractResource::collection(Contract::with('client', 'employee', 'services')->get()),
             'clients' => Client::with('employees')->orderBy('company')->get(),
             'services' => Service::orderBy('name')->get(),
-            'standard-clauses' => ClauseCategory::with('clauses')->get(),
+            'standard-clauses' => ClauseCategory::with('standardClauses')->get(),
         ]);
     }
 
