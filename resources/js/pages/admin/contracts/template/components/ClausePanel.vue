@@ -27,6 +27,7 @@ interface Clause {
 const props = defineProps<{
     category: Category | null
     clauses: Clause[]
+    selectedCategoryIndex: Number
 }>()
 
 const emit = defineEmits(['create', 'update', 'delete'])
@@ -89,7 +90,7 @@ watch(() => props.clauses, (clauses) => {
 
             <div>
                 <h2 class="text-lg font-semibold">
-                    {{ category?.name ?? 'Default Clauses' }}
+                    Section {{ props.selectedCategoryIndex }} - {{ category?.name ?? 'Default Clauses' }}
                 </h2>
 
                 <p class="text-sm text-muted-foreground">
@@ -117,16 +118,10 @@ watch(() => props.clauses, (clauses) => {
             </div>
         </div>
 
-        <!--
-            This container is ALWAYS in the DOM (v-show, not v-if). Sortable binds
-            to the element once; if v-if destroyed and recreated it (empty search,
-            switching categories) Sortable would be left attached to a dead node.
-        -->
         <div v-show="category && filteredClauses.length" ref="el" class="divide-y">
 
-            <!-- Render `list` (via filteredClauses), NOT props.clauses -->
             <div
-                v-for="clause in filteredClauses"
+                v-for="(clause, i) in filteredClauses"
                 :key="clause.id"
                 class="flex items-center justify-between gap-4 p-4 hover:bg-muted/50"
             >
@@ -146,7 +141,7 @@ watch(() => props.clauses, (clauses) => {
 
                     <div class="min-w-0">
                         <p class="truncate text-sm font-medium">
-                            {{ clause.name }}
+                            {{props.selectedCategoryIndex}}.{{ i+1 }} - {{ clause.name }}
                         </p>
 
                         <p class="truncate text-xs text-muted-foreground">

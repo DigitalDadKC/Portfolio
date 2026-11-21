@@ -5,14 +5,14 @@ import { Head } from '@inertiajs/vue3';
 import CategoryPanel from './components/CategoryPanel.vue'
 import ClausePanel from './components/ClausePanel.vue'
 
-interface Category {
+interface ClauseCategory {
     id: number
     name: string
     slug: string
     clauses_count: number
 }
 
-interface Clause {
+interface StandardClause {
     id: number
     category_id: number
     name: string
@@ -21,20 +21,24 @@ interface Clause {
 }
 
 const props = defineProps<{
-    categories: Category[]
-    clauses: Clause[]
+    clauseCategories: ClauseCategory[]
+    standardClauses: StandardClause[]
 }>()
 
 const selectedCategoryId = ref<number | null>(1)
 
 const selectedCategory = computed(() =>
-    props.categories.find(
+    props.clauseCategories.find(
         category => category.id === selectedCategoryId.value
     ) ?? null
 )
 
+const selectedCategoryIndex = computed(() => {
+    return props.clauseCategories.map(c => c.id).indexOf(selectedCategoryId.value)+1
+})
+
 const selectedClauses = computed(() =>
-    props.clauses.filter(
+    props.standardClauses.filter(
         clause => clause.clause_category_id === selectedCategoryId.value
     )
 )
@@ -45,11 +49,11 @@ function selectCategory(id: number) {
 </script>
 
 <template>
-    <Head title="Contract Template" />
+    <Head title="Standard Clauses" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">Contract Template</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">Standard Contract</h2>
         </template>
 
         <div class="container mx-auto w-full">
@@ -63,11 +67,10 @@ function selectCategory(id: number) {
                 </p>
             </div>
 
-            <!-- Two Panel Layout -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
 
                 <CategoryPanel
-                    :categories
+                    :clauseCategories
                     :selected-category-id="selectedCategoryId"
                     @select="selectCategory"
                 />
@@ -75,6 +78,7 @@ function selectCategory(id: number) {
                 <ClausePanel
                     :category="selectedCategory"
                     :clauses="selectedClauses"
+                    :selected-category-index="selectedCategoryIndex"
                 />
 
             </div>

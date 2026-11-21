@@ -3,20 +3,20 @@
 namespace App\Http\Controllers\Admin\Contracts;
 
 use App\Http\Controllers\Controller;
-use App\Models\Clause;
 use App\Models\ClauseCategory;
+use App\Models\StandardClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
-class ContractTemplateController extends Controller
+class StandardClauseController extends Controller
 {
     public function index()
     {
         return Inertia::render('admin/contracts/template/Index', [
-            'categories' => ClauseCategory::orderBy('order')->get(),
-            'clauses' => Clause::orderBy('order')->get(),
+            'clause-categories' => ClauseCategory::orderBy('order')->get(),
+            'standard-clauses' => StandardClause::orderBy('order')->get(),
         ]);
     }
 
@@ -28,10 +28,9 @@ class ContractTemplateController extends Controller
             'category' => 'required|exists:clause_categories,id',
         ]);
 
-        // Order is scoped to the category: new clauses go to the end of THEIR category
-        $nextOrder = (Clause::where('clause_category_id', $request->category)->max('order') ?? 0) + 1;
+        $nextOrder = (StandardClause::where('clause_category_id', $request->category)->max('order') ?? 0) + 1;
 
-        Clause::create([
+        StandardClause::create([
             'name' => $request->name,
             'content' => $request->content,
             'order' => $nextOrder,
@@ -41,7 +40,7 @@ class ContractTemplateController extends Controller
         return back()->with(['message' => 'Saved!', 'type' => 'success', 'description' => 'Clause created']);
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, StandardClause $standardClause)
     {
         $request->validate([
             'name' => 'required',
@@ -49,10 +48,9 @@ class ContractTemplateController extends Controller
             'category' => 'sometimes|exists:clause_categories,id',
         ]);
 
-        $clause = Clause::findOrFail($id);
-        $oldCategoryId = $clause->clause_category_id;
+        $oldCategoryId = $standardClause->clause_category_id;
 
-        DB::transaction(function () use ($request, $clause, $oldCategoryId) {
+        DB::transaction(function () use ($request, $standardClause, $oldCategoryId) {
             $attributes = [
                 'name' => $request->name,
                 'content' => $request->content,
@@ -63,10 +61,10 @@ class ContractTemplateController extends Controller
 
             if ($moved) {
                 $attributes['clause_category_id'] = $request->category;
-                $attributes['order'] = (Clause::where('clause_category_id', $request->category)->max('order') ?? 0) + 1;
+                $attributes['order'] = (StandardClause::where('clause_category_id', $request->category)->max('order') ?? 0) + 1;
             }
 
-            $clause->update($attributes);
+            $standardClause->update($attributes);
 
             // Close the gap it left behind in the old category
             if ($moved) {
@@ -77,13 +75,12 @@ class ContractTemplateController extends Controller
         return back()->with(['message' => 'Updated!', 'type' => 'info', 'description' => 'Clause updated']);
     }
 
-    public function destroy(string $id)
+    public function destroy(StandardClause $standardClause)
     {
-        $clause = Clause::findOrFail($id);
-        $categoryId = $clause->clause_category_id;
+        $categoryId = $standardClause->clause_category_id;
 
-        DB::transaction(function () use ($clause, $categoryId) {
-            $clause->delete();
+        DB::transaction(function () use ($standardClause, $categoryId) {
+            $standardClause->delete();
 
             // Close the gap left by the deleted clause
             $this->resequence($categoryId);
@@ -100,7 +97,7 @@ class ContractTemplateController extends Controller
             'ids.*' => [
                 'integer',
                 'distinct',
-                Rule::exists(Clause::class, 'id')->where('clause_category_id', $request->input('category_id')),
+                Rule::exists(StandardClause::class, 'id')->where('clause_category_id', $request->input('category_id')),
             ],
         ]);
 
@@ -111,14 +108,14 @@ class ContractTemplateController extends Controller
 
     private function resequence(int|string $categoryId, array $orderedIds = []): void
     {
-        $remaining = Clause::where('clause_category_id', $categoryId)
+        $remaining = StandardClause::where('clause_category_id', $categoryId)
             ->whereNotIn('id', $orderedIds)
             ->orderBy('order')
             ->pluck('id')
             ->all();
 
         foreach (array_merge($orderedIds, $remaining) as $index => $id) {
-            Clause::whereKey($id)->update(['order' => $index + 1]);
+            StandardClause::whereKey($id)->update(['order' => $index + 1]);
         }
     }
 }

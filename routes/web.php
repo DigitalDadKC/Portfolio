@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\Contracts\ClauseCategoryController;
 use App\Http\Controllers\Admin\Contracts\ContractController;
 use App\Http\Controllers\Admin\Contracts\ContractTemplateController;
+use App\Http\Controllers\Admin\Contracts\StandardClauseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\FeatureController;
@@ -69,8 +70,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     // CONTRACTS
     Route::resource('/contracts', ContractController::class)->except(['show', 'create', 'edit']);
-    Route::resource('/contract-template', ContractTemplateController::class)->except(['show', 'create', 'edit']);
-    Route::post('/contract-template/sort', [ContractTemplateController::class, 'sort'])->name('contract-template.sort');
+    Route::resource('/standard-clauses', StandardClauseController::class)->except(['show', 'create', 'edit']);
+    Route::post('/standard-clauses/sort', [StandardClauseController::class, 'sort'])->name('standard-clauses.sort');
     Route::resource('/clause-categories', ClauseCategoryController::class)->except(['index', 'show', 'create', 'edit']);
     Route::post('/clause-categories/sort', [ClauseCategoryController::class, 'sort'])->name('clause-categories.sort');
     Route::get('/contracts/browser', [ContractController::class, 'browser'])->name('contracts.browser');

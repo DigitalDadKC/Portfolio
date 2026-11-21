@@ -19,7 +19,7 @@ const form = useForm({
 })
 
 const send = () => {
-    form.post(route('contracts.send', props.contract?.id), {
+    form.post(route('admin.contracts.send', props.contract?.id), {
         onSuccess: () => {
             isDialogOpen.value = false
         }

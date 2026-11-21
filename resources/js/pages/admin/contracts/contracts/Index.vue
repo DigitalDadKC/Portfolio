@@ -15,7 +15,8 @@ const props = defineProps({
     contracts: Object,
     clients: Object,
     services: Object,
-    webhooks: Object,
+    standardClauses: Object,
+    // webhooks: Object,
 })
 
 const { formatWithCommas } = useFormatCurrency();
@@ -33,7 +34,7 @@ const { formatWithCommas } = useFormatCurrency();
         <div class="container mx-auto w-full">
             <div class="my-10 float-right flex gap-2">
                 View Template
-                <a target="_blank" :href="route('contracts.browser')" class="text-black">
+                <a target="_blank" :href="route('admin.contracts.browser')" class="text-black">
                     <FilePen></FilePen>
                 </a>
             </div>
@@ -49,7 +50,7 @@ const { formatWithCommas } = useFormatCurrency();
                         <TableHead class="text-black">Created</TableHead>
                         <TableHead class="text-black">Updated</TableHead>
                         <TableHead class="text-black text-end">
-                            <Manage :new="true" :clients :services></Manage>
+                            <Manage :new="true" :clients :services :standard-clauses></Manage>
                         </TableHead>
                     </TableRow>
                 </TableHeader>
